@@ -1,0 +1,58 @@
+<ion-view view-title="Vérification d'identité">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
+        <md-content layout-padding>
+            <p style="text-align: center; color: #959a93">En verifiant votre identité, vous donnez plus de crédibilité à votre profil au sein de la communauté Buyamsellam</p>
+            <md-card>
+                <md-card-content>
+                    <md-list>
+                        <md-list-item>
+                            <a ng-if="email" ui-sref="app.validerEmail" class="md-button no-text-transform not-active" style="width: 100%;">
+
+                                <i ng-class="{ 'royal': email}" style="font-size: 30px" class="icon ion-ios-email-outline"> </i>
+                                Email
+                                <i ng-class="{'icon ion-checkmark':email}" style="font-size: 30px;color: #B71C1C; overflow: auto; float: right;margin-top: -30px"></i>
+
+                            </a>
+                            <a ng-if="!email" ui-sref="app.validerEmail" class="md-button no-text-transform" style="width: 100%">
+                                <i ng-class="{ 'royal': email}" style="font-size: 30px" class="icon ion-ios-email-outline"> </i>Email
+                            </a>
+                        </md-list-item>
+                        <md-list-item>
+                            <a ng-if="telephone" flex layout="row"  ui-sref="app.validerTelephone" class="md-button no-text-transform not-active" style="width: 100%;">
+                                <i  ng-class="{ 'balanced': telephone}" style="font-size: 30px" class="icon  ion-ios-telephone-outline"> </i> Téléphone
+                                <i ng-class="{'icon ion-checkmark':telephone}" style="font-size: 30px;color: #B71C1C;float: right;margin-top: -30px"></i>
+                            </a>
+                            <a ng-if="!telephone"  ui-sref="app.validerTelephone" class="md-button no-text-transform" style="width: 100%">
+                                <i  ng-class="{ 'balanced': telephone}" style="font-size: 30px" class="icon  ion-ios-telephone-outline"> </i> Téléphone
+                            </a>
+                        </md-list-item>
+                        <md-list-item>
+                            <a ng-if="facebook" ui-sref="app.validerFacebook" class="md-button no-text-transform  not-active" style="width: 100%;display: inline">
+                                <i ng-class="{ 'positive': facebook}" style="font-size: 30px" class="icon ion-social-facebook-outline"> </i>Facebook
+                                <i ng-class="{'icon ion-checkmark':facebook}" style="font-size: 30px;color: #B71C1C;float: right;margin-top: -30px"></i>
+                            </a>
+                            <a ng-if="!facebook"ui-sref="app.validerFacebook" class="md-button no-text-transform" style="width: 100%">
+                                <i ng-class="{ 'positive': facebook}" style="font-size: 30px" class="icon ion-social-facebook-outline"> </i>Facebook
+                            </a>
+                        </md-list-item>
+                        <md-list-item>
+                            <a  ng-if="gmail" ui-sref="app.validerGooglePlus" class="md-button no-text-transform not-active" style="width: 100%">
+                                <i ng-class="{ 'assertive': gmail}" style="font-size: 30px" class="icon ion-social-googleplus-outline"> </i>Gmail
+                                <i ng-class="{'icon ion-checkmark':gmail}" style="font-size: 30px;color: #B71C1C;float: right;margin-top: -30px"></i>
+                            </a>
+                            <a  ng-if="!gmail" ui-sref="app.validerGooglePlus" class="md-button no-text-transform" style="width: 100%">
+                                <i ng-class="{ 'assertive': gmail}" style="font-size: 30px" class="icon ion-social-googleplus-outline"> </i>Gmail
+                            </a>
+                        </md-list-item>
+                    </md-list>
+                </md-card-content>
+            </md-card>
+        </md-content>
+    </ion-content>
+    <!--<a ui-sref="app.addarticle">
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark">
+        </md-button>
+    </a>-->
+</ion-view>

@@ -1,0 +1,134 @@
+<ion-view view-title="Occazstreet" >
+    <ion-content ng-class="{expanded:$scope.isExpanded}" class=" animate-fade-slide-in"  ng-controller="UtilisateurController">
+            <md-content class="md-padding" >
+                <md-tabs  md-dynamic-height md-border-bottom md-stretch-tabs="always">
+                    <md-tab label="Se connecter" >
+                        <md-content class="">
+                            <section layout="row" layout-sm="column" layout-align="center center">
+                                <md-button class="md-raised md-primary md-hue-2 button button-full ink" data-tap-disabled="true" ng-click="loginWithFacebook()"><i class="icon ion-social-facebook " ></i>  Se connecter avec Facebook</md-button>
+                            </section>
+                            <section layout="row" layout-sm="column" layout-align="center center">
+                                <md-button  class="md-raised md-warn button button-full ink" data-tap-disabled="true" ng-click="loginWithGoogle()"><i class="icon ion-social-googleplus" ></i>  Se connecter avec Gmail</md-button>
+                            </section>
+                        </md-content>
+                        <md-divider></md-divider>
+                        <md-content>
+                            <form name="loginForm" ng-submit="doLogin(credentials)">
+                                <md-input-container class="md-block">
+                                    <label>Email</label>
+                                    <input  ng-model="credentials.email" required  type="email"/>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>Mot de passe</label>
+                                    <input  ng-model="credentials.motdepasse"  required type="password"/>
+                                </md-input-container>
+                                <section layout="row" layout-sm="column" layout-align="center center">
+                                    <button class="md-warn md-raised md-hue-2 button button-full button-assertive-900">Se connecter</button>
+                                </section>
+                                <section layout="row" layout-sm="column" layout-align="right right">
+                                    <a ng-click="showPopup()" class=" ">Mot de passe oublié</a>
+                                </section>
+                            </form>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="S'inscrire" >
+                        <md-content >
+                            <section layout="row" layout-sm="column" layout-align="center center">
+                                <md-button class="md-raised md-primary md-hue-2 button button-full ink"  ng-click="loginWithFacebook()"><i class="icon ion-social-facebook "></i>  S'inscrire avec Facebook</md-button>
+                            </section>
+
+                            <section layout="row" layout-sm="column" layout-align="center center">
+                                <md-button class="md-raised md-warn button button-full ink" ng-click="loginWithGoogle()"><i class="icon ion-social-googleplus"></i>  S'inscrire avec Gmail</md-button>
+                            </section>
+                        </md-content>
+                        <md-divider></md-divider>
+                        <md-content layout-padding>
+                            <form name="inscriptionForm" ng-submit="doInscription(utilisateur)">
+                                <md-input-container class="md-block">
+                                    <label>Nom</label>
+                                    <input ng-model="utilisateur.nom"  name="nom"  required>
+                                    <div class="hint" >Allez  dit-moi comment t'appeles-tu ?</div>
+                                  <div ng-messages="inscriptionForm.nom.$error" >
+                                    <div ng-message="required">
+                                        Tu as forcement un nom :(
+                                    </div>
+                                  </div>
+
+                                </md-input-container>
+                                <md-input-container class="md-block" >
+                                    <label>Prenom</label>
+                                    <input ng-model="utilisateur.prenom"   name="prenom" >
+                                    <div class="hint" >As-tu un prénom ?</div>
+
+                                </md-input-container><br/>
+                                <label style="color: #a0a0a0;">Date de naissance</label>
+                                <!--<input type="date" ng-model="utilisateur.datenaissance"   name="datenaissance"  required>-->
+
+                               <md-datepicker class="md-block" name="dateDeNaissance" ng-model="utilisateur.dateDeNaissance" required></md-datepicker>
+                                <div class="hint">Es-tu autant agé(e) que moi ? </div>
+                              <md-input-container class="md-block">
+                                    <label>Email</label>
+                                <input name="email" ng-model="utilisateur.email"
+                                       required  ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
+                                <div class="hint">Comment est-ce que je peux te joindre ?</div>
+                                <div ng-messages="inscriptionForm.email.$error" >
+                                  <div ng-message-exp="['required', 'pattern']">
+                                    Le format de l'adresse email n'est pas correcte.
+                                  </div>
+                                </div>
+                              </md-input-container>
+                                <md-input-container class="md-block"  >
+                                    <label>Mot de passe</label>
+                                    <input ng-model="utilisateur.motdepasse" type="password" name="motdepasse" minlength="6" required>
+                                    <div class="hint">Choisissez un mot de passe</div>
+                                  <div ng-messages="inscriptionForm.motdepasse.$error" >
+                                    <div ng-message="required">
+                                     Un mot de passe est requis
+                                    </div>
+                                    <div ng-message="minlength">
+                                      Votre mot de passe doit avoir au moins 6 caractères
+                                    </div>
+                                  </div>
+                                </md-input-container>
+                                <md-input-container >
+                                    <md-radio-group ng-model="utilisateur.sexe"  name="sexe" layout="row">
+                                        <md-radio-button value="1" class="md-warn md-raised md-hue-2" name="sexe">Homme</md-radio-button>
+                                        <md-radio-button value="2" class="md-warn md-raised md-hue-2" name="sexe">Femme</md-radio-button>
+                                    </md-radio-group>
+                                  <div ng-messages="inscriptionForm.sexe.$error" >
+                                    <div ng-message-exp="['required']">
+                                      Tu n'es pas un cyborg :( le sexe est obligatoire
+                                    </div>
+                                  </div>
+                                 </md-input-container>
+                                <section layout="row" layout-sm="column" layout-align="center center" >
+                                    <button class="md-warn md-raised md-hue-2 button button-full button-assertive-900 ink" >S'inscrire</button>
+                                </section>
+                            </form>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+    </ion-content>
+</ion-view>
+<script type="text/ng-template" id="motdepasseoublie.html">
+    <ion-popover-view>
+            <form>
+                <md-input-container flex>
+                    <label>Votre adresse email</label>
+                    <input ng-model="email" type="email"/>
+                </md-input-container>
+
+                <div >
+                    <md-button ng-click="recuperermotdepasse('{{email}}')" class="md-primary">
+                        Envoyer
+                    </md-button>
+                </div>
+                <div >
+                    <md-button ng-click="hide()" class="md-primary" style="float: right">
+                        Annuler
+                    </md-button>
+                </div>
+            </form>
+    </ion-popover-view>
+</script>

@@ -1,0 +1,41 @@
+<ion-view view-title="Vérification d'identité">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
+        <md-content >
+            <div flex layout="row" layout-align="center center">
+                <form ng-submit="validerTelephone()">
+                    <br/><br/><br/>
+                    <div flex layout="column" layout-align="center center">
+                        <i  style="font-size: 70px" class="balanced icon ion-ios-telephone-outline "> </i>
+                    </div><br/>
+                    <div flex layout="column" layout-align="center center">
+                        <br/><br/><span style="font-weight: bold;font-size: 30px;">Numéro de téléphone</span><br/><br/>
+                    </div>
+                    <br/>
+
+                    <div flex layout="column" layout-align="center center">
+                        <p style="text-align: center; color: #959a93">Valider votre numéro de téléphone. Vous recevrez un SMS gratuit avec un code de vérification.</p>
+                    </div>
+                    <div flex layout="column" layout-align="center center">
+                        <div layout layout-sm="row" layout-align="center center" >
+                            <md-input-container  style="width:25%">
+                                <label>Indice</label>
+                                <input data-ng-blur="checkIndice()" ng-model="indice" required>
+                            </md-input-container>
+                            <md-input-container style="width:45%">
+                                <label>Numéro de téléphone</label>
+                                <input data-ng-blur="checkTelephone()" ng-model="telephone" required>
+                            </md-input-container>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <div flex layout="column" layout-align="center center">
+                        <input type="submit"  class="md-button md-warn md-raised no-text-transform" value="Valider votre téléphone" />
+                    </div>
+                </form>
+            </div>
+        </md-content>
+    </ion-content>
+</ion-view>

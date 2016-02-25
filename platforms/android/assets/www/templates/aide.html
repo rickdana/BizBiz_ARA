@@ -1,0 +1,38 @@
+<ion-view view-title="Aide">
+  <ion-content  >
+      <div class="card">
+          <div class="item item-divider">
+              Conditions légales
+          </div>
+          <a class="item"  ui-sref="app.conditionutilisation" ng-controller="CguController">
+             Conditions d'utilisation
+          </a>
+          <a class="item" ui-sref="app.politiqueconfidentialite" ng-controller="PolitiqueConfidentialiteController">
+             Politique de confidentialité
+          </a>
+      </div>
+      <div class="card">
+          <div class="item item-divider">
+                Réseaux sociaux
+          </div>
+          <a class="item item item-text-wrap" >
+              "J'aime" sur Facebook!.
+          </a>
+          <a class="item">
+              Occazstreet sur Twitter.
+          </a>
+      </div>
+      <div class="card">
+          <div class="item item-divider">
+              Nous contacter
+          </div>
+          <a class="item item item-text-wrap" ui-sref="app.aide.conditionlegale">
+              FAQ
+          </a>
+          <a class="item" ui-sref="app.aide.conditionlegale">
+              Version de l'application <span class="text-left">0.0.1</span>
+          </a>
+      </div>
+
+  </ion-content>
+</ion-view>

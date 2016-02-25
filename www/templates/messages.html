@@ -1,0 +1,49 @@
+<ion-view view-title="Conversations">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content ng-class="{expanded:isExpanded}">
+        <div ng-show="hasConversation" class="content ">
+
+            <div class="list animate-fade-slide-in-right" ng-repeat="conversation in conversations" ng-controller="MessageController" on-hold="onConversationHold($event, $index, {{conversation.idConversation}})">
+                <a  ui-sref="app.chatConversation({conversation:'{{conversation.idConversation}}',article:{{conversation.article.idArticle}}})" class="item item-avatar item-icon-right">
+                    <img ng-src="{{url}}{{cheminPhoto}}{{conversation.utilisateur2.photo.cheminPhoto}}">
+                    <h2 style="font-weight: bold;">{{conversation.utilisateur2.prenom}} {{conversation.utilisateur2.nom[0]}}.</h2>
+                    <p>{{conversation.article.titre}}</p>
+                    <p style="color: #B71C1C;font-weight: bold">{{conversation.dateDebutConversation}}</p>
+                    <i class="icon ion-chevron-right muted"></i>
+                </a>
+                <md-divider ng-if="!$last"></md-divider>
+            </div>
+        </div>
+        <div ng-show="!hasConversation">
+            <div flex layout="row" layout-align="center center">
+                <div>
+                    <br/> <br/> <br/>
+                    <div flex layout="column" layout-align="center center">
+                        <i  style="font-size: 200px;color:#98a2a2" class=" icon ion-email md-card-image"> </i>
+                    </div>
+
+                    <div flex layout="column" layout-align="center center">
+                        <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                            <p>Aucun message</p>
+                        </span>
+                        <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                            <p>
+                                Vous avez reperé un produit ? Contactez le vendeur avant qu'il ne soit trop tard !
+                            </p>
+                        </span>
+
+                    </div>
+                    <br/>
+                    <div flex layout="column" layout-align="center center">
+                        <a ui-sref="app.articles">
+                            <md-button style="height: 50px;width: 100px" class="button-large md-warn md-raised md-hue-2 no-text-transform">
+                                <span style="font-size: 20px">Découvrir</span>
+                            </md-button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

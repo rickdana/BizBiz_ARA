@@ -1,0 +1,16 @@
+<ion-view view-title="Catégories">
+
+    <ion-content>
+        <div   >
+            <div ng-repeat="categorie in categories" ng-controller="ArticlesController" class="list card">
+
+                <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item clear-bg">
+                    <h2 style="font-weight: bold">
+                        {{categorie.libelle}}
+                    </h2>
+                  <!--  <img src="../img/daenerys.jpg" style="transition-delay: 0.02s;"/>-->
+                </a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

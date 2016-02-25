@@ -1,0 +1,27 @@
+/**
+ * Created by fleundeu on 07/07/2015.
+ */
+<ion-view view-title="Vérification d'identité">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
+        <md-content >
+            <br/><br/><br/>
+                <div flex layout="column" layout-align="center center">
+                    <i  style="font-size: 70px" class="positive icon ion-social-facebook-outline"> </i>
+                </div>
+                <br/><br/>
+                <div flex layout="column" layout-align="center center">
+                    <br/><br/><span style="font-weight: bold;font-size: 30px;">Facebook</span>
+                </div>
+                <br/><br/>
+                <div flex layout="column" layout-align="center center">
+                    <p style="text-align: center; color: #959a93">Valider votre identite avec Facebook.</p>
+                </div>
+                <br/><br/>
+                <div flex layout="column" layout-align="center center">
+                    <md-button ng-click="validerFacebook()"class=" md-warn md-raised no-text-transform">Vérification de profil</md-button>
+                </div>
+        </md-content>
+    </ion-content>
+</ion-view>

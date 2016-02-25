@@ -1,0 +1,87 @@
+<ion-view view-title="Chat" id="userChatView" cache-view="false">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <div class="bar bar-subheader" style="height: 70px" >
+        <div class="list">
+            <div class="row">
+                <div class="column" style="width:48%">
+                    <a class="item item-avatar" href="#">
+                        <img  ng-src="{{url}}{{cheminPhoto}}{{photo}}">
+                        <h2>{{prenom}} {{nom}}.</h2>
+                        <p>{{nombreDeProduit}} produits</p>
+                    </a>
+                </div>
+                <div class="column" style="width:52%">
+                    <a class="item item-avatar " href="#">
+                        <img ng-src="{{url}}{{cheminImage}}{{imageArticle}}" style="float: right;">
+                        <h2>{{articleTitre}}</h2>
+                        <p> <span style="color:#B71C1C">{{articlePrix}} {{deviseArticle}} </span></p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<ion-content has-bouncing="true" class="has-subheader has-footer"
+    delegate-handle="userMessageScroll">
+    <div ng-repeat="message in messages" class="message-wrapper"
+         on-hold="onMessageHold($event, $index, message)">
+        <div ng-if="fromUser._id !== message.userId">
+
+            <img ng-click="viewProfile(message)" class="profile-pic left"
+                 ng-src="{{toUser.pic}}" onerror="onProfilePicError(this)" />
+
+            <div class="chat-bubble left">
+
+                <div class="message" ng-bind-html="message.contenu | nl2br" autolinker>
+                </div>
+
+                <div class="message-detail">
+                              <span ng-click="viewProfile(message)"
+                                    class="bold">{{toUser.username}}</span>,
+                    <span am-time-ago="message.date"></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="fromUser._id === message.userId">
+
+
+            <img ng-click="viewProfile(message)" class="profile-pic right"
+                 ng-src="{{fromUser.pic}}" onerror="onProfilePicError(this)" />
+
+            <div class="chat-bubble right">
+
+                <div class="message" ng-bind-html="message.contenu | nl2br" autolinker>
+                </div>
+
+                <div class="message-detail">
+                              <span ng-click="viewProfile(message)"
+                                    class="bold">{{fromUser.username}}</span>,
+                    <span am-time-ago="message.date"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="cf"></div>
+
+    </div>
+
+
+</ion-content>
+
+    <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
+        <ion-footer-bar class="bar-stable item-input-inset message-footer" style="background-color: white" keyboard-attach>
+            <label class="item-input-wrapper ">
+                <textarea class="textarea-chat" ng-model="input.message" value="" placeholder="Envoyer un message" required minlength="1" maxlength="1500" msd-elastic></textarea>
+            </label>
+            <div class="footer-btn-wrap" style="background-color: white">
+                <md-button  style="margin-top: -5px" class="md-warn md-raised md-hue-2 md-fab md-mini icon ion-android-send" type="submit"
+                           ng-disabled="!input.message || input.message === ''">
+                </md-button>
+            </div>
+        </ion-footer-bar>
+    </form>
+</ion-view>

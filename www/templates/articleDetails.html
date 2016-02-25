@@ -1,0 +1,169 @@
+<ion-view view-title="Occazstreet">
+
+    <ion-content class="article-body" >
+        <div>
+            <div>
+                <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
+                    <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
+                        <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
+                    </ion-slide>
+                    <ion-slide ng-show="art.images.length<1">
+                      <img class="image" ng-src="img/no_image.png">
+                    </ion-slide>
+                </ion-slide-box>
+
+            </div>
+        </div>
+        <div ng-show="!currentUser" class="card" >
+            <div class="item item-text-wrap" >
+                <div class="item tabs tabs-secondary tabs-icon-left">
+
+                    <!--<md-button ui-sref="app.chat" class="md-raised md-primary">  <i class="icon ion-chatbubble"></i>
+                        Chat</md-button>
+                    <md-button ng-click="contreOffre($event)" class="md-raised balanced-900-bg">  <i class="icon ion-ios-pricetags"></i>
+                       Offre</md-button>
+                    <md-button ng-click="jachete($event)" class="md-raised md-warn">  <i class="icon ion-bag"></i>
+                        J'achète</md-button>->
+
+                    <!--<a class="tab-item" href="#">
+                        <i class="icon ion-chatbox"></i>
+                        Comment
+                    </a>-->
+                    <a href="tel: {{art.utilisateur.telephone}}" class="md-button md-raised md-primary  no-text-transform"><i class="icon ion-android-call "></i> Appeler</a>
+                    <md-button ng-click="sendSms(art.utilisateur.telephone)" class="md-raised md-warn no-text-transform ">  <i class="icon ion-paper-airplane"></i>
+                        Envoyer un message</md-button>
+
+                   <!-- <a class="tab-item">
+                        <i class="icon ion-share"></i>
+                        Paratger
+                    </a>-->
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap" >
+                <span class="badge badge-assertive price-details">{{art.prix}} {{art.devise.symbole}}</span><br/>
+                <p class="titre-article">{{art.titre}}</p>
+                <p class="desc-article">
+                    {{art.details}}
+                </p>
+            </div>
+        </div>
+
+        <div class="card" >
+            <div class="item item-text-wrap">
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a ui-sref="app.profile({utilisateur:'{{art.utilisateur.id}}'})" class="ink item item-avatar-left item-icon-right">
+                        <img  ng-src="{{url}}{{cheminPhoto}}{{art.photo.cheminPhoto}}">
+                       <!-- <h2>{{art.utilisateur.prenom}} {{art.utilisateur.nom[0]}}<br/>0 avis</h2>-->
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card map" ui-sref="app.map({id:'{{art.idArticle}}'})">
+          <!--  <div class="item item-divider mapHearder">
+                {{art.nomVille}}, {{art.nompays}}
+            </div> Entete de la Map-->
+            <ui-gmap-google-map center='map.center' options='map.option' zoom='map.zoom'>
+                <ui-gmap-marker
+                    idKey='map.marker.id'
+                    coords='map.marker.coords'
+                    options='map.marker.option'>
+                </ui-gmap-marker>
+            </ui-gmap-google-map>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap" >
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a  class="tab-item" ng-click="shareFacebook()">
+                        <i class="icon ion-social-facebook positive"></i>
+                    </a>
+                    <a class="tab-item" ng-click="shareTwitter()">
+                        <i class="icon ion-social-twitter calm"></i>
+                    </a>
+                    <!--<a class="tab-item" ng-click="shareGooglePlus()">
+                        <i class="icon ion-social-googleplus assertive"></i>
+                    </a>-->
+                    <a class="tab-item" ng-click="shareMail()">
+                        <i class="icon ion-android-mail royal"></i>
+                    </a>
+                    <a class="tab-item" ng-click="shareSMS()">
+                        <i class="icon ion-android-textsms dark"></i>
+                    </a>
+                    <a class="tab-item" ng-click="shareWhatsapp()">
+                        <i class="icon ion-social-whatsapp balanced"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+<script type="text/ng-template" id="contreOffre.html">
+    <md-dialog >
+        <md-toolbar>
+            <div class="md-toolbar-tools assertive-900-bg">
+                <h2 style="color: white;">Contre-offre</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="ion-close" aria-label="Close dialog"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="sticky-container">
+          <div layout layout-sm="row">
+              <md-input-container style="float: right">
+                  <label>Prix initial de l'article</label>
+
+                  <input disabled   value="{{articlePrix}}" style="width:70%"/>
+              </md-input-container>
+              <span style="float: left; margin-top: 27px;"> {{articleDevise}}</span>
+            </div>
+            <div layout-sm="row" style="margin-top: -30px">
+                <md-input-container style="float: right">
+                    <label>Votre offre</label>
+                    <input required type="number" step="any" name="prix" ng-model="contreoffre.prix" style="width:70%">
+                </md-input-container>
+                <span style="float: left; margin-top: 27px;"> {{articleDevise}}</span>
+            </div>
+
+            <md-input-container flex style="margin-top: -30px">
+                <label>Ajouter un commentaire</label>
+                <textarea ng-required ng-model="contreoffre.message" columns="1" md-maxlength="150"></textarea>
+            </md-input-container>
+            <div >
+                <md-button ng-click="envoyer()" class="md-primary">
+                   Envoyer
+                </md-button>
+                <md-button ng-click="cancel()" class="md-primary" style="float: right">
+                    Annuler
+                </md-button>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</script>
+<script type="text/ng-template" id="jachete.html">
+    <md-dialog >
+        <md-dialog-content class="sticky-container">
+            <md-subheader class="assertive-900">J'achète</md-subheader>
+            <md-input-container flex>
+                <label>Ajouter un commentaire</label>
+                <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea>
+            </md-input-container>
+
+            <div >
+                <md-button ng-click="suivant()" class="md-primary">
+                    Continuer
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="close()" class="md-primary" style="float: right">
+                    Annuler
+                </md-button>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</script>
+
+

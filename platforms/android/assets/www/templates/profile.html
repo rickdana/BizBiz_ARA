@@ -1,0 +1,256 @@
+<ion-view view-title="Profil d'utilisateur" cache-view="false" ng-controller="ProfileController">
+
+    <ion-content ng-class="{expanded:$scope.isExpanded}">
+        <div class="hero slide-up" style="background-image: url('{{url}}{{cheminPhoto}}{{utilisateur.photo.cheminPhoto}}');">
+            <div class="content" >
+                <div class="avatar" style="background-image: url('{{url}}{{cheminPhoto}}{{utilisateur.photo.cheminPhoto}}');"></div>
+                <h3><a class="light">{{utilisateur.prenom}} {{utilisateur.nom[0]}}</a></h3>
+                <h4 class="light">0 Avis</h4>
+            </div>
+        </div>
+        <div class="tabs tabs-dark tabs-icon-top static">
+            <a href="#/app/activite/{{utilisateur.id}}" class="ink tab-item">
+                <i class="icon ion-arrow-graph-up-right"></i> Activité
+            </a>
+            <!--<a ui-sref="app.friends" class="tab-item">
+                <i class="icon ion-android-people"></i> Amis
+            </a>-->
+            <a ui-sref="app.gallery" class="tab-item">
+                <i class="icon ion-heart"></i> Avis
+            </a>
+        </div>
+        <div>
+            <md-content class="md-padding">
+                <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
+                    <md-tab label="En cours">
+                        <md-content ng-show="articleExist" class="md-padding">
+                            <div  class="list half" >
+                                <div   on-hold="editArticle({{article.idArticle}})"  ng-repeat="article in articles.slice(0,(articles.length/2))"  ng-controller="ArticlesController" class="card card-gallery item item-text-wrap" >
+                                    <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
+                                        <h2>{{article.TITRE}}</h2>
+                                      <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                                      <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
+                                      <img ng-show="article.images.length<1" src="../img/no_image.png">
+                                    </div>
+                                    <div class="item tabs tabs-secondary tabs-icon-left">
+                                        <a class="tab-item  ">
+                                            <span class="price assertive">{{article.prix}} FCFA</span>
+                                        </a>
+                                        <a class="tab-item  positive-900">
+                                            <i class="icon ion-eye"></i>
+                                            <b>{{article.nombreDeVue}}</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list half" >
+                                <div on-hold="editArticle({{article.idArticle}})"   ng-repeat="article in articles.slice((articles.length/2),articles.length)" ng-controller="ArticlesController" class="card card-gallery item item-text-wrap">
+                                    <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg">
+                                        <h2>{{article.titre}}</h2>
+                                      <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                                      <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
+                                      <img ng-show="article.images.length<1" src="../img/no_image.png">
+                                    </div>
+                                    <div class="item tabs tabs-secondary tabs-icon-left">
+                                        <a class="tab-item  ">
+                                            <span class="price assertive">{{article.prix}} FCFA</span>
+                                        </a>
+                                        <a class="tab-item positive-900 ">
+                                            <i class="icon ion-eye"></i>
+                                            <b>{{article.nombreDeVue}}</b>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </md-content>
+                        <md-content ng-show="!articleExist">
+                            <div flex layout="row" layout-align="center center">
+                                <div>
+                                    <br/>
+                                    <div flex layout="column" layout-align="center center">
+                                        <i  style="font-size: 75px;;color:#98a2a2" class="icon ion-plus md-card-image"> </i>
+                                    </div>
+                                    <br/><br/>
+
+
+                                    <div flex layout="column" layout-align="center center">
+                                        <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                                            Vous n'avez aucun produit en vente. Il est grand temps de commencer.
+                                    </span>
+                                    </div>
+                                    <br/>
+
+                                    <div flex layout="column" layout-align="center center">
+                                        <br/>
+                                        <a ui-sref="app.addarticle">
+                                            <md-button  class="md-warn md-raised md-hue-2 no-text-transform">
+                                                Publiez un produit
+                                            </md-button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Vendus">
+                        <md-content ng-show="articleVenduExist" class="md-padding">
+                            <ion-list>
+                                <div class="list half" >
+                                    <div  on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articlesvendu.slice(0,(articlesvendu.length/2))"  ng-controller="ArticlesController" class=" card card-gallery item item-text-wrap" >
+                                        <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
+                                            <div class="ruban-article-vendu">
+                                                <a>Vendu</a>
+                                            </div>
+                                            <h2>{{article.titre}}</h2>
+                                            <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                                            <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
+                                            <img ng-show="article.images.length<1" src="../img/no_image.png">
+                                            <div class=>Vendu</div>
+                                        </div>
+                                        <div class="item tabs tabs-secondary tabs-icon-left">
+                                            <a class="tab-item  ">
+                                                <span class="price assertive">{{article.prix}} FCFA</span>
+
+                                            </a>
+                                            <a class="tab-item  positive-900">
+                                                <i class="icon ion-eye"></i>
+                                                <b>{{article.nombreDeVue}}</b>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list half" >
+                                    <div  on-hold="editArticle({{article.idArticle}})"  ng-repeat="article in articlesvendu.slice((articlesvendu.length/2),articlesvendu.length)" ng-controller="ArticlesController" class="card card-gallery item item-text-wrap">
+                                        <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
+                                            <div class="ruban-article-vendu">
+                                                <a>Vendu</a>
+                                            </div>
+                                            <h2>{{article.titre}}</h2>
+                                            <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                                            <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
+                                            <img ng-show="article.images.length<1" src="../img/no_image.png">
+                                            <div class=>Vendu</div>
+                                        </div>
+                                        <div class="item tabs tabs-secondary tabs-icon-left">
+                                            <a class="tab-item  ">
+                                                <span class="price assertive">{{article.prix}} FCFA</span>
+
+                                            </a>
+                                            <a class="tab-item  positive-900">
+                                                <i class="icon ion-eye"></i>
+                                                <b>{{article.nombreDeVue}}</b>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ion-list>
+                        </md-content>
+                        <md-content ng-show="!articleVenduExist">
+                            <div flex layout="row" layout-align="center center">
+                                <div>
+                                    <br/>
+                                    <div flex layout="column" layout-align="center center">
+                                        <i  style="font-size: 75px;color:#98a2a2" class=" icon ion-plus md-card-image"> </i>
+                                    </div>
+
+                                    <div flex layout="column" layout-align="center center">
+                                        <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                                            Vous n'avez rien vendu pour l'instant. Commencer à vendre dès maintenant !
+                                    </span>
+                                    </div>
+                                    <br/>
+                                    <div flex layout="column" layout-align="center center">
+
+                                        <a ui-sref="app.addarticle">
+                                            <md-button  class="md-warn md-raised md-hue-2 no-text-transform">
+                                                Publiez un produit
+                                            </md-button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Favoris">
+                        <md-content ng-show="articleFavorisExist" class="md-padding">
+                            <div  class="list half" >
+                                <div  ng-repeat="article in articlesFavoris.slice(0,(articlesFavoris.length/2))"  ng-controller="ArticlesController" class="card card-gallery item item-text-wrap" >
+                                    <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
+                                        <h2>{{article.TITRE}}</h2>
+                                        <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                                        <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
+                                        <img ng-show="article.images.length<1" src="../img/no_image.png">
+                                    </div>
+                                    <div class="item tabs tabs-secondary tabs-icon-left">
+                                        <a class="tab-item  ">
+                                            <span class="price assertive">{{article.prix}} FCFA</span>
+                                        </a>
+                                        <a class="tab-item  positive-900">
+                                            <i class="icon ion-eye"></i>
+                                            <b>{{article.nombreDeVue}}</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list half" >
+                                <div  ng-repeat="article in articlesFavoris.slice((articlesFavoris.length/2),articlesFavoris.length)" ng-controller="ProfileController" class="card card-gallery item item-text-wrap">
+                                    <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg">
+                                        <h2>{{article.titre}}</h2>
+                                        <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                                        <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
+                                        <img ng-show="article.images.length<1" src="../img/no_image.png">
+                                    </div>
+                                    <div class="item tabs tabs-secondary tabs-icon-left">
+                                        <a class="tab-item  ">
+                                            <span class="price assertive">{{article.prix}} FCFA</span>
+                                        </a>
+                                        <a class="tab-item positive-900 ">
+                                            <i class="icon ion-eye"></i>
+                                            <b>{{article.nombreDeVue}}</b>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </md-content>
+                        <md-content ng-show="!articleFavorisExist">
+                            <div flex layout="row" layout-align="center center">
+                                <div>
+                                    <div flex layout="column" layout-align="center center">
+                                        <i  style="font-size: 75px;color:#98a2a2" class=" icon ion-star md-card-image"> </i>
+                                    </div>
+                                    <br/>
+                                    <div flex layout="column" layout-align="center center">
+                                        <br/>
+                                        <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                                            Vous n'avez rien trouvé à votre goût ? <br/>Pas possible !! allons, cherchez un peu plus !
+                                    </span>
+                                    </div>
+                                    <br/>
+
+                                    <div flex layout="column" layout-align="center center">
+                                        <br/>
+                                        <a  ui-sref="app.articles">
+                                            <md-button  class="md-warn md-raised md-hue-2 no-text-transform button-large">
+                                                Commencez maintenant !
+                                            </md-button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+
+                </md-tabs>
+            </md-content>
+        </div>
+    </ion-content>
+
+
+    <a ng-show="showEdit" ui-sref="app.editProfile({utilisateur:'{{infoUserLogged.id}}'})">
+
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-edit">
+        </md-button>
+    </a>
+</ion-view>

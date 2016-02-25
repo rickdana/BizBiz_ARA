@@ -1,0 +1,129 @@
+<ion-view view-title="Editer un produit">
+
+    <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" >
+       <!-- <div class="card" style="width: 95px"  >
+
+            <md-button ng-show="nombreImage < 4 || nombreImage ===undefined" class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
+            </md-button>
+        </div>-->
+        <div   ng-show="nombreImage !==undefined && imgURI.length!==0 " class="card">
+            <table  border="0" cellpadding="" cellspacing="0">
+                <tr>
+                    <td ng-repeat='(key, value) in imgURI'> <md-button on-hold="onHold({{key}})"><img  ng-src="{{path}}{{value.cheminImage}}"></md-button></td>
+                </tr>
+            </table>
+            <!-- <img ng-repeat='image in imgURI' ng-src="{{image}}">-->
+        </div>
+        <form  ng-submit="saveEditArticle(article)" >
+
+            <div class="card" layout-gt-sm="row">
+                <!--<div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Que vendez-vous ?</span>
+                        <input type="text" placeholder="Que vendez-vous ?">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Description de votre produit</span>
+                        <textarea  placeholder="Description de votre produit" class="no-resize" maxlength="150"></textarea>
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Prix</span>
+                        <input type="number" placeholder="Prix" ng-model="article.prix">
+                    </label>
+                </div>-->
+                <input type="hidden" value="article.idArticle" name="idArticle" ng-model="article.idArticle">
+                <md-input-container flex>
+                    <label>Que vendez-vous ? </label>
+                    <input  name="titre" value="article.titre" required ng-model="article.titre">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Description de votre produit</label>
+                    <textarea required name="details" value="article.details" ng-model="article.details" columns="1" md-maxlength="300"></textarea>
+                </md-input-container>
+            </div>
+            <div class="card">
+                <div layout="row" >
+                    <md-input-container flex style="width:50%">
+                        <label>Prix</label>
+                        <input type="number" required id="prix" value="article.prix" name="prix" ng-model="article.prix" >
+                    </md-input-container>
+                    <md-input-container flex style="width:50%">
+                        <label>Devise</label>
+                        <input type="text" required id="devise" value="{{article.devise.id}}" name="prix" ng-model="article.devise.symbole" disabled>
+
+                    </md-input-container>
+                </div>
+             </div>
+
+            <div class="card">
+                <md-input-container flex style="width:100%">
+                    <label>Catégorie</label>
+                    <input type="text" required id="categorie" value="{{article.categorie.idcategorie}}" name="prix" ng-model="article.categorie.libelle" disabled>
+                </md-input-container>
+            </div>
+            <div class="card ">
+                <md-checkbox class="md-warn md-raised md-hue-2" ng-model="article.facebook" >
+                    Diffusez votre produit sur Facebook
+                </md-checkbox>
+            </div>
+            <div class="card ">
+                <md-checkbox class="md-warn md-raised md-hue-2"  ng-model="article.etat" >
+                    Article vendu
+                </md-checkbox>
+            </div>
+            <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   type="submit">
+            </md-button>
+        </form>
+
+           <!--<md-button>
+               <md-checkbox class="md-warn md-raised md-hue-2" ng-model="article.facebook" >
+                   <span style="text-transform: none;">Diffusez votre produit sur Facebook</span>
+               </md-checkbox>
+           </md-button>-->
+    </ion-content>
+</ion-view>
+<script type="text/ng-template" id="uploadImageChoice.html">
+    <md-dialog >
+        <md-dialog-content class="sticky-container" ng-controller="ArticlesController">
+            <md-subheader class="assertive-900">Choisir une image depuis...</md-subheader>
+            <div >
+                <md-button ng-click="answer('gallerie')" class="md-primary">
+                Galerie
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="answer('photo')" class="md-primary">
+                    Appareil photo
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="closeDialog()" class="md-primary" style="float: right">
+                    Annuler
+                </md-button>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</script>
+
+<script type="text/ng-template" id="editImage.html">
+    <md-dialog >
+        <md-dialog-content class="sticky-container" ng-controller="ArticlesController">
+            <md-subheader class="assertive-900">Que voulez-vous faire ?</md-subheader>
+            <div >
+                <md-button ng-click="answer('edit')" class="md-primary">
+                    Modifier l'image
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="answer('delete')" class="md-primary">
+                    Supprimer l'image
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="closeDialog()" class="md-primary" style="float: right">
+                    Annuler
+                </md-button>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</script>

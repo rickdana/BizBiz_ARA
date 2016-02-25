@@ -1,0 +1,44 @@
+<ion-view view-title="Changement de mot de passe">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
+        <md-content layout-padding>
+            <md-card>
+                <md-card-content>
+                  <form name="changePasswordForm" ng-submit="editPassword(changePassword)">
+                    <md-input-container class="md-block">
+                      <label>Ancien mot de passe</label>
+                      <input  type="password" minlength="6" required name="oldPassword" ng-model="changePassword.oldPassword">
+                      <div ng-messages="changePasswordForm.ancienPassword.$error">
+                        <div ng-message="minlength">Le mot de passe doit avoir 6 caratères minimum</div>
+                      </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                      <label>Nouveau mot de passe</label>
+                      <input required minlength="6" name="newPassword" type="password" ng-model="changePassword.newPassword">
+                      <div ng-messages="changePasswordForm.newPassword.$error.required">
+                        <div ng-message="minlength">Le mot de passe doit avoir 6 caratères minimum</div>
+                      </div>
+
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                      <label>Saisissez à nouveau le mot de passe</label>
+                      <input required minlength="6" type="password" name="reNewPassword" ng-model="changePassword.reNewPassword"/>
+                      <div ng-messages="changePassword.reNewPassword.$error">
+                        <div ng-message="minlength">Le mot de passe doit avoir 6 caratères minimum</div>
+                      </div>
+                      <div ng-if="changePassword.reNewPassword !=changePassword.newPassword" >
+                        <div  ng-message="required">Les mots de passe ne sont pas identiques</div>
+                      </div>
+                    </md-input-container>
+                    <md-button type="submit" class="md-warn md-raised">Changer</md-button>
+                  </form>
+                </md-card-content>
+            </md-card>
+        </md-content>
+    </ion-content>
+    <!--<a ui-sref="app.addarticle">
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark">
+        </md-button>
+    </a>-->
+</ion-view>

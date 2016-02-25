@@ -1,0 +1,76 @@
+<ion-view view-title="Occazstreet">
+  <ion-nav-buttons side="right">
+    <button ui-sref="app.filtres" class="button button-icon button-clear ion-android-search">
+    </button>
+    <md-menu md-offset="0 -1">
+      <md-button style="margin-top: -10px" class="button button-icon button-clear ion-android-more-vertical" ng-click="$mdOpenMenu()">
+      </md-button>
+      <md-menu-content width="2">
+        <md-menu-item >
+          <md-button ng-click="reverse=false;order('prix', false)"> <span md-menu-align-target>Trier par prix croissant</span></md-button>
+        </md-menu-item>
+        <md-menu-item >
+          <md-button ng-click="reverse=false;order('dateAjout', false)"> <span md-menu-align-target>Trier par date</span></md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </ion-nav-buttons>
+    <div class="bar bar-subheader">
+        <span class="title"><i>{{libellecategorie}}</i></span>
+    </div>
+    <ion-content ng-class="{expanded:isExpanded,true:'noArticle'}[articles.hasArticle==false]" class="has-subheader animate-fade-slide-in">
+
+        <div ng-switch="hasArticle">
+            <!--<div ng-switch-when="true">
+              <div class="item card-item" ng-repeat="article in articles"   ng-controller="ArticlesController">
+                <div on-tap="saveStat({{article.idArticle}})" ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="card  ink ink-dark">
+
+                  <div class="item item-avatar  item-text-wrap">
+                    <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+                    <span ng-show="article.images.length <1" class="avatar" style="background-image: url('../img/no_image.png');"></span>
+                    <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                    {{article.categorie.libelle}}<br/>
+                    {{article.nomVille}} , <span style="font-style : italic;" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                    <div class="card-footer text-right" style="margin-top: -30px">
+                      <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
+                    </div>
+                  </div>
+                </div>
+              </div>-->
+              <div ng-switch-when="true">
+                <div class="item card-item" ng-repeat="article in articles"   ng-controller="ArticlesController">
+                  <div on-tap="saveStat({{article.idArticle}})" ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="card  ink ink-dark">
+
+                    <div class="item item-avatar  item-text-wrap">
+                      <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+                      <span ng-show="article.images.length <1" class="avatar" style="background-image: url('../img/no_image.png');"></span>
+                      <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                      {{article.categorie.libelle}}<br/>
+                      {{article.nomVille}} , <span style="font-style : italic;" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                      <div class="card-footer text-right" style="margin-top: -30px">
+                        <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            <div ng-switch-when="false">
+                <div class="centered">
+                    <i  style="font-size: 75px;;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+
+                </div>
+                <div class="centered-text">
+                    <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                            Cette categorie ne contient aucun article.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <a ui-sref="app.addarticle">
+
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-plus-round">
+        </md-button>
+    </a>
+</ion-view>

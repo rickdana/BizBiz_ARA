@@ -1,0 +1,34 @@
+<ion-view view-title="Vérification d'identité">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
+        <md-content >
+            <div flex layout="row" layout-align="center center">
+                <form ng-submit="validerEmail()">
+                    <br/><br/>
+                    <div flex layout="column" layout-align="center center">
+                        <i  style="font-size: 70px" class="royal icon ion-ios-email-outline md-card-image"> </i>
+                    </div>
+                    <div flex layout="column" layout-align="center center">
+                    <br/><br/><span style="font-weight: bold;font-size: 30px;">Email</span><br/><br/>
+                    </div>
+                    <br/>
+
+                    <div flex layout="column" layout-align="center center">
+                     <p style="text-align: center; color: #959a93">Valider votre adresse mail. Vous recevrez un email dans votre boite mail avec un lien d'activation.</p>
+                    </div>
+                    <div flex layout="column" layout-align="center center">
+                        <md-input-container  style="width:50%" >
+                            <label>Email</label>
+                            <input ng-blur="validEmail()" ng-model="email" required>
+                        </md-input-container>
+                    </div>
+                    <br/>
+                    <div flex layout="column" layout-align="center center">
+                         <input type="submit"  class="md-button md-warn md-raised no-text-transform" value="Valider votre adresse email" />
+                    </div>
+                </form>
+            </div>
+        </md-content>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,81 @@
+<ion-view view-title="Filtres" ng-controller="FiltreController">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-checkmark"  ng-click="search(param)">
+        </button>
+        <md-menu md-offset="0 -1">
+            <md-button style="margin-top: -10px" class="button button-icon button-clear ion-android-more-vertical" ng-click="$mdOpenMenu()">
+            </md-button>
+            <md-menu-content width="1">
+                <md-menu-item >
+                    <md-button ng-click="defaultSelection()"> <span md-menu-align-target>Sélection par defaut</span></md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader" style="height: 50px;">
+        <md-input-container >
+            <label>Mot(s) clef(s) </label>
+            <input ng-model="param.motclef"  value="Que cherchez-vous ?"  name="search" >
+        </md-input-container>
+     </div>
+
+    <ion-content ng-class="{expanded:isExpanded}"  class="has-subheader animate-fade-slide-in">
+        <br/>
+        <div class=" card" >
+            <ion-google-place placeholder= "Où le cherchez-vous ?" ng-model="param.localisation" />
+            <!-- <a ui-sref="app.localisation">
+                 <md-button ng-model="param.localisation" class="button-full">
+                         <i class="icon ion-ios-location"></i>
+                         Où le cherchez-vous ?
+                 </md-button>
+             </a>-->
+        </div>
+
+       <div class="card" >
+
+            <div >
+                <md-list ng-controller="CategoriesController" >
+                    <md-subheader class="">Catégories</md-subheader>
+                    <md-divider></md-divider>
+                    <md-list-item  layout="row" ng-repeat="categorie in categories">
+                        <p> {{ categorie.libelle }} </p>
+                        <md-checkbox class="md-warn md-raised md-hue-2" ng-true-value="'{{categorie.idcategorie}}'" ng-model="param.categorie"></md-checkbox>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </div>
+        <div class="card">
+            <div>
+
+                <md-subheader class="">Prix</md-subheader>
+                <md-divider></md-divider>
+                <md-input-container>
+                    <label>Min</label>
+                    <input name="prixmin" ng-model="param.prixmin" type="number"/>
+                </md-input-container>
+                <md-input-container>
+                    <label>Max</label>
+                    <input name="prixmax" ng-model="param.prixmax" type="number"/>
+                </md-input-container>
+            </div>
+        </div>
+        <div class="card">
+                <md-subheader class="">Filtré par</md-subheader>
+                <md-divider></md-divider>
+
+            <md-radio-group ng-model="param.filterBy" layout="column">
+                <!--<md-radio-button value="1" class="md-warn md-raised md-hue-2">Proximité</md-radio-button>-->
+                <md-radio-button value="prix asc" class="md-warn md-raised md-hue-2" >Prix de - à +</md-radio-button>
+                <md-radio-button value="prix desc" class="md-warn md-raised md-hue-2">Prix de + à - </md-radio-button>
+                <md-radio-button value="dateAjout desc" class="md-warn md-raised md-hue-2">Dernier produits ajoutés</md-radio-button>
+            </md-radio-group>
+
+        </div>
+
+    </ion-content>
+    <!--<a ui-sref="app.addarticle">
+
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right icon ion-plus-round">
+        </md-button>
+    </a>-->
+</ion-view>

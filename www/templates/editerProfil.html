@@ -1,0 +1,127 @@
+<ion-view view-title="Modifier le profil">
+    <ion-nav-buttons side="right">
+
+    </ion-nav-buttons>
+    <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
+        <md-content layout-padding>
+            <div class="card">
+                <div layout layout-sm="row" ng-click="editPhoto(null,$event)">
+                    <md-input-container  flex flex>
+                        <label>Modifier l'image</label>
+                    </md-input-container>
+                    <md-input-container flex flex >
+                        <img width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
+                    </md-input-container>
+                </div>
+            </div>
+            <form ng-submit="editUser(user)" >
+                <div class="card">
+
+                    <div layout layout-sm="column">
+                        <md-input-container flex>
+                            <label>Prénom</label>
+                            <input type="text" ng-model="user.prenom">
+                        </md-input-container>
+                    </div>
+                    <div layout layout-sm="column">
+                        <md-input-container flex>
+                        <label>Nom</label>
+                        <input type="text" ng-model="user.nom">
+                        </md-input-container>
+                    </div>
+                    <div layout layout-sm="column" >
+                        <label style="color: #a0a0a0;">Date de naissance</label>
+                        <md-datepicker style="margin-left: -20px;" ng-model="user.datedenaissance"></md-datepicker>
+                     </div>
+                    <div layout layout-sm="column">
+                        <md-input-container flex>
+                            <label>Email</label>
+                            <input  ng-model="user.email">
+                        </md-input-container>
+                    </div>
+                    <div layout layout-sm="column">
+                        <md-input-container flex>
+                            <md-radio-group ng-model="user.sexe" layout="row">
+                                <md-radio-button  value="1" class="md-warn md-raised md-hue-2" ng-checked="user.sexe">Homme</md-radio-button>
+                                <md-radio-button value="2" class="md-warn md-raised md-hue-2"ng-checked="user.sexe">Femme</md-radio-button>
+
+                            </md-radio-group>
+                        </md-input-container>
+                    </div>
+                </div>
+
+              <div class="card" ng-show="showButtonChangePassword">
+                <a ui-sref="app.changePassword" class="md-button no-text-transform" style="width: 100%">Changement du mot de passe</a>
+              </div>
+            <div class="card ">
+                   <a ui-sref="app.verificationidentite" class="md-button no-text-transform" style="width: 100%">Vérification d'identité</a>
+            </div>
+            <!--<div class="card">
+                <md-button class="md-primary  no-text-transform" ng-click="showChangeEmailForm($event)" flex="" flex-md="100" style="width: 100%;text-align: left;color: black">
+                    Changer votre email
+                </md-button>
+            </div>-->
+            <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   type="submit">
+            </md-button>
+            </form>
+        </md-content>
+    </ion-content>
+    <!--<a ui-sref="app.addarticle">
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark">
+        </md-button>
+    </a>-->
+</ion-view>
+<script type="text/ng-template" id="editPhoto.html">
+    <md-dialog >
+        <md-dialog-content class="sticky-container" ng-controller="ProfileController">
+            <md-subheader class="assertive-900">Choisir une photo depuis...</md-subheader>
+            <div >
+                <md-button ng-click="answer('gallerie')" class="md-primary">
+                    Galerie
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="answer('photo')" class="md-primary">
+                    Appareil photo
+                </md-button>
+            </div>
+            <div >
+                <md-button ng-click="closeDialog()" class="md-primary" style="float: right">
+                    Annuler
+                </md-button>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</script>
+<script type="text/ng-template" id="changerEmail.tmpl.html">
+    <md-dialog>
+        <form name="myForm" ng-submit="updateEmail()">
+            <md-toolbar class="md-warn md-raised">
+                <div class="md-toolbar-tools">
+                    <h2 style="color: white">Changer votre email</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <i class="ion-close"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-dialog-content>
+                <md-input-container>
+                    <label>Email</label>
+                    <input id="emailToChange" ng-pattern="/^[_a-zA-Z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" name="email" ng-model="newEmail" required="true">
+                </md-input-container>
+                <div class="md-actions" layout="row">
+                    <md-button ng-click="cancel()" class="md-primary">
+                        Annuler
+                    </md-button>
+                    <input type="submit" class="md-button md-primary" value="Accepter"/>
+                    <!--<md-button ng-click="answer('emailToChange')" class="md-primary">
+                        Accepter
+                    </md-button>-->
+                </div>
+
+            </md-dialog-content>
+
+        </form>
+    </md-dialog>
+</script>

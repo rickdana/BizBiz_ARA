@@ -1,0 +1,120 @@
+<ion-view view-title="Occazstreet" ng-controller="FiltreController">
+    <ion-nav-buttons side="right">
+           <!-- <md-menu md-offset="0 -1" ng-show="articles.length!==0">
+                <md-button style="margin-top: -10px" class="button button-icon button-clear ion-android-more-vertical" ng-click="$mdOpenMenu()">
+                </md-button>
+                <md-menu-content width="2">
+                    <md-menu-item >
+                        <md-button ng-click="reverse=false;order('prix', false)"> <span md-menu-align-target>Trier par prix </span></md-button>
+                    </md-menu-item>
+                    <md-menu-item >
+                        <md-button ng-click="reverse=false;order('dateAjout', false)"> <span md-menu-align-target>Trier par date</span></md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>-->
+    </ion-nav-buttons>
+    <!--<div  ng-show="articles.length!=0" class="bar bar-subheader has-subheader" style="margin-bottom: 70px">
+        <span class="title italic" style="font-size: 12px"><i>Chargement des produits à 1 kilomètre de vous </i></span>
+    </div>-->
+
+    <div ng-show="articles.length==0">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div flex layout="row" layout-align="center center">
+            <div>
+                <br/>
+                <div flex layout="column" layout-align="center center" style="margin-bottom: -50px;">
+                    <i  style="font-size: 250px;;color:#98a2a2" class="icon ion-ios-search-strong md-card-image"> </i>
+                </div>
+                <br/>
+                <br>
+                <br>
+                <br>
+
+                <div flex layout="column" layout-align="center center">
+                    <span style="font-size:20px;font-weight: bold;color:#98a2a2">
+                        Aucun produit trouvé.
+                    </span>
+                </div>
+
+                <br>
+                <br>
+                <br>
+
+                <div flex layout="column" layout-align="center center">
+                    <br/>
+                    <a ui-sref="app.articles">
+                        <md-button  class="md-warn md-raised md-hue-2 no-text-transform">
+                            Reinitialiser filtres
+                        </md-button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <ion-content  menu-close>
+        <!--<ion-refresher  on-refresh="doRefresh()">
+        </ion-refresher>-->
+        <div ng-show="motclef">
+            <md-chips >
+                <md-chip>{{motclef}}</md-chip>
+            </md-chips>
+        </div>
+        <ion-list>
+
+            <div class="list half" >
+                <div  ng-repeat="article in articles.slice(0,(articles.length/2))"   ng-controller="FiltreController" class="card card-gallery item item-text-wrap" >
+                    <div on-tap="saveStat({{article.idArticle}})" ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
+                        <h2>{{article.titre}}</h2>
+                      <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                      <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo">{{article.images.length}}</span>
+                      <img ng-show="article.images.length<1" src="../img/no_image.png">
+
+                    </div>
+                    <div class="item tabs tabs-secondary tabs-icon-left">
+                        <a class="tab-item  ">
+                            <span class="price assertive">{{article.prix}} FCFA</span>
+                        </a>
+                        <a class="tab-item  positive-900">
+                            <i class="icon ion-eye"></i>
+                            <b>{{article.nombreDeVue}}</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="list half" >
+                <div  ng-repeat="article in articles.slice((articles.length/2),articles.length)"  ng-controller="FiltreController"  class="card card-gallery item item-text-wrap">
+                    <div on-tap="saveStat({{article.idArticle}})"ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg ">
+                        <h2>{{article.titre}}</h2>i
+                      <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
+                      <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo">{{article.images.length}}</span>
+                      <img ng-show="article.images.length<1" src="../img/no_image.png">
+
+                    </div>
+                    <div class="item tabs tabs-secondary tabs-icon-left">
+                        <a class="tab-item  ">
+                            <span class="price assertive">{{article.prix}} FCFA</span>
+                        </a>
+                        <a class="tab-item positive-900 ">
+                            <i class="icon ion-eye"></i>
+                            <b>{{article.nombreDeVue}}</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </ion-list>
+    </ion-content>
+   -- <a ui-sref="app.addarticle">
+        <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-plus-round">
+        </md-button>
+    </a>
+</ion-view>
