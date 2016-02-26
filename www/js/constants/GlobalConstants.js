@@ -14,5 +14,6 @@ angular.module('Occazstreet.constants', [])
         "LOCAL_TOKEN_KEY":"token",
         "URL_JSON_IP":"http://freegeoip.net/json",
         "PAGE":6,
+         "VERSION":"0.2.1"
 
     });
