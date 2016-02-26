@@ -354,33 +354,7 @@ angular.module('Occazstreet.controllers')
 
         }
 
-       /* $scope.motdepasseoublie=function(ev)
-        {*/
-        $scope.showPopup = function() {
-            alert("password oublié");
-            $scope.data = {};
 
-            // An elaborate, custom popup
-            $ionicPopup.show({
-                templateUrl: 'motdepasseoublie.html',
-                title: 'Mot de passe oublié',
-                subTitle: 'Saisir votre adresse email',
-                scope: $scope
-
-            });
-
-        };
-            /*$mdDialog.show({
-                targetEvent:ev,
-                controller:PasswordController,
-                templateUrl: 'motdepasseoublie.html',
-                scope: $scope
-            })
-            .then(function() {
-                alert($scope.email);
-                $mdDialog.cancel();
-            });*/
-       // }
         function PasswordController($scope, $mdDialog) {
             $scope.hide = function() {
                 $mdDialog.hide();

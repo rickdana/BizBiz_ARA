@@ -25,9 +25,6 @@
                                 <section layout="row" layout-sm="column" layout-align="center center">
                                     <button class="md-warn md-raised md-hue-2 button button-full button-assertive-900">Se connecter</button>
                                 </section>
-                                <section layout="row" layout-sm="column" layout-align="right right">
-                                    <a ng-click="showPopup()" class=" ">Mot de passe oublié</a>
-                                </section>
                             </form>
                         </md-content>
                     </md-tab>
@@ -111,24 +108,3 @@
             </md-content>
     </ion-content>
 </ion-view>
-<script type="text/ng-template" id="motdepasseoublie.html">
-    <ion-popover-view>
-            <form>
-                <md-input-container flex>
-                    <label>Votre adresse email</label>
-                    <input ng-model="email" type="email"/>
-                </md-input-container>
-
-                <div >
-                    <md-button ng-click="recuperermotdepasse('{{email}}')" class="md-primary">
-                        Envoyer
-                    </md-button>
-                </div>
-                <div >
-                    <md-button ng-click="hide()" class="md-primary" style="float: right">
-                        Annuler
-                    </md-button>
-                </div>
-            </form>
-    </ion-popover-view>
-</script>
