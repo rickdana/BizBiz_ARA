@@ -32,16 +32,20 @@ angular.module('Occazstreet.controllers')
 
     if($state.current.name == 'app.articles')
     {
+        var lastId=Globals.PAGE;
+        var skip=0;
         var localLocale = moment();
         localLocale.locale('fr');
-        $scope.loadMore=function()
-        {
-          alert("loadMore");
-        };
+
+
           /*Pull to refresh*/
         $scope.doRefresh = function() {
-            ArticlesService.getAllArticles().then(function (response) {
+            skip=0;
+            ArticlesService.getAllArticles(skip, Globals.PAGE).then(function (response) {
+                $ionicLoading.hide();
                 $scope.articles=response.articles;
+                $localStorage['articles']=[];
+                $localStorage['articles']=$scope.articles;
                // alert(JSON.stringify($scope.articles));
                 $scope.$broadcast('scroll.refreshComplete');
             });
@@ -53,8 +57,10 @@ angular.module('Occazstreet.controllers')
       //The first time we load data from server and cache in localstorage
       var init = $localStorage['init'];
       if (typeof init == "undefined") {
-        $localStorage['init']={'setup':'done'};
-        ArticlesService.getAllArticles().then(function (response) {
+          $localStorage['init']={'setup':'done'};
+          ArticlesService.getAllArticles(skip, lastId).then(function (response) {
+          lastId=response.articles[response.articles.length-1].idArticle;
+          skip=response.articles.length;
           $ionicLoading.hide();
           $scope.articles=response.articles;
           //Build the list of images to preload
@@ -68,15 +74,34 @@ angular.module('Occazstreet.controllers')
           }
           $ImageCacheFactory.Cache(images);
           $localStorage['articles']=response.articles;
+          console.log("skip 2"+skip);
          /* $scope.articles=response.articles;
            $scope.nombreArticles=response.nombreArticles;*/
         });
 
       } else {
+        console.log("skip1 "+skip);
         //The other time we load data from localstorage
+        $ionicLoading.hide();
         $scope.articles = $localStorage['articles'];
-
       }
+
+
+      /*Infinite Scroll*/
+      $scope.loadMoreArticles=function()
+      {
+        console.log("skip "+skip);
+        if(skip==0)
+        {
+          skip=Globals.PAGE;
+        }
+        ArticlesService.getAllArticles(skip,lastId+lastId).then(function (response) {
+          skip=skip+response.articles.length;
+          $scope.articles = $scope.articles.concat(response.articles);
+          $localStorage['articles']=$scope.articles;
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        })
+      };
       //filter and order
       $scope.order = function(predicate, reverse) {
         var orderBy = $filter('orderBy');
@@ -95,19 +120,6 @@ angular.module('Occazstreet.controllers')
     {
         alert(JSON.stringify(param));
     };
-
-
-    /*$scope.loadCategorie=function()
-    {
-        alert("loadCategorie");
-        return $timeout(function() {
-            ArticlesService.getAllCategories().then(function () {
-                $scope.categories=ArticlesService.getCategories();
-                alert(JSON.stringify($scope.categories));
-
-            });
-        }, 650);
-    }*/
 
 
     $scope.popover = function() {
