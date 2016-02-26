@@ -6,7 +6,6 @@ angular.module('Occazstreet.controllers')
 
     $scope.version=Globals.VERSION;
 
-
 }).controller('CguController', function($scope,$stateParams, $timeout) {
 
 
