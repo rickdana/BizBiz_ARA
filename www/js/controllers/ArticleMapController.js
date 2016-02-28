@@ -38,7 +38,6 @@ angular.module('Occazstreet.controllers')
                             option:{draggable: false,panControl:true,scrollwheel:false,zoomControl:false},
                             zoom: 16
                          }
-            console.log($scope.map);
             // angular.forEach(article,function(ar$scope.articlet){
 
 
