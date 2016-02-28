@@ -57,13 +57,16 @@
                                     <input ng-model="utilisateur.prenom"   name="prenom" >
                                     <div class="hint" >As-tu un prénom ?</div>
 
-                                </md-input-container><br/>
-                                <label style="color: #a0a0a0;">Date de naissance</label>
-                                <!--<input type="date" ng-model="utilisateur.datenaissance"   name="datenaissance"  required>-->
+                                </md-input-container>
 
-                               <md-datepicker class="md-block" name="dateDeNaissance" ng-model="utilisateur.dateDeNaissance" required></md-datepicker>
-                                <div class="hint">Es-tu autant agé(e) que moi ? </div>
-                              <md-input-container class="md-block">
+                                <md-input-container class="md-block">
+                                    <label style="color: #a0a0a0;">Date de naissance</label>
+                                     <input type="date" id="dateNaissance" class="md-block" name="dateDeNaissance"  ng-model="utilisateur.dateDeNaissance" 
+                                       required>
+                                    <div class="hint">Es-tu autant agé(e) que moi ? </div>
+                                </md-input-container>
+
+                               <md-input-container class="md-block">
                                     <label>Email</label>
                                 <input name="email" ng-model="utilisateur.email"
                                        required  ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
