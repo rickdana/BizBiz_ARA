@@ -427,7 +427,7 @@ angular.module('Occazstreet.controllers')
 
                 }
             })
-        }
+        };
         function ImageController($scope,$mdDialog) {
             $ionicPlatform.on('backbutton', function() {
                 $mdDialog.hide();
@@ -464,7 +464,7 @@ angular.module('Occazstreet.controllers')
                     case 1: // Supprression
                         $ionicLoading.show({
                             template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
-                        })
+                        });
                         ArticlesService.delete(article).then(function(response){
                             if(response.success)
                             {
@@ -484,27 +484,26 @@ angular.module('Occazstreet.controllers')
                                     position: 'bottom right left'
                                 });
                             }
-                        })
+                        });
                         break;
                 }
 
                 return true;
             }
         });
-    }
+    };
 
     if($state.current.name=='app.editArticle')
     {
         var article=$stateParams.article;
-        console.log("article a éditer "+article);
+      console.log("article to edit"+article);
         ArticlesService.getArticleById(article).then(function (response) {
-            $scope.compteurImage=response.article.images.length;
-            console.log("nombre d'image "+$scope.compteurImage);
-            console.log("article à éditer "+JSON.stringify(response.article));
-            if(response.article.etat==='Vendu')
+          console.log(JSON.stringify(response.article));
+           // $scope.compteurImage=response.article.images.length;
+            if(response.article.etat==='Vendu' || response.article.etat==true)
             {
                 response.article.etat=true;
-            }else
+            }else if(response.article.etat==='Normal' || response.article.etat==false)
             {
                 response.article.etat=false;
             }
@@ -512,18 +511,20 @@ angular.module('Occazstreet.controllers')
             $scope.path=$scope.url+$scope.cheminImage;
             $scope.imgURI=response.article.images;
 
-        })
+        });
 
         $scope.saveEditArticle=function(article)
         {
             $ionicLoading.show({
                 template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
-            })
+            });
             var articleUpdate={};
             articleUpdate.idArticle=article.idArticle;
             articleUpdate.titre=article.titre;
             articleUpdate.details=article.details;
             articleUpdate.prix=article.prix;
+            //Lors de l'édition d'un article on met à jour la date d'ajout
+            articleUpdate.dateAjout=new Date();
             console.log(article.etat);
             if(article.etat)
             {
@@ -534,20 +535,60 @@ angular.module('Occazstreet.controllers')
             }
             ArticlesService.editArticle(articleUpdate).then(function(response){
                 console.log("response "+ JSON.stringify(response));
+                var articleFound=false;
+                var etatArticle;
+                if(response.article.etat=='Vendu')
+                {
+                  etatArticle=true;
+                }else
+                {
+                  etatArticle=false;
+                }
                 if(response.success)
                 {
+                  //Si l'article est mise à jour on verifie qu'il est dans le localstorage si oui on le met à jour egalement dans le localstorage
+                  for(var i=0; i<$localStorage['articles'].length;i++)
+                  {
+                    if($localStorage['articles'][i].idArticle==article.idArticle)
+                    {
+                      articleFound=true;
+                      response.article.etat=etatArticle;
+                      $localStorage['articles'][i]=response.article;
+                      console.log(response.article);
+                      $scope.article=$localStorage['articles'][i];
+                      $scope.path=$scope.url+$scope.cheminImage;
+                      $scope.imgURI=$localStorage['articles'][i].images;
+                      $ionicLoading.hide();
+
+                      $mdDialog.show(
+                        $mdDialog.alert()
+                          .parent(angular.element(document.body))
+                          .title(Messages.miseAjoutArticleTitre)
+                          .content(Messages.articleMiseAjour)
+                          .ok('Ok')
+                      );
+                    }
+                  }
+                  //Si l'article n'est pas present dans le localstorage on l'ajoute
+                  if(!articleFound)
+                  {
+                    response.article.etat=etatArticle;
+                    $localStorage['articles'].push(response.article);
                     $scope.article=response.article;
+
                     $scope.path=$scope.url+$scope.cheminImage;
-                    $scope.imgURI=response.article.images;
+                    $scope.imgURIresponse=article.images;
                     $ionicLoading.hide();
 
                     $mdDialog.show(
-                        $mdDialog.alert()
-                            .parent(angular.element(document.body))
-                            .title(Messages.miseAjoutArticleTitre)
-                            .content(Messages.articleMiseAjour)
-                            .ok('Ok')
+                      $mdDialog.alert()
+                        .parent(angular.element(document.body))
+                        .title(Messages.miseAjoutArticleTitre)
+                        .content(Messages.articleMiseAjour)
+                        .ok('Ok')
                     );
+                  }
+
                 }
 
             })
@@ -583,9 +624,9 @@ angular.module('Occazstreet.controllers')
 
         }).error(function(err){
             alert("erreur get IP "+err);
-        })
+        });
        $state.transitionTo($state.current, $state.$current.params, { reload: true, inherit: true, notify: true });
-    }
+    };
 
     var internetError=function()
     {
@@ -596,7 +637,7 @@ angular.module('Occazstreet.controllers')
                 .content(Messages.internetErrorContent)
                 .ok('OK')
         );
-    }
+    };
 
     var erreurAjoutArticle=function()
     {

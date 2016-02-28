@@ -64,39 +64,53 @@ angular.module('Occazstreet.controllers')
                 }
 
                 ArticlesService.getArticlesByUser(response.utilisateur.id).then(function(result){
-                    $scope.articles=result.articles;
-                    if(result.articles.length>0)
+                  console.log(result);
+                    if(result.success)
                     {
+                      $scope.articles=result.articles;
+
+                      if(result.articles.length>0)
+                      {
                         $scope.articleExist=true;
-                    }else
-                    {
+                      }else
+                      {
                         $scope.articleExist=false;
+                      }
                     }
+
 
                 });
                 ArticlesService.getArticleVenduByUser(response.utilisateur.id).then(function(res){
                     $ionicLoading.hide();
-                    if(res.articles.length>0)
-                    {
-                        $scope.articleVenduExist=true;
-                    }else
-                    {
-                        $scope.articleVenduExist=false;
-                    }
-                    $scope.articlesvendu=res.articles;
+                   if(res.success)
+                   {
+                     if(res.articles.length>0)
+                     {
+                       $scope.articleVenduExist=true;
+                     }else
+                     {
+                       $scope.articleVenduExist=false;
+                     }
+                     $scope.articlesvendu=res.articles;
+                   }
+
 
                 });
 
                 ArticlesService.getArticlesFavorisByUser(response.utilisateur.id).then(function(res){
                     $ionicLoading.hide();
-                    if(res.articles.length>0)
+                    if(res.success)
                     {
+                      if(res.articles.length>0)
+                      {
                         $scope.articleFavorisExist=true;
-                    }else
-                    {
+                      }else
+                      {
                         $scope.articleFavorisExist=false;
+                      }
+                      $scope.articlesFavoris=res.articles;
                     }
-                    $scope.articlesFavoris=res.articles;
+
                 })
 
 
