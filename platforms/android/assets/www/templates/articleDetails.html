@@ -3,7 +3,7 @@
     <ion-content class="article-body" >
         <div>
             <div>
-                <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
+                <ion-slide-box  show-pager="true" auto-play="false" does-continue="true" on-slide-changed="slideHasChanged($index)">
                     <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
                         <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
                     </ion-slide>

@@ -1,9 +1,8 @@
 <ion-view view-title="Occazstreet">
-
     <ion-content class="article-body" >
         <div>
             <div>
-                <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
+                <ion-slide-box  show-pager="true" auto-play="false" does-continue="true" on-slide-changed="slideHasChanged($index)">
                     <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
                         <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
                     </ion-slide>
@@ -45,7 +44,7 @@
                 <span class="badge badge-assertive price-details">{{art.prix}} {{art.devise.symbole}}</span><br/>
                 <p class="titre-article">{{art.titre}}</p>
                 <p class="desc-article">
-                    {{art.details}}
+                    {{art.details}} '{{art.idArticle}}'
                 </p>
             </div>
         </div>
@@ -60,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="card map" ui-sref="app.map({id:'{{art.idArticle}}'})">
+        <div class="card map" ui-sref="app.map({id:art.idArticle})">
           <!--  <div class="item item-divider mapHearder">
                 {{art.nomVille}}, {{art.nompays}}
             </div> Entete de la Map-->
