@@ -1,13 +1,17 @@
 <ion-view view-title="Occazstreet">
 
-    <ion-content class="article-body" ng-repeat="art in article" >
+    <ion-content class="article-body" >
         <div>
             <div>
                 <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
-                    <ion-slide  ng-repeat="image in art.images">
+                    <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
                         <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
                     </ion-slide>
+                    <ion-slide ng-show="art.images.length<1">
+                      <img class="image" ng-src="img/no_image.png">
+                    </ion-slide>
                 </ion-slide-box>
+
             </div>
         </div>
         <div ng-show="!currentUser" class="card" >
@@ -51,7 +55,7 @@
                 <div class="item tabs tabs-secondary tabs-icon-left">
                     <a ui-sref="app.profile({utilisateur:'{{art.utilisateur.id}}'})" class="ink item item-avatar-left item-icon-right">
                         <img  ng-src="{{url}}{{cheminPhoto}}{{art.photo.cheminPhoto}}">
-                        <h2>{{art.utilisateur.prenom}} {{art.utilisateur.nom[0]}}<br/>0 avis</h2>
+                       <!-- <h2>{{art.utilisateur.prenom}} {{art.utilisateur.nom[0]}}<br/>0 avis</h2>-->
                     </a>
                 </div>
             </div>
