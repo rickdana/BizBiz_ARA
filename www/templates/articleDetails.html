@@ -13,7 +13,7 @@
 
             </div>
         </div>
-        <div ng-show="!currentUser" class="card" >
+        <div ng-show="!currentUser" class="card card-margin" >
             <div class="item item-text-wrap" >
                 <div class="item tabs tabs-secondary tabs-icon-left">
 
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card card-margin">
             <div class="item item-text-wrap" >
                 <span class="badge badge-assertive price-details">{{art.prix}} {{art.devise.symbole}}</span><br/>
                 <p class="titre-article">{{art.titre}}</p>
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="card" >
+        <div class="card card-margin" >
             <div class="item item-text-wrap">
                 <div class="item tabs tabs-secondary tabs-icon-left">
                     <a ui-sref="app.profile({utilisateur:'{{art.utilisateur.id}}'})" class="ink item item-avatar-left item-icon-right">
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="card map" ui-sref="app.map({id:art.idArticle})">
+        <div class="card card-margin map" ui-sref="app.map({id:art.idArticle})">
           <!--  <div class="item item-divider mapHearder">
                 {{art.nomVille}}, {{art.nompays}}
             </div> Entete de la Map-->
@@ -71,7 +71,7 @@
                 </ui-gmap-marker>
             </ui-gmap-google-map>
         </div>
-        <div class="card">
+        <div class="card card-margin">
             <div class="item item-text-wrap" >
                 <div class="item tabs tabs-secondary tabs-icon-left">
                     <a  class="tab-item" ng-click="shareFacebook()">

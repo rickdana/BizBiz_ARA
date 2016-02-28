@@ -27,8 +27,8 @@
       pulling-text="Lacher pour raffraichir..."
       on-refresh="doRefresh()">
     </ion-refresher>
-    <div class="item card-item" ng-repeat="article in articles"   ng-controller="ArticlesController">
-      <div on-tap="saveStat({{article.idArticle}})" ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="card  ink ink-dark">
+    <div style="margin-bottom: -8px;" class="item card-item" ng-repeat="article in articles"   ng-controller="ArticlesController">
+      <div on-tap="saveStat({{article.idArticle}})" ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="card card-margin ink ink-dark">
         <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
         <div class="item item-avatar  item-text-wrap">
           <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
