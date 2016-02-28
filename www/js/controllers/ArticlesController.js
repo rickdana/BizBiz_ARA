@@ -599,8 +599,9 @@ angular.module('Occazstreet.controllers')
 
     $scope.saveStat=function(article)
     {
+        
         $http.get(Globals.URL_JSON_IP).success(function(dataIP){
-            var succ = function (data) {
+            var succ = function (dataIP) {
                 var statArticle={};
                 statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
                 statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
@@ -623,7 +624,8 @@ angular.module('Occazstreet.controllers')
 
 
         }).error(function(err){
-            alert("erreur get IP "+err);
+           // alert("erreur get IP "+err);
+             console.log(err);
         });
        $state.transitionTo($state.current, $state.$current.params, { reload: true, inherit: true, notify: true });
     };

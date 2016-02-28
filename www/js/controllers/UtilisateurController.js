@@ -2,7 +2,7 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('UtilisateurController', function($scope,$stateParams,$ionicLoading,$location, $timeout,UtilisateursService,$rootScope,$mdDialog,$http,$cordovaDevice,$ionicPopup,$ionicPlatform,$mdToast,$localStorage,$cordovaOauth,$ionicHistory,Globals,$state,Messages) {
+    .controller('UtilisateurController', function($scope,$stateParams,$ionicLoading,$location, $timeout,UtilisateursService,$rootScope,$mdDialog,$cordovaDatePicker,$http,$cordovaDevice,$ionicPopup,$ionicPlatform,$mdToast,$localStorage,$cordovaOauth,$ionicHistory,Globals,$state,Messages) {
 
         "use strict";
         $scope.$parent.showHeader();
@@ -171,7 +171,17 @@ angular.module('Occazstreet.controllers')
 
         };
 
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
 
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        };
 
 
         $scope.loginWithFacebook=function()

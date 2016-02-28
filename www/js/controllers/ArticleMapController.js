@@ -12,7 +12,7 @@ angular.module('Occazstreet.controllers')
  	 				zoom:""
  	 }
      */
- 	 console.log($stateParams);
+ 	
  	 var articleId= $stateParams.id;
  	  $ionicLoading.show({
             template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
@@ -25,23 +25,22 @@ angular.module('Occazstreet.controllers')
              var imageF="";
             var articleTitre="";
             var articleDetails="";
+            articleTitre=$scope.article.titre;
+            articleDetails=$scope.article.details;
+            //imageF=art.images[0].cheminImage;
+            $scope.map = {
+                            center: { latitude:$scope.article.latitude, longitude:$scope.article.longitude },
+                            marker: {
+                                        id:0,
+                                        coords:{latitude:$scope.article.latitude,longitude:$scope.article.longitude},
+                                        option:{draggable: false},
+                                        },
+                            option:{draggable: false,panControl:true,scrollwheel:false,zoomControl:false},
+                            zoom: 16
+                         }
+            // angular.forEach(article,function(ar$scope.articlet){
 
-            angular.forEach(article,function(art){
-                articleTitre=art.titre;
-                articleDetails=art.details;
-                imageF=art.images[0].cheminImage;
-                $scope.map = {
-                                center: { latitude:art.latitude, longitude:art.longitude },
-                                marker: {
-                                            id:0,
-                                            coords:{latitude:art.latitude,longitude:art.longitude},
-                                            option:{draggable: false},
-                                            },
-                                option:{draggable: false,panControl:true,scrollwheel:false,zoomControl:false},
-                                zoom: 16
-                             }
-                             console.log($scope.map);
 
-            })
+            // })
         });
  })
