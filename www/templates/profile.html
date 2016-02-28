@@ -24,45 +24,21 @@
                 <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
                     <md-tab label="En cours">
                         <md-content ng-show="articleExist" class="md-padding">
-                            <div  class="list half" >
-                                <div   on-hold="editArticle({{article.idArticle}})"  ng-repeat="article in articles.slice(0,(articles.length/2))"  ng-controller="ArticlesController" class="card card-gallery item item-text-wrap" >
-                                    <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
-                                        <h2>{{article.TITRE}}</h2>
-                                      <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
-                                      <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
-                                      <img ng-show="article.images.length<1" src="../img/no_image.png">
-                                    </div>
-                                    <div class="item tabs tabs-secondary tabs-icon-left">
-                                        <a class="tab-item  ">
-                                            <span class="price assertive">{{article.prix}} FCFA</span>
-                                        </a>
-                                        <a class="tab-item  positive-900">
-                                            <i class="icon ion-eye"></i>
-                                            <b>{{article.nombreDeVue}}</b>
-                                        </a>
-                                    </div>
+                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                            <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
+                              <div class="item item-avatar  item-text-wrap">
+                                <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+                                <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
+                                <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                                {{article.categorie.libelle}}<br/>
+                                {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                                <div class="card-footer text-right" style="margin-top: -30px">
+                                  <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
                                 </div>
-                            </div>
-                            <div class="list half" >
-                                <div on-hold="editArticle({{article.idArticle}})"   ng-repeat="article in articles.slice((articles.length/2),articles.length)" ng-controller="ArticlesController" class="card card-gallery item item-text-wrap">
-                                    <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg">
-                                        <h2>{{article.titre}}</h2>
-                                      <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
-                                      <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
-                                      <img ng-show="article.images.length<1" src="../img/no_image.png">
-                                    </div>
-                                    <div class="item tabs tabs-secondary tabs-icon-left">
-                                        <a class="tab-item  ">
-                                            <span class="price assertive">{{article.prix}} FCFA</span>
-                                        </a>
-                                        <a class="tab-item positive-900 ">
-                                            <i class="icon ion-eye"></i>
-                                            <b>{{article.nombreDeVue}}</b>
-                                        </a>
-                                    </div>
 
-                                </div>
+                              </div>
                             </div>
+                          </div>
                         </md-content>
                         <md-content ng-show="!articleExist">
                             <div flex layout="row" layout-align="center center">
@@ -95,56 +71,23 @@
                     </md-tab>
                     <md-tab label="Vendus">
                         <md-content ng-show="articleVenduExist" class="md-padding">
-                            <ion-list>
-                                <div class="list half" >
-                                    <div  on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articlesvendu.slice(0,(articlesvendu.length/2))"  ng-controller="ArticlesController" class=" card card-gallery item item-text-wrap" >
-                                        <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
-                                            <div class="ruban-article-vendu">
-                                                <a>Vendu</a>
-                                            </div>
-                                            <h2>{{article.titre}}</h2>
-                                            <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
-                                            <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
-                                            <img ng-show="article.images.length<1" src="../img/no_image.png">
-                                            <div class=>Vendu</div>
-                                        </div>
-                                        <div class="item tabs tabs-secondary tabs-icon-left">
-                                            <a class="tab-item  ">
-                                                <span class="price assertive">{{article.prix}} FCFA</span>
-
-                                            </a>
-                                            <a class="tab-item  positive-900">
-                                                <i class="icon ion-eye"></i>
-                                                <b>{{article.nombreDeVue}}</b>
-                                            </a>
-                                        </div>
-                                    </div>
+                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                            <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
+                              <div class="ribbon"><span>Vendu</span></div>
+                              <div class="item item-avatar  item-text-wrap">
+                                <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+                                <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
+                                <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                                {{article.categorie.libelle}}<br/>
+                                {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                                <div class="card-footer text-right" style="margin-top: -30px">
+                                  <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
                                 </div>
-                                <div class="list half" >
-                                    <div  on-hold="editArticle({{article.idArticle}})"  ng-repeat="article in articlesvendu.slice((articlesvendu.length/2),articlesvendu.length)" ng-controller="ArticlesController" class="card card-gallery item item-text-wrap">
-                                        <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
-                                            <div class="ruban-article-vendu">
-                                                <a>Vendu</a>
-                                            </div>
-                                            <h2>{{article.titre}}</h2>
-                                            <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
-                                            <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
-                                            <img ng-show="article.images.length<1" src="../img/no_image.png">
-                                            <div class=>Vendu</div>
-                                        </div>
-                                        <div class="item tabs tabs-secondary tabs-icon-left">
-                                            <a class="tab-item  ">
-                                                <span class="price assertive">{{article.prix}} FCFA</span>
 
-                                            </a>
-                                            <a class="tab-item  positive-900">
-                                                <i class="icon ion-eye"></i>
-                                                <b>{{article.nombreDeVue}}</b>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ion-list>
+                              </div>
+                            </div>
+                          </div>
+
                         </md-content>
                         <md-content ng-show="!articleVenduExist">
                             <div flex layout="row" layout-align="center center">
@@ -174,45 +117,21 @@
                     </md-tab>
                     <md-tab label="Favoris">
                         <md-content ng-show="articleFavorisExist" class="md-padding">
-                            <div  class="list half" >
-                                <div  ng-repeat="article in articlesFavoris.slice(0,(articlesFavoris.length/2))"  ng-controller="ArticlesController" class="card card-gallery item item-text-wrap" >
-                                    <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg" >
-                                        <h2>{{article.TITRE}}</h2>
-                                        <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
-                                        <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
-                                        <img ng-show="article.images.length<1" src="../img/no_image.png">
-                                    </div>
-                                    <div class="item tabs tabs-secondary tabs-icon-left">
-                                        <a class="tab-item  ">
-                                            <span class="price assertive">{{article.prix}} FCFA</span>
-                                        </a>
-                                        <a class="tab-item  positive-900">
-                                            <i class="icon ion-eye"></i>
-                                            <b>{{article.nombreDeVue}}</b>
-                                        </a>
-                                    </div>
+                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                            <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
+                              <div class="item item-avatar  item-text-wrap">
+                                <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+                                <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
+                                <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                                {{article.categorie.libelle}}<br/>
+                                {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                                <div class="card-footer text-right" style="margin-top: -30px">
+                                  <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
                                 </div>
-                            </div>
-                            <div class="list half" >
-                                <div  ng-repeat="article in articlesFavoris.slice((articlesFavoris.length/2),articlesFavoris.length)" ng-controller="ProfileController" class="card card-gallery item item-text-wrap">
-                                    <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="ink dark-bg">
-                                        <h2>{{article.titre}}</h2>
-                                        <img  ng-show="article.images.length >0" class="full-image" ng-src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
-                                        <span  ng-show="article.images.length >0" class="badge badge-dark badge-number-photo-profil">{{article.images.length}}</span>
-                                        <img ng-show="article.images.length<1" src="../img/no_image.png">
-                                    </div>
-                                    <div class="item tabs tabs-secondary tabs-icon-left">
-                                        <a class="tab-item  ">
-                                            <span class="price assertive">{{article.prix}} FCFA</span>
-                                        </a>
-                                        <a class="tab-item positive-900 ">
-                                            <i class="icon ion-eye"></i>
-                                            <b>{{article.nombreDeVue}}</b>
-                                        </a>
-                                    </div>
 
-                                </div>
+                              </div>
                             </div>
+                          </div>
                         </md-content>
                         <md-content ng-show="!articleFavorisExist">
                             <div flex layout="row" layout-align="center center">
