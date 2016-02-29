@@ -63,33 +63,33 @@ angular.module('Occazstreet.controllers')
 
       $ionicLoading.hide();
 
-      $scope.art = response;
-      console.dir($scope.art)
+      $scope.art = response.article;
+      console.dir($scope.art);
       var imageF="";
       var articleTitre="";
       var articleDetails="";
 
 
       //  angular.forEach(article,function(art){
-      articleTitre= response.titre;
-      articleDetails= response.details;
-      $rootScope.articleDevise= response.devise.symbole;
-      $scope.articlePrix= response.prix;
-      if( response.images.length>0)
+      articleTitre= response.article.titre;
+      articleDetails= response.article.details;
+      $rootScope.articleDevise= response.article.devise.symbole;
+      $scope.articlePrix= response.article.prix;
+      if( response.article.images.length>0)
       {
-        imageF= response.images[0].cheminImage;
+        imageF= response.article.images[0].cheminImage;
       }
       $scope.map = {
-        center: { latitude: response.latitude, longitude: response.longitude },
+        center: { latitude: response.article.latitude, longitude: response.article.longitude },
         marker: {
           id:0,
-          coords:{latitude: response.latitude,longitude: response.longitude},
+          coords:{latitude: response.article.latitude,longitude: response.article.longitude},
           option:{draggable: false},
         },
         option:{draggable: false,panControl:false,scrollwheel:false,zoomControl:false},
         zoom: 16
       };
-      if(typeof $localStorage[Globals.USER_LOGGED]!=='undefined' &&  response.utilisateur.id==$localStorage[Globals.USER_LOGGED].id){
+      if(typeof $localStorage[Globals.USER_LOGGED]!=='undefined' &&  response.article.utilisateur.id==$localStorage[Globals.USER_LOGGED].id){
         $scope.currentUser=true
       }else
       {

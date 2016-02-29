@@ -40,13 +40,13 @@ angular.module('Occazstreet.controllers')
                         disableAnimate:true,
                         disableBack: true
                     });
-                    $state.transitionTo('app.articles', $stateParams, {
+                   /* $state.transitionTo('app.articles', $stateParams, {
                         reload: true,
                         inherit: true
                        // notify: true
-                    });
+                    });*/
                 //  $window.location.reload(true);
-                    //$state.go('app.articles',{inherit:true},{reload:true});
+                    $state.go('app.articles',{inherit:true},{reload:true});
                     $ionicLoading.hide();
 
                 }

@@ -22,10 +22,10 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             return deferred.promise;
         };
 
-        this.getAllArticles=function()
+        this.getAllArticles=function(skip,limit)
         {
             var deferred=$q.defer();
-            $http.get(url+'/article/getAllArticle').success(function(response){
+            $http.get(url+'/article/getAllArticle?skip='+skip+'&limit='+limit).success(function(response){
                 if(response)
                 {
                     deferred.resolve(response);
@@ -111,25 +111,46 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             });
             return deferred.promise;*/
         };
-
+        var articleFound=false;
         this.getArticleById=function(article)
         {
-            var deferred=$q.defer();
-            /*$http.get(url+'/article/getArticleById?idarticle='+article).success(function(response){
-                if(response)
-                {*/
-                    for(var i=0; i<$localStorage['articles'].length;i++)
-                    {
-                      if($localStorage['articles'][i].idArticle==article)
-                      {
-                        deferred.resolve($localStorage['articles'][i]);
+          var deferred=$q.defer();
+          if( $localStorage['articles'].length>0)
+          {
+            for(var i=0; i<$localStorage['articles'].length;i++)
+            {
+              if($localStorage['articles'][i].idArticle==article)
+              {
+                articleFound=true;
+                var response={};
+                response.article=$localStorage['articles'][i];
+                deferred.resolve(response);
+                return deferred.promise;
+              }
+            }
+            if(!articleFound)
+            {
+              $http.get(url + '/article/getArticleById?idarticle=' + article).success(function (rep) {
+                if (rep) {
+                  deferred.resolve(rep);
+                }
 
-                      }
-                    }
-               // }
+              }).error(function(err){
+                console.log("Erreur "+err);
+              });
+              return deferred.promise;
+            }
+          }
+          else
+          {
+            $http.get(url + '/article/getArticleById?idarticle=' + article).success(function (response) {
+              if (response) {
+                 deferred.resolve(response);
+              }
 
-            //});
+            });
             return deferred.promise;
+          }
         };
 
         this.editArticle=function(article)
