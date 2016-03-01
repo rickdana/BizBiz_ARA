@@ -473,7 +473,50 @@ a.autolinker {
   top: 25%;
   left: 40%;
 }
+
 .centered-text {
   position: fixed; /* or absolute */
   top: 40%;
+}
+
+.card-margin{
+  margin:-2px 8px 3px 8px !important;
+}
+
+.item-art{
+  margin-bottom: -0.5em;
+  padding-left: 0em;
+  padding-right: 0em;
+}
+
+.btn-ok{
+  border-radius: 35px !important;
+  border-color: red !important;
+}
+.social-login-text{
+  font-size: 12px !important;
+  margin-right: 4%;
+  margin-top: 2%;
+}
+
+#login-tab-body{
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+.login-img{
+  text-align: center;
+  text-align: -webkit-center;
+  margin-top: 1%;
+}
+
+.chip-facebook{
+  background-color: blue !important;
+  color: #FFFFFF !important;
+  margin-right: 4px;
+}
+
+.chip-google{
+  background-color: #B71C1C !important;
+  color: #FFFFFF !important;
 }

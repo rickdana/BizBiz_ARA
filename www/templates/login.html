@@ -2,17 +2,12 @@
     <ion-content ng-class="{expanded:$scope.isExpanded}" class=" animate-fade-slide-in"  ng-controller="UtilisateurController">
             <md-content class="md-padding" >
                 <md-tabs  md-dynamic-height md-border-bottom md-stretch-tabs="always">
-                    <md-tab label="Se connecter" >
-                        <md-content class="">
-                            <section layout="row" layout-sm="column" layout-align="center center">
-                                <md-button class="md-raised md-primary md-hue-2 button button-full ink" data-tap-disabled="true" ng-click="loginWithFacebook()"><i class="icon ion-social-facebook " ></i>  Se connecter avec Facebook</md-button>
-                            </section>
-                            <section layout="row" layout-sm="column" layout-align="center center">
-                                <md-button  class="md-raised md-warn button button-full ink" data-tap-disabled="true" ng-click="loginWithGoogle()"><i class="icon ion-social-googleplus" ></i>  Se connecter avec Gmail</md-button>
-                            </section>
-                        </md-content>
+                    <md-tab  label="Se connecter" >
                         <md-divider></md-divider>
-                        <md-content>
+                        <md-content class="login-img">
+                          <img src="/img/icon.png"/>
+                        </md-content>
+                        <md-content id="login-tab-body">
                             <form name="loginForm" ng-submit="doLogin(credentials)">
                                 <md-input-container class="md-block">
                                     <label>Email</label>
@@ -23,22 +18,44 @@
                                     <input  ng-model="credentials.motdepasse"  required type="password"/>
                                 </md-input-container>
                                 <section layout="row" layout-sm="column" layout-align="center center">
-                                    <button class="md-warn md-raised md-hue-2 button button-full button-assertive-900">Se connecter</button>
+                                    <button class="button button-outline button-full button-assertive btn-ok">Se connecter</button>
                                 </section>
                             </form>
                         </md-content>
+
+                        <md-content>
+                          <div style="margin-top:7%" layout="row" layout-align="center center">
+                            <div class="social-login-text" flex-35>Où conncertez-vous avec:</div>
+                            <div flex-65>
+                              <div class="chip chip-facebook" data-tap-disabled="true" ng-click="loginWithFacebook()">
+                                FACEBOOK
+                                <i class="ion-social-facebook"></i>
+                              </div>
+                              <div class="chip chip-google" data-tap-disabled="true" ng-click="loginWithGoogle()">
+                                GOOGLE
+                                <i class="ion-social-google"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </md-content>
+
                     </md-tab>
                     <md-tab label="S'inscrire" >
-                        <md-content >
-                            <section layout="row" layout-sm="column" layout-align="center center">
-                                <md-button class="md-raised md-primary md-hue-2 button button-full ink"  ng-click="loginWithFacebook()"><i class="icon ion-social-facebook "></i>  S'inscrire avec Facebook</md-button>
-                            </section>
-
-                            <section layout="row" layout-sm="column" layout-align="center center">
-                                <md-button class="md-raised md-warn button button-full ink" ng-click="loginWithGoogle()"><i class="icon ion-social-googleplus"></i>  S'inscrire avec Gmail</md-button>
-                            </section>
-                        </md-content>
-                        <md-divider></md-divider>
+                      <md-content>
+                        <div style="margin-top:7%; text-align:center;" layout="row">
+                          <div class="social-login-text" flex-35>Utilisez votre compte </div>
+                          <div flex-65>
+                            <div class="chip chip-facebook" ng-click="loginWithFacebook()">
+                              FACEBOOK
+                              <i class="ion-social-facebook"></i>
+                            </div>
+                            <div class="chip chip-google" ng-click="loginWithGoogle()">
+                              GOOGLE
+                              <i class="ion-social-google"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </md-content>
                         <md-content layout-padding>
                             <form name="inscriptionForm" ng-submit="doInscription(utilisateur)">
                                 <md-input-container class="md-block">
@@ -61,7 +78,7 @@
 
                                 <md-input-container class="md-block">
                                     <label style="color: #a0a0a0;">Date de naissance</label>
-                                     <input type="date" id="dateNaissance" class="md-block" name="dateDeNaissance"  ng-model="utilisateur.dateDeNaissance" 
+                                     <input type="date" id="dateNaissance" class="md-block" name="dateDeNaissance"  ng-model="utilisateur.dateDeNaissance"
                                        required>
                                     <div class="hint">Es-tu autant agé(e) que moi ? </div>
                                 </md-input-container>
@@ -102,7 +119,7 @@
                                   </div>
                                  </md-input-container>
                                 <section layout="row" layout-sm="column" layout-align="center center" >
-                                    <button class="md-warn md-raised md-hue-2 button button-full button-assertive-900 ink" >S'inscrire</button>
+                                    <button class="button button-outline button-full button-assertive btn-ok" >S'inscrire</button>
                                 </section>
                             </form>
                         </md-content>

@@ -43,5 +43,7 @@
     },
     "cordova-plugin-wkwebview"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }
