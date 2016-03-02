@@ -84,7 +84,7 @@ angular.module('Occazstreet.controllers')
         marker: {
           id:0,
           coords:{latitude: response.article.latitude,longitude: response.article.longitude},
-          option:{draggable: false},
+          option:{draggable: false}
         },
         option:{draggable: false,panControl:false,scrollwheel:false,zoomControl:false},
         zoom: 16

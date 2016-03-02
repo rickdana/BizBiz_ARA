@@ -12,28 +12,20 @@ angular.module('Occazstreet.controllers')
  	 				zoom:""
  	 }
      */
- 	
+
  	 var articleId= $stateParams.id;
  	  $ionicLoading.show({
             template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
-        })
-        ArticlesService.getArticleById(articleId).then(function (article) {
+        });
+        ArticlesService.getArticleById(articleId).then(function (response) {
 
             $ionicLoading.hide();
-
-            $scope.article = article;
-             var imageF="";
-            var articleTitre="";
-            var articleDetails="";
-            articleTitre=$scope.article.titre;
-            articleDetails=$scope.article.details;
-            //imageF=art.images[0].cheminImage;
             $scope.map = {
-                            center: { latitude:$scope.article.latitude, longitude:$scope.article.longitude },
+                            center: { latitude:response.article.latitude, longitude:response.article.longitude },
                             marker: {
                                         id:0,
-                                        coords:{latitude:$scope.article.latitude,longitude:$scope.article.longitude},
-                                        option:{draggable: false},
+                                        coords:{latitude:response.article.latitude,longitude:response.article.longitude},
+                                        option:{draggable: false}
                                         },
                             option:{draggable: false,panControl:true,scrollwheel:false,zoomControl:false},
                             zoom: 16
@@ -43,4 +35,4 @@ angular.module('Occazstreet.controllers')
 
             // })
         });
- })
+ });

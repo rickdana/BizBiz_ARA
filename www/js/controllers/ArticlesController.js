@@ -2,7 +2,7 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('ArticlesController', function($scope,$rootScope,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages,$location) {
+    .controller('ArticlesController', function($scope,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages,$location) {
 
 
     var compteurImage=0;
@@ -15,6 +15,7 @@ angular.module('Occazstreet.controllers')
     $scope.url=url;
     $scope.cheminImage=cheminImage;
     var data=[];
+    $scope.$parent.showHeader();
 
 
     // Activate ink for controller
@@ -32,12 +33,10 @@ angular.module('Occazstreet.controllers')
 
     if($state.current.name == 'app.articles')
     {
+
+        $scope.$parent.showHeader();
         var lastId=Globals.PAGE;
         var skip=0;
-        var localLocale = moment();
-        localLocale.locale('fr');
-
-
           /*Pull to refresh*/
         $scope.doRefresh = function() {
             skip=0;
@@ -599,7 +598,7 @@ angular.module('Occazstreet.controllers')
 
     $scope.saveStat=function(article)
     {
-        
+
         $http.get(Globals.URL_JSON_IP).success(function(dataIP){
             var succ = function (dataIP) {
                 var statArticle={};

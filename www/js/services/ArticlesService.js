@@ -131,7 +131,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             if(!articleFound)
             {
               $http.get(url + '/article/getArticleById?idarticle=' + article).success(function (rep) {
-                if (rep) {
+                if (rep.article) {
                   deferred.resolve(rep);
                 }
 
