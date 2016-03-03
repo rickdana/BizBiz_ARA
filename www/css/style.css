@@ -242,12 +242,14 @@ p {
 
 /*Colord mdToast*/
 .md-toast.error {
-    background-color: red;
+    background: red;
 }
 .md-toast.success {
     background-color: #043603;
 }
-
+.italic{
+  font-style: italic
+}
 .btnlowercase {
     text-transform: lowercase;
 }
@@ -519,4 +521,8 @@ a.autolinker {
 .chip-google{
   background-color: #B71C1C !important;
   color: #FFFFFF !important;
+}
+
+.input-filtre{
+  margin-top:-1%
 }
