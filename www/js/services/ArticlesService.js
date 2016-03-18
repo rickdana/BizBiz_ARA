@@ -22,17 +22,31 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             return deferred.promise;
         };
 
-        this.getAllArticles=function(skip,limit)
+        this.getArticlesByLimit=function(skip,limit)
         {
             var deferred=$q.defer();
-            $http.get(url+'/article/getAllArticle?skip='+skip+'&limit='+limit).success(function(response){
+            $http.get(url+'/article/getArticlesByLimit?skip='+skip+'&limit='+limit,{timeout:10000}).success(function(response){
                 if(response)
                 {
                     deferred.resolve(response);
                 }
-
+            }).error(function(error){
+                deferred.resolve(error)
             });
             return deferred.promise;
+        };
+        this.getAllArticles=function()
+        {
+          var deferred=$q.defer();
+          $http.get(url+'/article/getAllArticles',{timeout:10000}).success(function(response){
+            if(response)
+            {
+              deferred.resolve(response);
+            }
+          }).error(function(error){
+            deferred.resolve(error)
+          });
+          return deferred.promise;
         };
 
         this.getArticleByCategorie=function(categorie)

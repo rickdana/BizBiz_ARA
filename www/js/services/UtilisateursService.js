@@ -210,7 +210,7 @@ angular.module('Occazstreet.services')
             userData.token=token;
             var req={
                 method:'POST',
-                url:baseUrl+'/utilisateur/oauth?accessToken',
+                url:baseUrl+'/utilisateur/oauth',
                 data:userData
             };
             $http(req).success(function(response){
