@@ -3,10 +3,25 @@
             <md-content class="md-padding" >
                 <md-tabs  md-dynamic-height md-border-bottom md-stretch-tabs="always">
                     <md-tab  label="Se connecter" >
-                        <md-divider></md-divider>
-                        <md-content class="login-img">
-                          <img src="/img/icon.png"/>
+                        <md-content >
+                          <section layout="row" layout-sm="column" layout-align="center center" style="margin-top: 4%;margin-bottom: 7%;">
+                            <md-button class="md-button chip-facebook button " data-tap-disabled="true" ng-click="loginWithFacebook()">
+                              FACEBOOK
+                              <i class="icon ion-social-facebook"></i>
+                            </md-button>
+                          </section>
+                          <section layout="row" layout-sm="column" layout-align="center center"style="margin-top: 5%;margin-bottom: 7%">
+                            <md-button class="md-button chip-google button " data-tap-disabled="true" ng-click="loginWithGoogle()">
+                              GOOGLE
+                              <i class="icon ion-social-google"></i>
+                            </md-button>
+                          </section>
                         </md-content>
+                        <md-divider></md-divider>
+                           <section layout="row" layout-sm="column" layout-align="center center" style="margin-top: 4%;margin-bottom: 3%;">
+                            <span style="font-weight: bold">OU</span>
+                           </section>
+                        <md-divider></md-divider>
                         <md-content id="login-tab-body">
                             <form name="loginForm" ng-submit="doLogin(credentials)">
                                 <md-input-container class="md-block">
@@ -18,14 +33,14 @@
                                     <input  ng-model="credentials.motdepasse"  required type="password"/>
                                 </md-input-container>
                                 <section layout="row" layout-sm="column" layout-align="center center">
-                                    <button class="button button-outline button-full button-assertive btn-ok">Se connecter</button>
+                                    <button  class="button button-outline button-full button-assertive btn-ok">Se connecter</button>
                                 </section>
                             </form>
                         </md-content>
 
-                        <md-content>
+                        <!--<md-content>
                           <div style="margin-top:7%" layout="row" layout-align="center center">
-                            <div class="social-login-text" flex-35>Où conncertez-vous avec:</div>
+                            <div class="social-login-text" flex-35>Où conncectez-vous avec:</div>
                             <div flex-65>
                               <div class="chip chip-facebook" data-tap-disabled="true" ng-click="loginWithFacebook()">
                                 FACEBOOK
@@ -37,25 +52,29 @@
                               </div>
                             </div>
                           </div>
-                        </md-content>
+                        </md-content>-->
 
                     </md-tab>
                     <md-tab label="S'inscrire" >
-                      <md-content>
-                        <div style="margin-top:7%; text-align:center;" layout="row">
-                          <div class="social-login-text" flex-35>Utilisez votre compte </div>
-                          <div flex-65>
-                            <div class="chip chip-facebook" ng-click="loginWithFacebook()">
-                              FACEBOOK
-                              <i class="ion-social-facebook"></i>
-                            </div>
-                            <div class="chip chip-google" ng-click="loginWithGoogle()">
-                              GOOGLE
-                              <i class="ion-social-google"></i>
-                            </div>
-                          </div>
-                        </div>
+                      <md-content >
+                        <section layout="row" layout-sm="column" layout-align="center center" style="margin-top: 4%;margin-bottom: 7%">
+                          <md-button class="md-button chip-facebook button " data-tap-disabled="true" ng-click="loginWithFacebook()">
+                            FACEBOOK
+                            <i class="icon ion-social-facebook"></i>
+                          </md-button>
+                        </section>
+                        <section layout="row" layout-sm="column" layout-align="center center"style="margin-top: 5%;margin-bottom: 7%">
+                          <md-button class="md-button chip-google button " data-tap-disabled="true" ng-click="loginWithGoogle()">
+                            GOOGLE
+                            <i class="icon ion-social-google"></i>
+                          </md-button>
+                        </section>
                       </md-content>
+                      <md-divider></md-divider>
+                      <section layout="row" layout-sm="column" layout-align="center center" style="margin-top: 4%;margin-bottom: 3%;">
+                        <span style="font-weight: bold">OU</span>
+                      </section>
+                      <md-divider></md-divider>
                         <md-content layout-padding>
                             <form name="inscriptionForm" ng-submit="doInscription(utilisateur)">
                                 <md-input-container class="md-block">
@@ -108,8 +127,8 @@
                                   </div>
                                 </md-input-container>
                                 <md-input-container >
-                                    <md-radio-group ng-model="utilisateur.sexe"  name="sexe" layout="row">
-                                        <md-radio-button value="1" class="md-warn md-raised md-hue-2" name="sexe">Homme</md-radio-button>
+                                    <md-radio-group ng-model="utilisateur.sexe"  name="sexe" layout="row" >
+                                        <md-radio-button value="1" class="md-warn md-raised md-hue-2" name="sexe" required>Homme</md-radio-button>
                                         <md-radio-button value="2" class="md-warn md-raised md-hue-2" name="sexe">Femme</md-radio-button>
                                     </md-radio-group>
                                   <div ng-messages="inscriptionForm.sexe.$error" >

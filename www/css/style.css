@@ -472,23 +472,29 @@ a.autolinker {
 
 .centered {
   position: fixed; /* or absolute */
-  top: 25%;
+  top: 30%;
   left: 40%;
 }
 
 .centered-text {
   position: fixed; /* or absolute */
-  top: 40%;
+  top: 45%;
+}
+
+.centered-button {
+  position: fixed; /* or absolute */
+  top: 65%;
+  margin-left:7.5em;
 }
 
 .card-margin{
-  margin:-2px 8px 3px 8px !important;
+  /*margin:-1px 10px 10px 8px !important;*/
 }
 
 .item-art{
-  margin-bottom: -0.5em;
-  padding-left: 0em;
-  padding-right: 0em;
+  margin-bottom: -1.5em;
+  /*padding-left: 0em;
+  padding-right: 0em;*/
 }
 
 .btn-ok{
@@ -513,16 +519,42 @@ a.autolinker {
 }
 
 .chip-facebook{
-  background-color: blue !important;
+  background-color: #3A5795 !important;
   color: #FFFFFF !important;
   margin-right: 4px;
+  border-radius: 35px !important;
+  width: 80%;
+  height: 30%;
 }
 
 .chip-google{
-  background-color: #B71C1C !important;
+  background-color: #E05C51 !important;
   color: #FFFFFF !important;
+  border-radius: 35px !important;
+  width: 80%;
+  height: 30%;
 }
 
 .input-filtre{
   margin-top:-1%
+}
+
+.toast-style-text
+{
+  font-family: 'Hoefler Text', 'Baskerville Old Face', Garamond, 'Times New Roman', serif;
+  font-size: 20px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.default-image-article
+{
+  background-image: url('img/no_image.png');
+}
+
+.resize{
+  max-width:50%;
+  max-height:50%;
 }
