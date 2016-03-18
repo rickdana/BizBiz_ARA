@@ -1,0 +1,59 @@
+<ion-view view-title="Occazstreet">
+  <ion-content has-bouncing="true" ng-init="loadImageArticle()" class="animate-fade-slide-in">
+    <div ng-show="!articlesExplore.length">
+      <div class="centered">
+        <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+      </div>
+      <div class="centered-text" >
+        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+                Impossible de charger l'explorateur.
+        </span>
+      </div>
+      <div class="centered-button">
+        <button ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+      </div>
+    </div>
+    <div class="row " responsive-sm ng-repeat="image in images" ng-if="$index % 4 === 0" >
+      <div class="col col-25" ng-if="$index < images.length">
+        <div ui-sref="app.articledetails({article:'{{images[$index ].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index].srcImage !=null && images[$index].srcImage || 'img/no_image.png'}});
+                        background-repeat:no-repeat;
+                        background-size:contain;
+                        width:100%;
+                        height:0;
+                        padding-top:100%">
+        </div>
+      </div>
+      <div class="col col-25" ng-if="$index + 1 < images.length">
+        <div ui-sref="app.articledetails({article:'{{images[$index +1].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+1].srcImage !=null && images[$index+1].srcImage || 'img/no_image.png'}});
+                        background-repeat:no-repeat;
+                        background-size:contain;
+                        width:100%;
+                        height:0;
+                        padding-top:100%">
+        </div>
+      </div>
+      <div class="col col-25" ng-if="$index + 2 < images.length">
+        <div ui-sref="app.articledetails({article:'{{images[$index +2].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+2].srcImage !=null && images[$index+2].srcImage || 'img/no_image.png'}});
+                        background-repeat:no-repeat;
+                        background-size:contain;
+                        width:100%;
+                        height:0;
+                        padding-top:100%">
+        </div>
+      </div>
+      <div class="col col-25" ng-if="$index + 3 < images.length">
+        <div ui-sref="app.articledetails({article:'{{images[$index +3].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+3].srcImage !=null && images[$index+3].srcImage || 'img/no_image.png'}});
+                        background-repeat:no-repeat;
+                        background-size:contain;
+                        width:100%;
+                        height:0;
+                        padding-top:100%">
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <a ui-sref="app.addarticle">
+    <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-plus-round">
+    </md-button>
+  </a>
+</ion-view>
