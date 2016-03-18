@@ -19,17 +19,21 @@
       <span class="title italic" style="font-size: 12px"><i>Chargement des produits à 1 kilomètre de vous </i></span>
   </div>-->
 
-  <div ng-show="article.length==0">
-    <div class="centered">
-      <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+
+  <ion-content has-bouncing="true">
+    <div ng-show="articles.length==0">
+      <div class="centered">
+        <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+      </div>
+      <div class="centered-text" >
+        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+                Impossible de charger les articles.
+        </span>
+      </div>
+      <div class="centered-button">
+        <button ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+      </div>
     </div>
-    <div class="centered-text" >
-      <span style="font-size:1.250em;vertical-align:middle;font-weight: bold;color:#98a2a2">
-              Aucun article pour le moment.
-      </span>
-    </div>
-  </div>
-  <ion-content>
     <ion-refresher
       pulling-text="Lacher pour raffraichir..."
       on-refresh="doRefresh()">
@@ -39,7 +43,7 @@
         <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
         <div class="item item-avatar  item-text-wrap">
           <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
-          <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
+          <span ng-show="article.images.length <1" class="avatar " style="background-image: url('img/no_image.png');"></span>
           <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
           {{article.categorie.libelle}}<br/>
           {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
@@ -50,7 +54,6 @@
       </div>
     </div>
     <ion-infinite-scroll on-infinite="loadMoreArticles()" distance="5%"></ion-infinite-scroll>
-
   </ion-content>
   <a ui-sref="app.addarticle">
     <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-plus-round">

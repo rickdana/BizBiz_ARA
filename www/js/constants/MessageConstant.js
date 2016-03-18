@@ -3,9 +3,11 @@
  */
 angular.module('Occazstreet.constants')
     .constant('Messages',{
-        "internetErrorTitle":"Erreur Connectivité",
+        "erreurServeurTitle":"Erreur serveur",
         "internetErrorContent":"Vous n'êtes pas connecté à Internet. Connectez-vous  à une source de données et reessayer",
+        "serverDown":"Le serveur est inaccéssible",
         "internetError":"Mise à jour impossible. Verfiez votre connexion internet et reessayez",
+        "erreurServeur":"Une erreur est survenue lors du traitement de votre demande. Merci de reesayer plus tard",
         "annuler":"Annuler",
         "authenticationFailed":"Le login ou le mot de passe est incorrect",
         "successChangePassword":"Votre mot de passe a été changé avec succes",

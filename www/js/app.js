@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('Occazstreet', ['ionic','ngMaterial','angularMoment','ionic-datepicker','ionic.service.core','ion-google-place','ionic.ion.imageCacheFactory','uiGmapgoogle-maps','Occazstreet.controllers','Occazstreet.services','Occazstreet.constants'])
+angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment','ionic-datepicker','ionic.service.core','ion-google-place','ionic.ion.imageCacheFactory','uiGmapgoogle-maps','Occazstreet.controllers','Occazstreet.services','Occazstreet.constants'])
 .run(function($ionicPlatform,Messages,$rootScope,$cordovaStatusbar, $state,UtilisateursService,Globals,$localStorage,$mdDialog,$mdToast) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -277,6 +277,15 @@ angular.module('Occazstreet', ['ionic','ngMaterial','angularMoment','ionic-datep
               }
           },
           requiresLogin:false
+      }).state('app.exploreArticle', {
+        url: "/exploreArticle",
+        views: {
+          'menuContent': {
+            templateUrl: "templates/exploreArticle.html",
+            controller: 'ArticlesController'
+          }
+        },
+        requiresLogin:false
       }).state('app.collections', {
           url: "/collections",
           views: {

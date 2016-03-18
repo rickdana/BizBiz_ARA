@@ -1,6 +1,6 @@
 angular.module('Occazstreet.controllers', ['ngMaterial','ngCordova','ngStorage','monospaced.elastic','angularMoment'])
 
-.controller('AppCtrl', function($scope,$state, $ionicModal, $ionicPopover, $timeout,ArticlesService,UtilisateursService,$rootScope,Globals,$localStorage,$ionicHistory) {
+.controller('AppCtrl', function($scope,$state,$window, $ionicModal, $ionicPopover, $timeout,ArticlesService,UtilisateursService,$rootScope,Globals,$localStorage,$ionicHistory) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -126,13 +126,15 @@ angular.module('Occazstreet.controllers', ['ngMaterial','ngCordova','ngStorage',
 
         $scope.doLogout = function() {
             $scope.logged=false;
-            $scope.infoUserLogged='';
+            $scope.infoUserLogged=null;
             $localStorage.$reset();
             $ionicHistory.nextViewOptions({
                 disableAnimate:true,
                 disableBack: true
             });
             $state.go('app.articles', {}, { reload: true });
+           $window.location.reload(true);
+
 
         };
     })

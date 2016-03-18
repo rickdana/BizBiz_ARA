@@ -10,6 +10,7 @@ angular.module('Occazstreet.controllers')
         // $scope.$parent.clearFabs();
         $scope.isExpanded = false;
         var user={};
+        var profil=false;
 
         /* $scope.$parent.setExpanded(false);
          $scope.$parent.setHeaderFab(false);*/
@@ -46,11 +47,11 @@ angular.module('Occazstreet.controllers')
 
         if($state.current.name=='app.profile')
         {
-
             $ionicLoading.show({
                 template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
             });
             UtilisateursService.getUtilisateurById(utilisateur).then(function(response){
+                profil=true;
                 $scope.utilisateur=response.utilisateur;
                 if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined')
                 {
@@ -115,6 +116,18 @@ angular.module('Occazstreet.controllers')
 
 
             });
+          $timeout(function() {
+            $ionicLoading.hide();
+            if(!profil)
+            {
+              $mdToast.show({
+                template: '<md-toast class="md-toast italic">' + Messages.erreurServeur + '</md-toast>',
+                hideDelay: 5000,
+                position: 'bottom right left'
+              });
+            }
+
+          }, 7000);
 
         }
 

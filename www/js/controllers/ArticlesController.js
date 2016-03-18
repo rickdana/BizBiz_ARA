@@ -2,7 +2,7 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('ArticlesController', function($scope,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages,$location) {
+    .controller('ArticlesController', function($scope,$window,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages,$location) {
 
 
     var compteurImage=0;
@@ -40,24 +40,55 @@ angular.module('Occazstreet.controllers')
           /*Pull to refresh*/
         $scope.doRefresh = function() {
             skip=0;
-            ArticlesService.getAllArticles(skip, Globals.PAGE).then(function (response) {
-                $ionicLoading.hide();
-                $scope.articles=response.articles;
-                $localStorage['articles']=[];
-                $localStorage['articles']=$scope.articles;
-               // alert(JSON.stringify($scope.articles));
-                $scope.$broadcast('scroll.refreshComplete');
-            });
+          /*if(window.Connection) {
+            if (navigator.connection.type == Connection.NONE || navigator.connexion.type==Connection.UNKNOWN) {
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .title(Messages.internetErrorTitle)
+                  .content(Messages.internetErrorContent)
+                  .ok('Ok')
+              );
+            }else
+            {*/
+              ArticlesService.getArticlesByLimit(skip, Globals.PAGE).then(function (response) {
+                if(response ==null)
+                {
+                  $scope.isDisabled = false;
+                  $scope.buttonRaffraichirText="Raffraichir";
+                  $mdDialog.show(
+                    $mdDialog.alert()
+                      .parent(angular.element(document.body))
+                      .title(Messages.erreurServeurTitle)
+                      .content(Messages.serverDown)
+                      .ok('Ok')
+                  );
+                  $localStorage['articles']=[];
+                  $scope.$broadcast('scroll.refreshComplete');
+                }else
+                {
+                  $scope.articles=response.articles;
+                  $localStorage['articles']=[];
+                  $localStorage['articles']=$scope.articles;
+                  // alert(JSON.stringify($scope.articles));
+                  $scope.$broadcast('scroll.refreshComplete');
+                }
+
+              });
+           /* }
+          }*/
+
 
         };
-        $ionicLoading.show({
-            template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
-        });
+
       //The first time we load data from server and cache in localstorage
       var init = $localStorage['init'];
-      if (typeof init == "undefined") {
+      if (typeof init == "undefined" || typeof $localStorage['articles']=="undefined") {
           $localStorage['init']={'setup':'done'};
-          ArticlesService.getAllArticles(skip, lastId).then(function (response) {
+          /*$ionicLoading.show({
+            template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+          });*/
+          ArticlesService.getArticlesByLimit(skip, lastId).then(function (response) {
           lastId=response.articles[response.articles.length-1].idArticle;
           skip=response.articles.length;
           $ionicLoading.hide();
@@ -94,7 +125,7 @@ angular.module('Occazstreet.controllers')
         {
           skip=Globals.PAGE;
         }
-        ArticlesService.getAllArticles(skip,lastId+lastId).then(function (response) {
+        ArticlesService.getArticlesByLimit(skip,lastId+lastId).then(function (response) {
           skip=skip+response.articles.length;
           $scope.articles = $scope.articles.concat(response.articles);
           $localStorage['articles']=$scope.articles;
@@ -595,6 +626,37 @@ angular.module('Occazstreet.controllers')
 
     }
 
+    if($state.current.name=='app.exploreArticle')
+    {
+
+      $ionicLoading.show({
+        template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> '
+      });
+
+      $scope.images = [];
+      $scope.loadImageArticle=function()
+      {
+        ArticlesService.getAllArticles().then(function(response){
+          console.log(response.articles.length);
+          for(var i in response.articles)
+          {
+
+            if(response.articles[i].images.length>0)
+            {
+              console.log(JSON.stringify(response.articles[i]));
+              $scope.images.push({idArticle:response.articles[i].idArticle,srcImage:url+cheminImage+response.articles[i].images[0].cheminImage});
+            }else
+            {
+              $scope.images.push({idArticle:response.articles[i].idArticle,srcImage:null});
+            }
+          }
+          $scope.articlesExplore=response.articles;
+        })
+        $ionicLoading.hide();
+      }
+
+    }
+
 
     $scope.saveStat=function(article)
     {
@@ -649,8 +711,13 @@ angular.module('Occazstreet.controllers')
                 .content(Messages.erreurAjoutArticle)
                 .ok('OK')
         );
+    };
+    $scope.isDisabled = false;
+    $scope.buttonRaffraichirText="Raffraichir";
+    $scope.raffraichir=function()
+    {
+      $scope.isDisabled=true;
+      $scope.buttonRaffraichirText="Patientez...";
+      $scope.doRefresh();
     }
-
-
-
 });
