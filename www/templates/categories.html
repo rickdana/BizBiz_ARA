@@ -1,9 +1,8 @@
 <ion-view view-title="Catégories">
 
     <ion-content>
-        <div ng-repeat="categorie in categories | orderBy:'libelle'" ng-controller="ArticlesController" class="list card" style="transition-delay: 0.02s;">
-
-            <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item ">
+        <div ng-repeat="categorie in categories | orderBy:'libelle'" ng-controller="ArticlesController" class="list card card-margin" >
+            <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item" >
                 <h2 style="font-weight: bold">
                     {{categorie.libelle}}
                 </h2>
