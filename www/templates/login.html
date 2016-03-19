@@ -26,11 +26,21 @@
                             <form name="loginForm" ng-submit="doLogin(credentials)">
                                 <md-input-container class="md-block">
                                     <label>Email</label>
-                                    <input  ng-model="credentials.email" required  type="email"/>
+                                    <input  ng-model="credentials.email" required  name="email" type="email"/>
+                                    <div ng-messages="loginForm.email.$error" >
+                                      <div ng-message="required">
+                                        Veuillez saisir une adresse email valide
+                                      </div>
+                                    </div>
                                 </md-input-container>
                                 <md-input-container class="md-block">
                                     <label>Mot de passe</label>
-                                    <input  ng-model="credentials.motdepasse"  required type="password"/>
+                                    <input  ng-model="credentials.motdepasse" name="password" required type="password"/>
+                                    <div ng-messages="loginForm.password.$error" >
+                                      <div ng-message="required">
+                                        Veuillez saisir le mot de passe
+                                      </div>
+                                    </div>
                                 </md-input-container>
                                 <section layout="row" layout-sm="column" layout-align="center center">
                                     <button  class="button button-outline button-full button-assertive btn-ok">Se connecter</button>
@@ -127,15 +137,15 @@
                                   </div>
                                 </md-input-container>
                                 <md-input-container >
-                                    <md-radio-group ng-model="utilisateur.sexe"  name="sexe" layout="row" >
-                                        <md-radio-button value="1" class="md-warn md-raised md-hue-2" name="sexe" required>Homme</md-radio-button>
-                                        <md-radio-button value="2" class="md-warn md-raised md-hue-2" name="sexe">Femme</md-radio-button>
+                                    <md-radio-group ng-required="true" ng-model="utilisateur.sexe"  name="sexe" layout="row" >
+                                        <md-radio-button value="1" class="md-warn md-raised md-hue-2" name="sexe" required checked="true">Homme</md-radio-button>
+                                        <md-radio-button value="2" class="md-warn md-raised md-hue-2" name="sexe" required>Femme</md-radio-button>
                                     </md-radio-group>
-                                  <div ng-messages="inscriptionForm.sexe.$error" >
-                                    <div ng-message-exp="['required']">
-                                      Tu n'es pas un cyborg :( le sexe est obligatoire
+                                    <div ng-messages="inscriptionForm.sexe.$error" >
+                                      <div ng-message-exp="['required']">
+                                        Tu n'es pas un cyborg :( le sexe est obligatoire
+                                      </div>
                                     </div>
-                                  </div>
                                  </md-input-container>
                                 <section layout="row" layout-sm="column" layout-align="center center" >
                                     <button class="button button-outline button-full button-assertive btn-ok" >S'inscrire</button>
