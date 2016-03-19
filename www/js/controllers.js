@@ -150,6 +150,37 @@ angular.module('Occazstreet.controllers', ['ngMaterial','ngCordova','ngStorage',
 })*/
 .controller('PlaylistCtrl', function($scope, $stateParams){
 })
-.controller('InviteFriendsController',function($scope,$stateParams){
+.controller('InviteFriendsController',function($scope,$stateParams,Globals,SharingService){
+
+    var message="je t'invite à telecharger l'application "+ Globals.APPNAME +", elle est juste trop bien !!! :) "+Globals.APPPLAYSTORE;
+
+    $scope.shareTwitter=function()
+    {
+      SharingService.shareTwitter(message,null,null);
+
+    };
+
+
+    $scope.shareMail=function()
+    {
+      var subjectMail="Occazstreet";
+      SharingService.shareMail(message, subjectMail);
+    };
+
+    $scope.shareWhatsapp=function()
+    {
+      SharingService.shareWhatsapp(message, null, null);
+    };
+
+    $scope.shareFacebook=function()
+    {
+      SharingService.shareFacebook(message, null, null);
+
+    };
+
+    $scope.shareSMS=function()
+    {
+      SharingService.shareSMS(message, null);
+    };
 
 });

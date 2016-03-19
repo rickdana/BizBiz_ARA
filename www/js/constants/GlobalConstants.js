@@ -3,17 +3,20 @@
  */
 angular.module('Occazstreet.constants', [])
     .constant('Globals',{
-    "urlServer":"http://37.59.101.217:",
-    //"urlServer":"http://localhost:",
+   //   "urlServer":"http://localhost:",
         "port":"1337",
         "cheminImage":"imagesArticle/",
         "cheminPhoto":"photoUtilisateur/",
-        "GOOGLECLIENTID":"626198170177-84dc2fc7e6i7j30hth755oui7448femj.apps.googleusercontent.com",
-        "FACEBOOKCLIENTID":"783857571734761",
+        "GOOGLECLIENTID":"448214499045-h5rf4q3tnp6he7r9mbj72espfplgc315.apps.googleusercontent.com",
+        "FACEBOOKCLIENTID":"1703284276585375",
         "USER_LOGGED":"userLogged",
         "LOCAL_TOKEN_KEY":"token",
         "URL_JSON_IP":"http://freegeoip.net/json",
         "PAGE":6,
-         "VERSION":"0.2.2"
+        "VERSION":"0.4.0",
+        "APPPLAYSTORE":"playstore.app",
+        "APPNAME":"OccazStreet",
+        "FACEBOOKPAGE":"",
+        "TWITTERPAGE":""
 
     });
