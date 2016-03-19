@@ -15,7 +15,7 @@
     </div>
     <div class="row " responsive-sm ng-repeat="image in images" ng-if="$index % 4 === 0" >
       <div class="col col-25" ng-if="$index < images.length">
-        <div ui-sref="app.articledetails({article:'{{images[$index ].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index].srcImage !=null && images[$index].srcImage || 'img/no_image.png'}});
+        <div ui-sref="app.articledetails({article:'{{images[$index ].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index].srcImage !=null && images[$index].srcImage || 'img/defaultImage.png'}});
                         background-repeat:no-repeat;
                         background-size:contain;
                         width:100%;
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="col col-25" ng-if="$index + 1 < images.length">
-        <div ui-sref="app.articledetails({article:'{{images[$index +1].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+1].srcImage !=null && images[$index+1].srcImage || 'img/no_image.png'}});
+        <div ui-sref="app.articledetails({article:'{{images[$index +1].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+1].srcImage !=null && images[$index+1].srcImage || 'img/defaultImage.png'}});
                         background-repeat:no-repeat;
                         background-size:contain;
                         width:100%;
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="col col-25" ng-if="$index + 2 < images.length">
-        <div ui-sref="app.articledetails({article:'{{images[$index +2].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+2].srcImage !=null && images[$index+2].srcImage || 'img/no_image.png'}});
+        <div ui-sref="app.articledetails({article:'{{images[$index +2].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+2].srcImage !=null && images[$index+2].srcImage || 'img/defaultImage.png'}});
                         background-repeat:no-repeat;
                         background-size:contain;
                         width:100%;
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="col col-25" ng-if="$index + 3 < images.length">
-        <div ui-sref="app.articledetails({article:'{{images[$index +3].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+3].srcImage !=null && images[$index+3].srcImage || 'img/no_image.png'}});
+        <div ui-sref="app.articledetails({article:'{{images[$index +3].idArticle}}'})" style="border-radius: 20px;border:1px solid #b30500;background-image:url({{images[$index+3].srcImage !=null && images[$index+3].srcImage || 'img/defaultImage.png'}});
                         background-repeat:no-repeat;
                         background-size:contain;
                         width:100%;
