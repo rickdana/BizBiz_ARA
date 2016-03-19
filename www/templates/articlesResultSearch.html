@@ -59,7 +59,7 @@
               <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
               <div class="item item-avatar  item-text-wrap">
                 <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
-                <span ng-show="article.images.length <1" class="avatar " style="background-image: url('img/no_image.png');"></span>
+                <span ng-show="article.images.length <1" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
                 <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
                 {{article.categorie.libelle}}<br/>
                 {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
