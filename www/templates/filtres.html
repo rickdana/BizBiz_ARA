@@ -12,8 +12,8 @@
             </md-menu-content>
         </md-menu>
     </ion-nav-buttons>
-    <div class="bar bar-subheader" style="height: 50px;">
-        <md-input-container class="input-filtre" >
+    <div class="bar bar-subheader" >
+        <md-input-container class="input-filtre"style="width: 100%;" >
             <label>Mot(s) clef(s) </label>
             <input  ng-model="param.motclef"  value="Que cherchez-vous ?"  name="search" >
         </md-input-container>
@@ -21,7 +21,7 @@
 
     <ion-content ng-class="{expanded:isExpanded}"  class="has-subheader animate-fade-slide-in">
         <br/>
-        <div class=" card" >
+        <div class=" card card-margin" >
             <ion-google-place placeholder= "Où le cherchez-vous ?" ng-model="param.localisation" />
             <!-- <a ui-sref="app.localisation">
                  <md-button ng-model="param.localisation" class="button-full">
@@ -31,7 +31,7 @@
              </a>-->
         </div>
 
-       <div class="card" >
+       <div class="card card-margin" >
 
             <div >
                 <md-list ng-controller="CategoriesController" >
@@ -44,22 +44,22 @@
                 </md-list>
             </div>
         </div>
-        <div class="card">
+        <div class="card card-margin">
             <div>
 
                 <md-subheader class="">Prix</md-subheader>
                 <md-divider></md-divider>
-                <md-input-container>
+                <md-input-container style="width: 48%;">
                     <label>Min</label>
                     <input name="prixmin" ng-model="param.prixmin" type="number"/>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container style="width: 48%;">
                     <label>Max</label>
                     <input name="prixmax" ng-model="param.prixmax" type="number"/>
                 </md-input-container>
             </div>
         </div>
-        <div class="card">
+        <div class="card card-margin">
                 <md-subheader class="">Filtré par</md-subheader>
                 <md-divider></md-divider>
 
