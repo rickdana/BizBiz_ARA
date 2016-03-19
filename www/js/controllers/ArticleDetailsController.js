@@ -2,7 +2,7 @@
  * Created by fleundeu on 01/05/2015.
  */
 angular.module('Occazstreet.controllers')
-  .controller('ArticleDetailsController', function($scope,$localStorage,$rootScope,$stateParams,$state,$mdDialog,$ionicPlatform,$ionicViewService,$ionicHistory,$http,$timeout,ArticlesService,Globals,$ionicLoading,$cordovaSocialSharing) {
+  .controller('ArticleDetailsController', function($scope,$localStorage,$rootScope,$stateParams,$state,$mdDialog,$ionicPlatform,$ionicViewService,$ionicHistory,$http,$timeout,ArticlesService,Globals,$ionicLoading,SharingService) {
 
 
     ionic.material.motion.pushDown({
@@ -107,82 +107,41 @@ angular.module('Occazstreet.controllers')
       var image= "<img src='"+$scope.cheminImage +imageF+"'/>" ;
       var link="";
       var number="";
-      var toArr="";
-      var ccArr="";
-      var bccArr="";
-      var file="";
-      var subject="";
 
       $scope.shareTwitter=function()
       {
-        /*$cordovaSocialSharing
-         .shareViaTwitter(message, image, link)
-         .then(function(result) {
-         // Success!
-         }, function(err) {
-         // An error occurred. Show a message to the user
-         });*/
-        window.plugins.socialsharing.shareViaTwitter(messageT,  $scope.url+$scope.cheminImage +imageF /* img */, 'http://www.x-services.nl', function()
-        {console.log('share ok')}, function(errormsg){console.log(errormsg)})
+        SharingService.shareTwitter(messageT,$scope.url+$scope.cheminImage +imageF,'http://www.occazstreet.com');
+
       };
 
 
       $scope.shareMail=function()
       {
+
+
         var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"<br/><br/>"+articleDetails;
         var subjectMail=articleTitre +" sur Occazstreet";
-        $cordovaSocialSharing
-          .shareViaEmail(messageMail, subjectMail, toArr, ccArr, bccArr, file)
-          .then(function(result) {
-            // Success!
-          }, function(err) {
-            // An error occurred. Show a message to the user
-          });
+        SharingService.shareMail(messageMail,subjectMail);
       };
 
       $scope.shareWhatsapp=function()
       {
-        $cordovaSocialSharing
-          .shareViaWhatsApp(message, image, link)
-          .then(function(result) {
-            // Success!
-          }, function(err) {
-            // An error occurred. Show a message to the user
-            alert("Impossible de partager sur Whatsapp");
-          });
-        //window.plugins.socialsharing.shareViaWhatsApp(message,  $scope.url+$scope.cheminImage +imageF /* img */, null /* url */, function()
-        // {console.log('share ok')}, function(errormsg){console.log(errormsg)})
-
+        SharingService.shareWhatsapp(message,image,link);
       };
 
       $scope.shareFacebook=function()
       {
-        //window.plugins.socialsharing.shareViaFacebook(message,  $scope.url+$scope.cheminImage +imageF /* img */, null /* url */, function(){
-        //  console.log('share ok')}, function(errormsg){alert(errormsg)});
-        $cordovaSocialSharing
-          .shareViaFacebook(message +" "+image, image, link)
-          .then(function(result) {
-            // Success!
-          }, function(err) {
-            alert("Impossible de partager sur Facebook");
-          });
+        SharingService.shareFacebook(message,image,link);
       };
 
       $scope.shareSMS=function()
       {
-        $cordovaSocialSharing
-          .shareViaSMS(message, number)
-          .then(function(result) {
-            // Success!
-          }, function(err) {
-            // An error occurred. Show a message to the user
-          });
-
+        SharingService.shareSMS(message,number);
       };
 
       $rootScope.sendSms=function(number)
       {
-        $cordovaSocialSharing.shareViaSMS("", number);
+        SharingService.shareSMS("", number);
       };
 
       $scope.makeCall=function(number)
