@@ -2,7 +2,7 @@
  * Created by fleundeu on 01/05/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('ProfileController', function($scope,$stateParams,$state,$http,$timeout,UtilisateursService,Globals,$ionicLoading,$ionicPlatform,Messages, $mdToast,$mdDialog,ArticlesService,$localStorage,helper) {
+    .controller('ProfileController', function($scope,$rootScope,$stateParams,$state,$http,$timeout,UtilisateursService,Globals,$ionicLoading,$ionicPlatform,Messages, $mdToast,$mdDialog,ArticlesService,$localStorage,helper) {
 
 
         // Set Header
@@ -271,22 +271,10 @@ angular.module('Occazstreet.controllers')
                             var success = function(data){
 
                                 $mdDialog.hide();
-                                if(key==null)
-                                {
-                                    compteurImage =compteurImage+1;
-                                    $scope.$apply(function () {
-                                        $scope.imgURI.push(data);
+                                $scope.$apply(function () {
+                                    $scope.imgURI[key]=data;
 
-                                    });
-                                    $scope.nombreImage=compteurImage;
-                                }
-                                else
-                                {
-                                    $scope.$apply(function () {
-                                        $scope.imgURI[key]=data;
-
-                                    });
-                                }
+                                });
                                 $rootScope.image=$scope.imgURI;
 
                             };
@@ -309,26 +297,12 @@ angular.module('Occazstreet.controllers')
                                 saveToPhotoAlbum: false
                             };
                             var success = function(data){
-                                if(key==null)
-                                {
-                                    compteurImage =compteurImage+1;
-                                    $scope.$apply(function () {
-                                        $scope.imgURI.push(data);
+                                $scope.$apply(function () {
+                                    $scope.imgURI[key]=data;
 
-                                    });
-                                    $scope.nombreImage=compteurImage;
-                                }
-                                else
-                                {
-
-                                    $scope.$apply(function () {
-                                        $scope.imgURI[key]=data;
-
-                                    });
-                                }
+                                });
                                 $rootScope.image=$scope.imgURI;
-
-
+                                alert($rootScope.image);
                             };
                             var failure = function(message){
                                 $mdDialog.hide();
@@ -353,6 +327,7 @@ angular.module('Occazstreet.controllers')
                     $mdDialog.cancel();
                 };
                 $scope.answer = function(answer) {
+
                     $mdDialog.hide(answer);
                 };
 
@@ -669,4 +644,24 @@ angular.module('Occazstreet.controllers')
                 $scope.activite=response.activiteUser;
             }
         })
-    });
+    }).controller('FavorisController',function($scope,$stateParams,ArticlesService,Globals){
+      var url=Globals.urlServer+Globals.port+'/';
+      var cheminImage=Globals.cheminImage;
+      $scope.url=url;
+      $scope.cheminImage=cheminImage;
+      $scope.isDisabled = false;
+      $scope.buttonRaffraichirText="Raffraichir";
+      ArticlesService.getArticlesFavorisByUser($stateParams.utilisateur).then(function(res){
+        if(res.success)
+        {
+          if(res.articles.length>0)
+          {
+            $scope.articleFavorisExist=true;
+          }else
+          {
+            $scope.articleFavorisExist=false;
+          }
+          $scope.articlesFavoris=res.articles;
+        }
+      })
+  });

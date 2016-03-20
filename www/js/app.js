@@ -277,7 +277,16 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
               }
           },
           requiresLogin:false
-      }).state('app.exploreArticle', {
+      }).state('app.favoris', {
+      url: "/favoris",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/favoris.html",
+          controller: 'FavorisController'
+        }
+      },
+      requiresLogin:false
+    }).state('app.exploreArticle', {
         url: "/exploreArticle",
         views: {
           'menuContent': {

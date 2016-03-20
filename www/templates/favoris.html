@@ -1,0 +1,36 @@
+<ion-view view-title="Favoris">
+
+    <ion-content ng-controller="FavorisController">
+      <div ng-show="!articleFavorisExist">
+        <div class="centered">
+          <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+        </div>
+        <div class="centered-text" >
+        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+                Vous n'avez pas encore de favoris.
+        </span>
+        </div>
+        <div class="centered-button">
+          <a  ui-sref="app.articles">
+            <md-button  class="button button-outline button-full button-assertive btn-ok">
+              Commencez maintenant !
+            </md-button>
+          </a>
+        </div>
+      </div>
+      <div ng-show="articleFavorisExist"  ng-repeat="article in articlesFavoris"  ng-controller="ProfileController" class="item card-item" >
+        <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
+          <div class="item item-avatar  item-text-wrap">
+            <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+            <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
+            <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+            {{article.categorie.libelle}}<br/>
+            {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+            <div class="card-footer text-right" style="margin-top: -30px">
+              <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>
