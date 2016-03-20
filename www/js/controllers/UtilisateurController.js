@@ -83,7 +83,6 @@ angular.module('Occazstreet.controllers')
             $ionicLoading.show({
                 template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
             });
-           /* alert("doInscription");*/
             var onSuccess = function(position) {
                 $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY",{timeout:10000} )
                 .success(function(response) {
@@ -212,7 +211,6 @@ angular.module('Occazstreet.controllers')
                 showLoading();
 
               $cordovaOauth.facebook(Globals.FACEBOOKCLIENTID, ["email", "public_profile", "user_website", "user_location", "user_relationships","user_birthday"]).then(function(result) {
-                  alert(JSON.stringify(result));
                   UtilisateursService.storeAuthCode(result.access_token,userData).then(function(res){
                         hideLoading();
                         if(res.success)
@@ -254,7 +252,6 @@ angular.module('Occazstreet.controllers')
 
                 }, function(error) {
                     hideLoading();
-                alert(JSON.stringify(error));
                     console.log("une erreur a été rencontré lors de l'authentification Facebook "+error);
                     $mdDialog.show(
                         $mdDialog.alert()
@@ -267,10 +264,7 @@ angular.module('Occazstreet.controllers')
             };
             var error=function(error)
             {
-                alert(error);
-
                 console.error("erreur lors dela recuperation du numéro de téléphone "+error);
-
             };
             window.plugins.carrier.getCarrierInfo(success, error);
         };
@@ -279,7 +273,6 @@ angular.module('Occazstreet.controllers')
         {
             var succ=function(data)
             {
-                alert(JSON.stringify(data));
                 var userData = {};
                 userData.telephone=data.lineNumber;
                 userData.device=$cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
@@ -295,7 +288,6 @@ angular.module('Occazstreet.controllers')
                     // there is no API key for Android; you app is wired to the Google+ API by listing your package name in the google dev console and signing your apk (which you have done in chapter 4)
                   },
                   function (result) {
-                    alert(JSON.stringify(result));
                     userData.nom=result.familyName;
                     userData.prenom=result.givenName;
                     userData.email=result.email;
@@ -308,10 +300,8 @@ angular.module('Occazstreet.controllers')
                     {
                       userData.sexe=2;
                     }
-                    alert(JSON.stringify(userData));
                     UtilisateursService.storeAuthCode(result.oauthToken,userData).then(function(res){
                       hideLoading();
-                      alert(res.success);
                       if(res.success)
                       {
                         $scope.logged=$localStorage['logged'];
@@ -334,7 +324,7 @@ angular.module('Occazstreet.controllers')
                       }
                       else
                       {
-                        alert("error"+JSON.stringify(res));
+                        console.log("error"+JSON.stringify(res));
                         hideLoading();
                         $mdToast.show({
                           template: '<md-toast class="md-toast error">' + Messages.erreurOAuthMessage+Messages.parGoogle + '</md-toast>',
@@ -355,7 +345,7 @@ angular.module('Occazstreet.controllers')
 
                   },
                   function (error) {
-                    alert("error  "+error);
+                    console.log("error  "+error);
                     hideLoading();
                     console.log("une erreur a été rencontré lors de l'authentification google "+error);
                     $mdDialog.show(
@@ -376,7 +366,6 @@ angular.module('Occazstreet.controllers')
             };
             var err=function(err)
             {
-                alert(err);
                 //Est ce que en cas d'impossibilité de recuperer le numéro de téléphone de l"utilisateur on crash une erreur ??? POINT A REVOIR
                 //Pour l'instant on stop le process d'inscription mais est ce pertinent? POINT A REVOIR
                 this.console.log("erreur recuperation carrier info =>"+err);
