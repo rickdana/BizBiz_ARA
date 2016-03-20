@@ -1,12 +1,25 @@
 <ion-view view-title="Catégories">
 
-    <ion-content>
-        <div ng-repeat="categorie in categories | orderBy:'libelle'" ng-controller="ArticlesController" class="list card card-margin" >
-            <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item" >
-                <h2 style="font-weight: bold">
-                    {{categorie.libelle}}
-                </h2>
-            </a>
+    <ion-content ng-controller="CategoriesController">
+      <div ng-show="!categories">
+        <div class="centered">
+          <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
         </div>
+        <div class="centered-text" >
+        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+                Impossible de charger les catégories.
+        </span>
+        </div>
+        <div class="centered-button">
+          <button ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+        </div>
+      </div>
+      <div ng-show="categories.length>0" ng-repeat="categorie in categories | orderBy:'libelle'" ng-controller="ArticlesController" class="list card card-margin" >
+          <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item" >
+              <h2 style="font-weight: bold">
+                  {{categorie.libelle}}
+              </h2>
+          </a>
+      </div>
     </ion-content>
 </ion-view>
