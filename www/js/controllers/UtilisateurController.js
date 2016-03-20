@@ -2,7 +2,7 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('UtilisateurController', function($scope,$window,$stateParams,$ionicLoading,$location, $timeout,UtilisateursService,$rootScope,$mdDialog,$cordovaDatePicker,$http,$cordovaDevice,$ionicPopup,$ionicPlatform,$mdToast,$localStorage,$cordovaOauth,$ionicHistory,Globals,$state,Messages) {
+    .controller('UtilisateurController', function($scope,$window,$stateParams,$ionicLoading,$location, $timeout,$cordovaGeolocation,UtilisateursService,$rootScope,$mdDialog,$cordovaDatePicker,$http,$cordovaDevice,$ionicPopup,$ionicPlatform,$mdToast,$localStorage,$cordovaOauth,$ionicHistory,Globals,$state,Messages) {
 
         "use strict";
         $scope.$parent.showHeader();
@@ -63,9 +63,9 @@ angular.module('Occazstreet.controllers')
                         disableBack: true
                     });
                     $state.transitionTo('app.articles', $stateParams, {
-                        location: true,
-                        inherit: false,
-                        notify: false
+                        reload: true,
+                        inherit: true,
+                        notify: true
                     });
                    // $state.go('app.articles',{inherit:true},{reload:true});
                     //$window.location.reload(true);
@@ -84,104 +84,120 @@ angular.module('Occazstreet.controllers')
                 template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
             });
             var onSuccess = function(position) {
-                $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY",{timeout:10000} )
-                .success(function(response) {
-                    var succ = function (data) {
-                      var formData = {
-                        email: utilisateur.email,
-                        password: utilisateur.motdepasse,
-                        nom: utilisateur.nom,
-                        prenom: utilisateur.prenom,
-                        dateDeNaissance: utilisateur.dateDeNaissance,
-                        telephone: data.lineNumber,
-                        sexe: $scope.sexe,
-                        nomville:response.results[0].address_components[2].short_name,
-                        nompays:response.results[0].address_components[5].long_name,
-                        device: $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel(),
-                        os: $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion()
 
-                      };
-                      UtilisateursService.signup(formData).then(function (res) {
-                        if (res.success) {
-                          $ionicLoading.hide();
-                          $scope.logged = $localStorage['logged'];
-                          $scope.infoUserLogged = $localStorage[Globals.USER_LOGGED];
-                          $ionicHistory.nextViewOptions({
-                            disableAnimate: true,
-                            disableBack: true
-                          });
-                          $state.transitionTo('app.articles', $stateParams, {
-                            reload: true,
-                            inherit: true,
-                            notify: true
-                          });
-                          $mdToast.show({
-                            template: '<md-toast class="md-toast success">' + Messages.welcome + '</md-toast>',
-                            hideDelay: 10000,
-                            position: 'bottom right left'
-                          });
-
-                        } else if (!response.success) {
-                          $ionicLoading.hide();
-
-                          $mdToast.show({
-                            template: '<md-toast class="md-toast ">' + Messages.inscriptionFailed + res.message + '</md-toast>',
-                            hideDelay: 20000,
-                            position: 'bottom right left'
-                          });
-                        } else if (response == null) {
-                          $ionicLoading.hide();
-
-                          $mdToast.show({
-                            template: '<md-toast class="md-toast ">' + Messages.erreurServeur + res.message + '</md-toast>',
-                            hideDelay: 20000,
-                            position: 'bottom right left'
-                          });
-                        }
-                      }, function (err) {
-                        $ionicLoading.hide();
-                        $mdToast.show({
-                          template: '<md-toast class="md-toast">' + Messages.erreurServeur + '</md-toast>',
-                          hideDelay: 20000,
-                          position: 'bottom right left'
-                        });
-                      });
-
-                    };
-                    var err = function (err) {
-                      $ionicLoading.hide();
-                      $mdToast.show({
-                        template: '<md-toast class="md-toast">' + Messages.inscriptionFailed + '</md-toast>',
-                        hideDelay: 20000,
-                        position: 'bottom right left'
-                      });
-                      this.console.error("erreur lors dela recuperation du numéro de téléphone " + err);
-
-                    };
-
-                    window.plugins.carrier.getCarrierInfo(succ, err);
-                  });
-           /* $timeout(function () {
-                hideLoading();
-                $mdToast.show({
-                    template: '<md-toast class="md-toast error">' + Messages.operationAnormalementLongue + '</md-toast>',
-                    hideDelay: 7000,
-                    position: 'bottom right left'
-                });
-            }, 15000);*/
-
-            /*  })
-              .error(function(error){
-                  alert(error);
-              })*/
 
           };
           function onError(error) {
               console.log('code: '    + error.code    + '\n' +
                   'message: ' + error.message + '\n');
           }
-          var options = {maximumAge: 0, timeout: 100000,enableHighAccuracy:true};
-          navigator.geolocation.getCurrentPosition(onSuccess, onError,options);
+          var posOptions  = {timeout: 10000, enableHighAccuracy: false};
+          $cordovaGeolocation
+            .getCurrentPosition(posOptions)
+            .then(function (position) {
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY",{timeout:10000} )
+                .success(function(response) {
+                  var succ = function (data) {
+                    var formData = {
+                      email: utilisateur.email,
+                      password: utilisateur.motdepasse,
+                      nom: utilisateur.nom,
+                      prenom: utilisateur.prenom,
+                      dateDeNaissance: utilisateur.dateDeNaissance,
+                      telephone: data.lineNumber,
+                      sexe: $scope.sexe,
+                      nomville:response.results[0].address_components[2].short_name,
+                      nompays:response.results[0].address_components[5].long_name,
+                      device: $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel(),
+                      os: $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion()
+
+                    };
+                    alert(JSON.stringify(formData));
+                    UtilisateursService.signup(formData).then(function (res) {
+                      if (res.success) {
+                        $ionicLoading.hide();
+                        $scope.logged = $localStorage['logged'];
+                        $scope.infoUserLogged = $localStorage[Globals.USER_LOGGED];
+                        $ionicHistory.nextViewOptions({
+                          disableAnimate: true,
+                          disableBack: true
+                        });
+                        $state.transitionTo('app.articles', $stateParams, {
+                          reload: true,
+                          inherit: true,
+                          notify: true
+                        });
+                        $mdToast.show({
+                          template: '<md-toast class="md-toast success">' + Messages.welcome + '</md-toast>',
+                          hideDelay: 10000,
+                          position: 'bottom right left'
+                        });
+
+                      } else if (!response.success) {
+                        $ionicLoading.hide();
+
+                        $mdToast.show({
+                          template: '<md-toast class="md-toast ">' + Messages.inscriptionFailed + res.message + '</md-toast>',
+                          hideDelay: 20000,
+                          position: 'bottom right left'
+                        });
+                      } else if (response == null) {
+                        $ionicLoading.hide();
+
+                        $mdToast.show({
+                          template: '<md-toast class="md-toast ">' + Messages.erreurServeur + res.message + '</md-toast>',
+                          hideDelay: 20000,
+                          position: 'bottom right left'
+                        });
+                      }
+                    }, function (err) {
+                      $ionicLoading.hide();
+                      $mdToast.show({
+                        template: '<md-toast class="md-toast">' + Messages.erreurServeur + '</md-toast>',
+                        hideDelay: 20000,
+                        position: 'bottom right left'
+                      });
+                    });
+
+                  };
+                  var err = function (err) {
+                    alert(err);
+                    $ionicLoading.hide();
+                    $mdToast.show({
+                      template: '<md-toast class="md-toast">' + Messages.inscriptionFailed + '</md-toast>',
+                      hideDelay: 20000,
+                      position: 'bottom right left'
+                    });
+                    console.error("erreur lors dela recuperation du numéro de téléphone " + err);
+
+                  };
+
+                  window.plugins.carrier.getCarrierInfo(succ, err);
+                });
+              /* $timeout(function () {
+               hideLoading();
+               $mdToast.show({
+               template: '<md-toast class="md-toast error">' + Messages.operationAnormalementLongue + '</md-toast>',
+               hideDelay: 7000,
+               position: 'bottom right left'
+               });
+               }, 15000);*/
+
+              /*  })
+               .error(function(error){
+               alert(error);
+               })*/
+            }, function(err) {
+              hideLoading();
+              $mdToast.show({
+                template: '<md-toast class="md-toast error">'+"Veuillez activer votre localisation" + '</md-toast>',
+                hideDelay: 7000,
+                position: 'bottom right left'
+              });
+              console.log('code: '    + error.code    + '\n' +
+                'message: ' + error.message + '\n');
+            });
+          //navigator.geolocation.getCurrentPosition(onSuccess, onError,options);
 
         };
 
