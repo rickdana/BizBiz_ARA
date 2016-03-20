@@ -85,8 +85,6 @@ angular.module('Occazstreet.controllers')
             });
            /* alert("doInscription");*/
             var onSuccess = function(position) {
-                alert("onSuccess");
-                alert($cordovaDevice.getPlatform() + " "+$cordovaDevice.getVersion());
                 $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY",{timeout:10000} )
                 .success(function(response) {
                     var succ = function (data) {
@@ -97,7 +95,7 @@ angular.module('Occazstreet.controllers')
                         prenom: utilisateur.prenom,
                         dateDeNaissance: utilisateur.dateDeNaissance,
                         telephone: data.lineNumber,
-                        sexe: sexe,
+                        sexe: $scope.sexe,
                         nomville:response.results[0].address_components[2].short_name,
                         nompays:response.results[0].address_components[5].long_name,
                         device: $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel(),
