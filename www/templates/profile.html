@@ -117,8 +117,10 @@
                     </md-tab>
                     <md-tab label="Favoris">
                         <md-content ng-show="articleFavorisExist" class="md-padding">
-                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
-                            <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
+                       <!--   <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                         -->
+                          <div   ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                          <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                               <div class="item item-avatar  item-text-wrap">
                                 <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
                                 <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
