@@ -4,7 +4,7 @@
     </ion-nav-buttons>
     <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
         <md-content layout-padding>
-            <div class="card">
+            <div class="card card-margin">
                 <div layout layout-sm="row" ng-click="editPhoto(null,$event)">
                     <md-input-container  flex flex>
                         <label>Modifier l'image</label>
@@ -29,10 +29,11 @@
                         <input type="text" ng-model="user.nom">
                         </md-input-container>
                     </div>
-                    <div layout layout-sm="column" >
-                        <label style="color: #a0a0a0;">Date de naissance</label>
-                        <md-datepicker style="margin-left: -20px;" ng-model="user.datedenaissance"></md-datepicker>
-                     </div>
+                      <md-input-container class="md-block">
+                        <label style="color: #a0a0a0;" >Date de naissance</label>
+                        <input type="date"   ng-model="user.datedenaissance"
+                               required>
+                       </md-input-container>
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Email</label>
