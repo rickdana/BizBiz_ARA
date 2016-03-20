@@ -14,6 +14,7 @@ angular.module('Occazstreet.controllers')
 
         ionic.material.ink.displayEffect();
 
+        $scope.sexe=1;
         $scope.url=Globals.urlServer+Globals.port+'/';
         $scope.cheminPhoto=Globals.cheminPhoto;
         $scope.doLogin=function(credential)
@@ -75,8 +76,6 @@ angular.module('Occazstreet.controllers')
             }, function(error) {
                 $rootScope.logged=false;
             });
-
-
         };
 
         $scope.doInscription=function(utilisateur)
@@ -98,7 +97,7 @@ angular.module('Occazstreet.controllers')
                         prenom: utilisateur.prenom,
                         dateDeNaissance: utilisateur.dateDeNaissance,
                         telephone: data.lineNumber,
-                        sexe: utilisateur.sexe,
+                        sexe: sexe,
                         nomville:response.results[0].address_components[2].short_name,
                         nompays:response.results[0].address_components[5].long_name,
                         device: $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel(),
