@@ -71,7 +71,7 @@
                     </md-tab>
                     <md-tab label="Vendus">
                         <md-content ng-show="articleVenduExist" class="md-padding">
-                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articlesvendu"  ng-controller="ArticlesController" class="item card-item" >
                             <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                               <div class="ribbon"><span>Vendu</span></div>
                               <div class="item item-avatar  item-text-wrap">
@@ -117,9 +117,7 @@
                     </md-tab>
                     <md-tab label="Favoris">
                         <md-content ng-show="articleFavorisExist" class="md-padding">
-                       <!--   <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
-                         -->
-                          <div   ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                          <div   ng-repeat="article in articlesFavoris"  ng-controller="ArticlesController" class="item card-item" >
                           <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                               <div class="item item-avatar  item-text-wrap">
                                 <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>

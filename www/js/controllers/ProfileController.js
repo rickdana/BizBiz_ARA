@@ -69,7 +69,6 @@ angular.module('Occazstreet.controllers')
                     if(result.success)
                     {
                       $scope.articles=result.articles;
-
                       if(result.articles.length>0)
                       {
                         $scope.articleExist=true;
@@ -644,14 +643,14 @@ angular.module('Occazstreet.controllers')
                 $scope.activite=response.activiteUser;
             }
         })
-    }).controller('FavorisController',function($scope,$stateParams,ArticlesService,Globals){
+    }).controller('FavorisController',function($scope,$stateParams,ArticlesService,Globals,$localStorage){
       var url=Globals.urlServer+Globals.port+'/';
       var cheminImage=Globals.cheminImage;
       $scope.url=url;
       $scope.cheminImage=cheminImage;
       $scope.isDisabled = false;
       $scope.buttonRaffraichirText="Raffraichir";
-      ArticlesService.getArticlesFavorisByUser($stateParams.utilisateur).then(function(res){
+      ArticlesService.getArticlesFavorisByUser($localStorage[Globals.USER_LOGGED].id).then(function(res){
         if(res.success)
         {
           if(res.articles.length>0)

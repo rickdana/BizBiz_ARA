@@ -166,6 +166,7 @@ angular.module('Occazstreet.services')
             isAuthenticated = false;
             $http.defaults.headers.common['X-Auth-Token'] = undefined;
             delete $localStorage[Globals.LOCAL_TOKEN_KEY];
+            $localStorage[Globals.USER_LOGGED]=null;
             delete $localStorage[Globals.USER_LOGGED];
             $localStorage['logged']=false;
 

@@ -57,6 +57,30 @@ angular.module('Occazstreet.controllers')
     });
     console.log("data"+$localStorage[Globals.USER_LOGGED]);
 
+    //Check if article is in user FAVORIS
+    function inFavoriteUser(data, id) {
+      if(data != null)
+      {
+        for(var i = 0; i < data.length; i++) {
+          if( data[ i].idArticle == id )
+            return true;
+        }
+      }
+      return false;
+    }
+    ArticlesService.getArticlesFavorisByUser($localStorage[Globals.USER_LOGGED].id).then(function(res){
+      if(res.success)
+      {
+        if(inFavoriteUser(res.articles,article))
+        {
+          $scope.favoris=true;
+        }else
+        {
+          $scope.favoris=false;
+        }
+      }
+    });
+
     ArticlesService.getArticleById(article).then(function (response) {
       //On sauvegarde l'article dans la memoire
       $localStorage['detailsArticle']=response.article;
@@ -64,13 +88,10 @@ angular.module('Occazstreet.controllers')
       $ionicLoading.hide();
 
       $scope.art = response.article;
-      console.dir($scope.art);
       var imageF="";
       var articleTitre="";
       var articleDetails="";
-
-
-      //  angular.forEach(article,function(art){
+      console.log(response.article);
       articleTitre= response.article.titre;
       articleDetails= response.article.details;
       $rootScope.articleDevise= response.article.devise.symbole;
@@ -96,11 +117,6 @@ angular.module('Occazstreet.controllers')
         $scope.currentUser=false
       }
 
-      // });
-      /*Map Object: Ici on construit l'objet Map qui permettra de contenir les infos pour afficher le
-       la localisation de produit. La Map sera centrée sur les coordonnées du produit et le marker
-       indiquera la dite position.*/
-
       /*Social Sharing*/
       var message=articleTitre +" sur Occazstreet <br/><i>Regardez ce que je viens de trouver sur Occazstreet</i>";
       var messageT=articleTitre +" sur Occazstreet  Regardez ce que je viens de trouver sur Occazstreet";
@@ -111,14 +127,10 @@ angular.module('Occazstreet.controllers')
       $scope.shareTwitter=function()
       {
         SharingService.shareTwitter(messageT,$scope.url+$scope.cheminImage +imageF,'http://www.occazstreet.com');
-
       };
-
 
       $scope.shareMail=function()
       {
-
-
         var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"<br/><br/>"+articleDetails;
         var subjectMail=articleTitre +" sur Occazstreet";
         SharingService.shareMail(messageMail,subjectMail);
@@ -158,8 +170,6 @@ angular.module('Occazstreet.controllers')
 
       $scope.contreOffre=function(ev)
       {
-        //alert(JSON.stringify($scope.article));
-
         if(logged)
         {
           $mdDialog.show({
@@ -182,11 +192,9 @@ angular.module('Occazstreet.controllers')
         {
           $state.go("app.login");
         }
-
       };
       function ContreOffreController($scope,$mdDialog,$rootScope)
       {
-
         $scope.envoyer=function()
         {
           $mdDialog.cancel();
@@ -254,4 +262,32 @@ angular.module('Occazstreet.controllers')
       $ionicLoading.hide();
       // $state.go('app.erreurchargement');
     }, 10000);
+
+
+    //Pour edition d'un article au niveau de l'accueil
+    if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined')
+    {
+      $scope.userId=$localStorage[Globals.USER_LOGGED].id;
+    }
+    $scope.editArticle=function(article)
+    {
+      $state.go('app.editArticle', {article:article});
+    };
+
+    $scope.addFavoris=function(user,article)
+    {
+
+      ArticlesService.addFavoris(user,article).then(function (response) {
+        if(response.success && response.suppression)
+        {
+          $scope.favoris=false;
+
+        }
+        else if(response.success && !response.suppression)
+        {
+          $scope.favoris=true;
+        }
+        $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 2000 });
+      });
+    }
   });

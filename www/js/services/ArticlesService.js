@@ -245,6 +245,23 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
         return deferred.promise;
     };
 
+    this.addFavoris=function(user,article)
+    {
+      var deferred=$q.defer();
+      var req={
+        method:'POST',
+        url:url+'/favoris/ajouterFavoris',
+        data:{idutilisateur:user,idarticle:article}
+      };
+      $http(req).success(function(response){
+        if(response)
+        {
+          deferred.resolve(response);
+        }
+      });
+      return deferred.promise;
+    };
+
     this.addStatArticle=function(statArticle)
     {
         var deferred=$q.defer();
