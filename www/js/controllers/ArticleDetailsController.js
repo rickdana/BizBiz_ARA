@@ -110,11 +110,14 @@ angular.module('Occazstreet.controllers')
         option:{draggable: false,panControl:false,scrollwheel:false,zoomControl:false},
         zoom: 16
       };
-      if(typeof $localStorage[Globals.USER_LOGGED]!=='undefined' &&  response.article.utilisateur.id==$localStorage[Globals.USER_LOGGED].id){
-        $scope.currentUser=true
+      if(typeof $localStorage[Globals.USER_LOGGED]!=='undefined'){
+        if(response.article.utilisateur.id==$localStorage[Globals.USER_LOGGED].id)
+        {
+          $scope.currentUser=true;
+        }
       }else
       {
-        $scope.currentUser=false
+        $scope.currentUser=false;
       }
 
       /*Social Sharing*/
