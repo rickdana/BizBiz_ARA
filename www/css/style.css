@@ -558,3 +558,8 @@ a.autolinker {
   max-width:50%;
   max-height:50%;
 }
+
+.hide-button
+{
+  display: none;
+}
