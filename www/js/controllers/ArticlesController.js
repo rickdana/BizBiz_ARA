@@ -2,7 +2,7 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('ArticlesController', function($scope,$window,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages,$location) {
+    .controller('ArticlesController', function($scope,$window,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages) {
 
 
     var compteurImage=0;
@@ -15,7 +15,7 @@ angular.module('Occazstreet.controllers')
     $scope.url=url;
     $scope.cheminImage=cheminImage;
     var data=[];
-    $scope.$parent.showHeader();
+    //$scope.$parent.showHeader();
 
 
     // Activate ink for controller
@@ -31,26 +31,17 @@ angular.module('Occazstreet.controllers')
 
     //$scope.$parent.showHeader();
 
-    if($state.current.name == 'app.articles')
+    if($state.current.name == 'app.articles' || $state.current.name=='app.exploreArticle')
     {
 
         $scope.$parent.showHeader();
         var lastId=Globals.PAGE;
         var skip=0;
+        var nombreArticleMax=0;
           /*Pull to refresh*/
         $scope.doRefresh = function() {
             skip=0;
-          /*if(window.Connection) {
-            if (navigator.connection.type == Connection.NONE || navigator.connexion.type==Connection.UNKNOWN) {
-              $mdDialog.show(
-                $mdDialog.alert()
-                  .parent(angular.element(document.body))
-                  .title(Messages.internetErrorTitle)
-                  .content(Messages.internetErrorContent)
-                  .ok('Ok')
-              );
-            }else
-            {*/
+
               ArticlesService.getArticlesByLimit(skip, Globals.PAGE).then(function (response) {
                 if(response ==null)
                 {
@@ -70,14 +61,12 @@ angular.module('Occazstreet.controllers')
                   $scope.articles=response.articles;
                   $localStorage['articles']=[];
                   $localStorage['articles']=$scope.articles;
+                  nombreArticleMax=response.nombreArticleTotal;
                   // alert(JSON.stringify($scope.articles));
                   $scope.$broadcast('scroll.refreshComplete');
                 }
 
               });
-           /* }
-          }*/
-
 
         };
 
@@ -91,6 +80,7 @@ angular.module('Occazstreet.controllers')
           ArticlesService.getArticlesByLimit(skip, lastId).then(function (response) {
           lastId=response.articles[response.articles.length-1].idArticle;
           skip=response.articles.length;
+          nombreArticleMax=response.nombreArticleTotal;
           $ionicLoading.hide();
           $scope.articles=response.articles;
           //Build the list of images to preload
@@ -104,6 +94,7 @@ angular.module('Occazstreet.controllers')
           }
           $ImageCacheFactory.Cache(images);
           $localStorage['articles']=response.articles;
+            $localStorage['nombreArticleMax']=response.nombreArticleTotal;
           console.log("skip 2"+skip);
          /* $scope.articles=response.articles;
            $scope.nombreArticles=response.nombreArticles;*/
@@ -114,6 +105,7 @@ angular.module('Occazstreet.controllers')
         //The other time we load data from localstorage
         $ionicLoading.hide();
         $scope.articles = $localStorage['articles'];
+        nombreArticleMax=$localStorage['nombreArticleMax'];
       }
 
 
@@ -126,12 +118,25 @@ angular.module('Occazstreet.controllers')
           skip=Globals.PAGE;
         }
         ArticlesService.getArticlesByLimit(skip,lastId+lastId).then(function (response) {
+          console.log(skip + "   "+lastId+lastId);
+          nombreArticleMax=response.nombreArticleTotal;
           skip=skip+response.articles.length;
           $scope.articles = $scope.articles.concat(response.articles);
           $localStorage['articles']=$scope.articles;
           $scope.$broadcast('scroll.infiniteScrollComplete');
         })
       };
+      $scope.moreDataCanBeLoaded=function()
+      {
+        if(skip==nombreArticleMax)
+        {
+          return false;
+        }else
+        {
+          return true
+        }
+      };
+
       //filter and order
       $scope.order = function(predicate, reverse) {
         var orderBy = $filter('orderBy');
@@ -181,22 +186,167 @@ angular.module('Occazstreet.controllers')
                 alert("error "+JSON.stringify(err));
             });*/
 
-        $scope.addArticle=function(article)
+
+        addArticle=function(article)
         {
-            /*$mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.body))
-                    .content("<md-progress-circular class=\"md-warn md-hue-3\"  md-mode=\"indeterminate\"></md-progress-circular>"+Messages.ajoutDuProduitEnCours)
-            );*/
+          alert("Add Article");
+          var posOptions  = {timeout: 10000, enableHighAccuracy: false};
+          $cordovaGeolocation
+            .getCurrentPosition(posOptions)
+            .then(function (position) {
+              alert(JSON.stringify(position));
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY", {timeout: 10000})
+                .success(function (response) {
+                  article.latitude=position.coords.latitude;
+                  article.longitude=position.coords.longitude;
+                  article.nomVille=response.results[0].address_components[2].short_name;
+                  article.nompays=response.results[0].address_components[5].long_name;
+                  ArticlesService.addArticle(article).then(function(response){
+                    if(response.success==true)
+                    {
+                      var count=0;
+                      alert("article ajouté==>"+JSON.stringify(response));
+                      $scope.idArticle=response.article.idArticle;
+                      alert("success true");
+                      var keepGoing=true;
+                      alert(JSON.stringify($rootScope.image));
+                      if($rootScope.image.length>0)
+                      {
+                        for (var i = 0; i<$rootScope.image.length;  i++) {
+                          if (keepGoing) {
+                            var options = new FileUploadOptions();
+                            var params = {};
+                            params.idArticle =response.article.idArticle;
+                            var url=$rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
+                            options = {
+                              fileKey: "file",
+                              fileName:i+(url.split('?')[0]),
+                              mimeType: "image/png",
+                              idArticle: response.article.idArticle
+                            };
+                            options.params=params;
+                            var failed = function (err) {
+                              alert(JSON.stringify(err));
+                              alert("article "+$scope.idArticle);
+                              ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
+                                if (success) {
+                                  $ionicLoading.hide();
+                                  $mdToast.show({
+                                    template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+                                    hideDelay: 10000,
+                                    position: 'bottom right left'
+                                  });
+                                  keepGoing = false;
+                                }
+                              })
+                            };
+                            var success = function (result) {
+                              if(result.success)
+                              {
+                                count++;
+                                alert("SUCCESS 1: " + JSON.stringify(result));
+                                if(count==$rootScope.image.length)
+                                {
+                                  $ionicLoading.hide();
+                                  $state.go('app.articles');
+                                  $mdToast.show({
+                                    template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
+                                    hideDelay: 10000,
+                                    position: 'bottom right left'
+                                  });
+                                }
+                              }else
+                              {
+                                ArticlesService.rollBackArticle(response.article.idArticle).then(function (response) {
+                                  alert(JSON.stringify(response));
+                                  if (response.success) {
+                                    $ionicLoading.hide();
+                                    $mdToast.show({
+                                      template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+                                      hideDelay: 10000,
+                                      position: 'bottom right left'
+                                    });
+                                    keepGoing = false;
+                                  }
+                                })
+                              }
+                            };
+                            var ft = new FileTransfer();
+                            ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
+                          }
+                        }
+                      }else
+                      {
+                        $ionicLoading.hide();
+                        $state.go('app.articles');
+                        $mdToast.show({
+                          template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
+                          hideDelay: 10000,
+                          position: 'bottom right left'
+                        });
 
-            // article.img=$rootScope.image;
-             article.utilisateur=$localStorage[Globals.USER_LOGGED].id;
-             alert("Article "+JSON.stringify(article));
-            $ionicLoading.show({
-                template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> '+Messages.ajoutDuProduitEnCours
+                      }
+
+                    }
+                    else
+                    {
+                      // $mdDialog.hide();
+                      $ionicLoading.hide();
+                      erreurAjoutArticle();
+
+                    }
+                  })
+
+
+                });
+            },function(error){
+
+            })
+        };
+        $scope.addArticle=function(article) {
+          article.utilisateur = $localStorage[Globals.USER_LOGGED].id;
+          $ionicLoading.show({
+            template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
+          });
+          document.addEventListener('deviceready',checkLocationState,false);
+          function checkLocationState()
+          {
+            cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
+              alert(enabled);
+              if(enabled)
+              {
+                addArticle(article);
+              }else
+              {
+                var confirm = $mdDialog.confirm()
+                  .title('Localisation')
+                  .textContent('Voulez-vous activez votre localisation afin d\'ameliorer votre expérience utilisateur ?')
+                  .ok('Activer')
+                  .cancel('Refuser');
+                $mdDialog.show(confirm).then(function() {
+                  cordova.plugins.diagnostic.switchToLocationSettings();
+                }, function() {
+                  $ionicLoading.hide()
+                });
+              }
+            }, function (error) {
+              var confirm = $mdDialog.confirm()
+                .title('Localisation')
+                .textContent('Voulez-vous activez votre localisation afin d\'ameliorer votre expérience utilisateur ?')
+                .ok('Activer')
+                .cancel('Refuser');
+              $mdDialog.show(confirm).then(function() {
+                cordova.plugins.diagnostic.switchToLocationSettings();
+              }, function() {
+                $ionicLoading.hide()
+              });
             });
+          }
+        };
 
-            $http.get(Globals.URL_JSON_IP).success(function(dataIP){
+
+
+              /*$http.get(Globals.URL_JSON_IP).success(function(dataIP){
                //On recupère la position à partir de laquelle est ajouté l'article
                 alert("dataIP "+JSON.stringify(dataIP));
                 article.latitude=dataIP.latitude;
@@ -247,6 +397,7 @@ angular.module('Occazstreet.controllers')
                               alert("SUCCESS 1: " + JSON.stringify(result));
                               if(count==$rootScope.image.length)
                               {
+
                                 $ionicLoading.hide();
                                 $state.go('app.articles');
                                 $mdToast.show({
@@ -255,18 +406,7 @@ angular.module('Occazstreet.controllers')
                                   position: 'bottom right left'
                                 });
                               }
-                              /*if (result.response.success != true) {
-                                //En cas de success==false on fait un rollback pour supprimer l'article qui as été ajouté ainsi que les eventuelle images inserés
-                                ArticlesService.rollBackArticle($scope.idArticle).then(function (success) {
-                                  if (success) {
-                                    keepGoing = false;
-                                    $ionicLoading.hide();
-                                  }
-                                })
-                              }
-                              else {*/
 
-                             // }
                             };
                             var ft = new FileTransfer();
                             ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
@@ -333,7 +473,7 @@ angular.module('Occazstreet.controllers')
                internetError()
 
             })
-        };
+        };*/
 
         $scope.addImage=function(key,event)
         {
@@ -359,7 +499,6 @@ angular.module('Occazstreet.controllers')
                             allowEdit:true
                         };
                         var success = function(data){
-                            alert(JSON.stringify(data));
                             $mdDialog.hide();
                             if(key==null)
                             {
@@ -381,7 +520,6 @@ angular.module('Occazstreet.controllers')
 
                         };
                         var failure = function(message){
-                            alert('Failed because: ' + message);
                         };
                         //call the cordova camera plugin to open the device's camera
                         navigator.camera.getPicture( success , failure , cameraOptions );
@@ -422,7 +560,6 @@ angular.module('Occazstreet.controllers')
                         };
                         var failure = function(message){
                             $mdDialog.hide();
-                            alert('Failed because: ' + message);
                         };
                         //call the cordova camera plugin to open the device's camera
                         navigator.camera.getPicture( success , failure , cameraOptions );
@@ -660,34 +797,61 @@ angular.module('Occazstreet.controllers')
 
     $scope.saveStat=function(article)
     {
-
-        $http.get(Globals.URL_JSON_IP).success(function(dataIP){
-            var succ = function (dataIP) {
-                var statArticle={};
-                statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
-                statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
-                statArticle.uuid=$cordovaDevice.getUUID();
-                statArticle.adresseIp = dataIP.query;
-                statArticle.dateVue = new Date();
-                statArticle.article = article;
-                statArticle.operateur=data['carrierName'];
-                statArticle.phoneNumber=data['lineNumber'];
-                statArticle.codePays=dataIP['country'];
-                ArticlesService.addStatArticle(statArticle).then(function(response){
+      cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
+        var posOptions  = {timeout: 10000, enableHighAccuracy: false};
+        $cordovaGeolocation
+          .getCurrentPosition(posOptions)
+          .then(function (position) {
+            $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY", {timeout: 10000})
+              .success(function (response) {
+                var succ = function (dataIP) {
+                  var statArticle={};
+                  statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
+                  statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
+                  statArticle.uuid=$cordovaDevice.getUUID();
+                  statArticle.adresseIp = "";
+                  statArticle.dateVue = new Date();
+                  statArticle.article = article;
+                  statArticle.operateur=data['carrierName'];
+                  statArticle.phoneNumber=data['lineNumber'];
+                  statArticle.codePays=response.results[0].address_components[5].long_name + " - "+response.results[0].address_components[2].short_name;
+                  ArticlesService.addStatArticle(statArticle).then(function(response){
                     console.log("StatArticle response"+response);
-                })
+                  })
 
-            };
-            var err = function () {
-                console.log("erreur lors dela recuperation du fai");
-            };
-            window.plugins.carrier.getCarrierInfo(succ, err);
+                };
+                var err = function () {
+                  console.log("erreur lors dela recuperation du fai");
+                };
+                window.plugins.carrier.getCarrierInfo(succ, err);
 
+              })
+          }).error(function(err){
+            // alert("erreur get IP "+err);
+            console.log(err);
+          });
+      }, function (error) {
+          var succ = function (dataIP) {
+            var statArticle={};
+            statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
+            statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
+            statArticle.uuid=$cordovaDevice.getUUID();
+            statArticle.adresseIp = "";
+            statArticle.dateVue = new Date();
+            statArticle.article = article;
+            statArticle.operateur=data['carrierName'];
+            statArticle.phoneNumber=data['lineNumber'];
+            statArticle.codePays="";
+            ArticlesService.addStatArticle(statArticle).then(function(response){
+              console.log("StatArticle response"+response);
+            })
+          };
+          var err = function () {
+            console.log("erreur lors dela recuperation du fai");
+          };
+          window.plugins.carrier.getCarrierInfo(succ, err);
+      });
 
-        }).error(function(err){
-           // alert("erreur get IP "+err);
-             console.log(err);
-        });
        $state.transitionTo($state.current, $state.$current.params, { reload: true, inherit: true, notify: true });
     };
 
