@@ -14,7 +14,7 @@
           <button ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
         </div>
       </div>
-      <div ng-show="categories.length>0" ng-repeat="categorie in categories | orderBy:'libelle'" ng-controller="ArticlesController" class="list card card-margin" >
+      <div ng-show="categories.length>0" ng-repeat="categorie in categories" ng-controller="ArticlesController" class="list card card-margin" >
           <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item" >
               <h2 style="font-weight: bold">
                   {{categorie.libelle}}
