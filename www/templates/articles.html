@@ -20,7 +20,7 @@
   </div>-->
 
 
-  <ion-content scroll-sista has-bouncing="true">
+  <ion-content has-bouncing="true">
     <div ng-show="articles.length==0">
       <div class="centered">
         <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
@@ -53,8 +53,9 @@
         </div>
       </div>
     </div>
-    <ion-infinite-scroll on-infinite="loadMoreArticles()" distance="5%"></ion-infinite-scroll>
+    <ion-infinite-scroll on-infinite="loadMoreArticles()"  ng-if="moreDataCanBeLoaded()" distance="5%"></ion-infinite-scroll>
   </ion-content>
+
   <a ui-sref="app.addarticle">
     <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-plus-round">
     </md-button>
