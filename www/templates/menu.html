@@ -22,8 +22,10 @@
                 <h2 style="color: black">Se Connecter</h2>
             </ion-header-bar>
             <ion-header-bar ng-switch-when="true" class=" profil-centre dark-bg expanded" ui-sref="app.profile({utilisateur:'{{infoUserLogged.id}}'})" menu-close  >
-                  <img ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="..." class="img-circle">
-                  <h2>{{infoUserLogged.prenom}}  {{infoUserLogged.nom[0]}}</h2>
+              <img ng-if="!offLine" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
+              <img ng-if="offLine" ng-src="img/default.png" alt="" class="img-circle">
+
+              <h2>{{infoUserLogged.prenom}}  {{infoUserLogged.nom[0]}}</h2>
             </ion-header-bar>
         </div>
 
