@@ -10,7 +10,9 @@
                         <label>Modifier l'image</label>
                     </md-input-container>
                     <md-input-container flex flex >
-                        <img ng-if="!offLine" width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
+                      {{photo}}
+                        <img ng-if="!offLine || photo.length<=0" width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
+                        <img ng-if="!offLine && photo.length>0" width="65px" height="65px"  class="circle" ng-src="{{photo}}">
                         <img ng-if="offLine" ng-src="img/default.png" alt="" class="img-circle">
                     </md-input-container>
                 </div>
