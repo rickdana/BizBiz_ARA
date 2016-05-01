@@ -5,10 +5,10 @@
         </button>
         <button ng-show="userId!=art.utilisateur.id" ng-click="addFavoris(userId,art.idArticle)"  ng-class="{'hide-button':!userId,'button button-icon button-clear ion-heart ion-ios-heart':favoris==true,'button button-icon button-clear ion-heart ion-ios-heart-outline':favoris==false}">
         </button>
-        <md-menu md-offset="0 -1">
+        <md-menu  ng-show="userId==art.utilisateur.id" md-offset="0 -1">
           <md-button style="margin-top: -0.40em" class="button button-icon button-clear ion-android-more-vertical" ng-click="$mdOpenMenu()">
           </md-button>
-          <md-menu-content width="2">
+          <md-menu-content  width="2">
             <md-menu-item ng-show="userId==art.utilisateur.id" >
               <md-button  ng-click="editArticle(art.idArticle)"> <span md-menu-align-target>Modifier l'annonce</span></md-button>
             </md-menu-item>
