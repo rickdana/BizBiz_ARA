@@ -4,22 +4,19 @@
 
     <ion-content ng-controller="FavorisController">
       <div ng-show="!articleFavorisExist">
-        <div class="centered">
-          <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
-        </div>
-        <div class="centered-text" >
-        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+        <div class="row row-center centered" >
+          <div class="col text-center">
+            <i  style="font-size: 4.688em;color:#98a2a2" class=" icon ion-android-bookmark"> </i><br/>
+            <span style="font-size:1.250em;font-weight: bold;color:#98a2a2">
                 Vous n'avez pas encore de favoris.
-        </span>
+           </span>
+            <a ui-sref="app.articles">
+              <md-button style="margin-top: 20%;" class="button button-outline button-assertive btn-ok">
+                Commencez maintenant !
+              </md-button>
+            </a>
+          </div>
         </div>
-        <div class="centered-button" style="margin-left: 15%">
-          <a  ui-sref="app.articles">
-            <md-button  class="button button-outline button-full button-assertive btn-ok">
-              Commencez maintenant !
-            </md-button>
-          </a>
-        </div>
-      </div>
       <div ng-show="articleFavorisExist"  ng-repeat="article in articlesFavoris"  ng-controller="ProfileController" class="item card-item" >
         <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
           <div class="item item-avatar  item-text-wrap">
@@ -33,6 +30,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </ion-content>
 </ion-view>

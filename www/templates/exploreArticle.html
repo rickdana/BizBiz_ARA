@@ -1,17 +1,17 @@
-<ion-view view-title="Occazstreet">
+<ion-view view-title="Explorer">
   <ion-content has-bouncing="true" ng-init="loadImageArticle()" class="animate-fade-slide-in">
     <div ng-show="!articlesExplore.length">
-      <div class="centered">
-        <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
-      </div>
-      <div class="centered-text" >
-        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+
+      <div class="row row-center centered" >
+        <div class="col text-center">
+          <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+            <span style="font-size:1.250em;font-weight: bold;color:#98a2a2">
                 Impossible de charger l'explorateur.
-        </span>
+           </span>
+          <button style="margin-top: 20%;" ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+        </div>
       </div>
-      <div class="centered-button">
-        <button ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
-      </div>
+
     </div>
     <div class="row " responsive-sm ng-repeat="image in images" ng-if="$index % 4 === 0" >
       <div class="col col-25" ng-if="$index < images.length">

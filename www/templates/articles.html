@@ -22,16 +22,15 @@
 
   <ion-content has-bouncing="true">
     <div ng-show="articles.length==0">
-      <div class="centered">
-        <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
-      </div>
-      <div class="centered-text" >
-        <span style="margin-left:2em;font-size:1.250em;font-weight: bold;color:#98a2a2">
+
+      <div class="row row-center centered" >
+        <div class="col text-center">
+          <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
+            <span style="font-size:1.250em;font-weight: bold;color:#98a2a2">
                 Impossible de charger les articles.
-        </span>
-      </div>
-      <div class="centered-button">
-        <button ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+           </span>
+          <button style="margin-top: 20%;" ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+        </div>
       </div>
     </div>
     <ion-refresher
