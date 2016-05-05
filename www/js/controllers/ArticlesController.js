@@ -241,8 +241,6 @@ angular.module('Occazstreet.controllers')
                               })
                             };
                             var success = function (result) {
-                              if(result.success)
-                              {
                                 count++;
                                 alert("SUCCESS 1: " + JSON.stringify(result));
                                 if(count==$rootScope.image.length)
@@ -254,21 +252,6 @@ angular.module('Occazstreet.controllers')
                                     hideDelay: 10000,
                                     position: 'bottom right left'
                                   });
-                                }
-                              }else
-                              {
-                                ArticlesService.rollBackArticle(response.article.idArticle).then(function (response) {
-                                  alert(JSON.stringify(response));
-                                  if (response.success) {
-                                    $ionicLoading.hide();
-                                    $mdToast.show({
-                                      template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
-                                      hideDelay: 10000,
-                                      position: 'bottom right left'
-                                    });
-                                    keepGoing = false;
-                                  }
-                                })
                               }
                             };
                             var ft = new FileTransfer();
@@ -308,32 +291,42 @@ angular.module('Occazstreet.controllers')
           $ionicLoading.show({
             template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
           });
-          document.addEventListener('deviceready',checkLocationState,false);
+          var i=0;
           function checkLocationState()
           {
             cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
-              alert(enabled);
               if(enabled)
               {
-                addArticle(article);
+                if(i==0)
+                {
+                  i=1;
+                  addArticle(article);
+                }
               }else
               {
                 var confirm = $mdDialog.confirm()
                   .title('Localisation')
-                  .textContent('Voulez-vous activez votre localisation afin d\'ameliorer votre expérience utilisateur ?')
-                  .ok('Activer')
+                  .textContent('Activer votre localisation afin d\'ameliorer votre expérience utilisateur')
+                  .ok('Accepter')
                   .cancel('Refuser');
                 $mdDialog.show(confirm).then(function() {
                   cordova.plugins.diagnostic.switchToLocationSettings();
                 }, function() {
-                  $ionicLoading.hide()
+                  $ionicLoading.hide();
+                  $mdDialog.show(
+                    $mdDialog.alert()
+                      .clickOutsideToClose(true)
+                      .title('Localisation')
+                      .textContent(':( Desolé vous ne pouvez pas ajouter d\'article. veuillez activer votre localisation et reessayez!')
+                      .ok('Ok')
+                  );
                 });
               }
             }, function (error) {
               var confirm = $mdDialog.confirm()
                 .title('Localisation')
-                .textContent('Voulez-vous activez votre localisation afin d\'ameliorer votre expérience utilisateur ?')
-                .ok('Activer')
+                .textContent('Activer votre localisation afin d\'ameliorer votre expérience utilisateur')
+                .ok('Accepter')
                 .cancel('Refuser');
               $mdDialog.show(confirm).then(function() {
                 cordova.plugins.diagnostic.switchToLocationSettings();
@@ -342,138 +335,9 @@ angular.module('Occazstreet.controllers')
               });
             });
           }
+          document.addEventListener('resume', checkLocationState, false);
+          document.addEventListener('deviceready', checkLocationState, false);
         };
-
-
-
-              /*$http.get(Globals.URL_JSON_IP).success(function(dataIP){
-               //On recupère la position à partir de laquelle est ajouté l'article
-                alert("dataIP "+JSON.stringify(dataIP));
-                article.latitude=dataIP.latitude;
-                article.longitude=dataIP.longitude;
-                article.nomVille=dataIP.city;
-                article.nompays=dataIP.country_name;
-                ArticlesService.addArticle(article).then(function(response){
-                    if(response.success==true)
-                    {
-                        var count=0;
-                        alert("article ajouté==>"+JSON.stringify(response));
-                        $scope.idArticle=response.article.idArticle;
-                        alert("success true");
-                        var keepGoing=true;
-                        alert(JSON.stringify($rootScope.image));
-                        for (var i = 0; i<$rootScope.image.length;  i++) {
-                          if (keepGoing) {
-                            var options = new FileUploadOptions();
-                            var params = {};
-                            params.idArticle = $scope.idArticle;
-                            var url=$rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
-                            options = {
-                              fileKey: "file",
-                              fileName:i+(url.split('?')[0]),
-                              mimeType: "image/png",
-                              idArticle: $scope.idArticle
-                            };
-                            options.params=params;
-
-                            var failed = function (err) {
-                              alert(JSON.stringify(err));
-                              alert("article "+$scope.idArticle);
-                              ArticlesService.rollBackArticle($scope.idArticle).then(function (success) {
-                                if (success) {
-                                  $ionicLoading.hide();
-                                  $mdToast.show({
-                                    template: '<md-toast class="md-toast error">' + Messages.erreurAjoutArticle + '</md-toast>',
-                                    hideDelay: 10000,
-                                    position: 'bottom right left'
-                                  });
-                                  keepGoing = false;
-                                }
-
-                              })
-                            };
-                            var success = function (result) {
-                              count++;
-                              alert("SUCCESS 1: " + JSON.stringify(result));
-                              if(count==$rootScope.image.length)
-                              {
-
-                                $ionicLoading.hide();
-                                $state.go('app.articles');
-                                $mdToast.show({
-                                  template: '<md-toast class="md-toast success">' + Messages.articleAjouteSucces + '</md-toast>',
-                                  hideDelay: 10000,
-                                  position: 'bottom right left'
-                                });
-                              }
-
-                            };
-                            var ft = new FileTransfer();
-                            ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
-
-                          }
-
-                        }
-                    }
-                    else
-                    {
-                       // $mdDialog.hide();
-                        $ionicLoading.hide();
-                        erreurAjoutArticle();
-
-                    }
-
-                }).catch(function(response) {
-                    //$mdDialog.hide();
-                    ArticlesService.rollBackArticle($scope.idArticle).then(function(success){
-                        if(success)
-                        {
-                            console.log("ERROR: " + JSON.stringify(err));
-                        }
-
-                    });
-                    $ionicLoading.hide();
-                    alert("dans catch");
-                   erreurAjoutArticle();
-
-                    console.error('L\'ajout d\'article a echoué', response.status, response.data);
-
-                })
-
-            }).error(function(err){
-                var fail=function()
-                {
-                    ArticlesService.rollBackArticle($scope.idArticle).then(function(success){
-                        if(success)
-                        {
-                            console.log("ERROR: " + JSON.stringify(err));
-                            keepGoing=false;
-                        }
-
-                    })
-                };
-                var success=function()
-                {
-                    console.info("SUCCESS: " + JSON.stringify(result.response));
-                    if(success!=true)
-                    {
-                        //En cas de success==false on fait un rollback pour supprimer l'article qui as été ajouté ainsi que les eventuelle images inserés
-                        ArticlesService.rollBackArticle($scope.idArticle).then(function(success){
-                            if(success)
-                            {
-                                keepGoing=false;
-                            }
-
-                        })
-                    }
-                };
-
-                //$mdDialog.hide();
-                $ionicLoading.hide();
-               internetError()
-
-            })
-        };*/
 
         $scope.addImage=function(key,event)
         {
