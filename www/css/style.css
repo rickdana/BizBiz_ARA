@@ -471,9 +471,12 @@ a.autolinker {
 }
 
 .centered {
-  position: fixed; /* or absolute */
-  top: 30%;
-  left: 40%;
+  position:absolute;
+  left: 0;
+  right: 0;
+  margin:0 auto;
+  top:45%;
+  transform:translateY(-50%);
 }
 
 .centered-text {
@@ -484,7 +487,8 @@ a.autolinker {
 .centered-button {
   position: fixed; /* or absolute */
   top: 65%;
-  margin-left:7.5em;
+  margin-left:30%;
+  transform:translateY(-50%);
 }
 
 .card-margin{
