@@ -47,5 +47,6 @@ angular.module('Occazstreet.constants')
         "articleSupprimeSuccess":"Votre produit a été supprimé avec succès",
         "articleSupprimerEchec":"Une erreur a été rencontrée lors de la suppression de votre produit",
         "messageOffre":"Je suis interessé par votre produit je vous propose ",
-        "filtreParDefaut":"Filtres par défaut rétablis "
+        "filtreParDefaut":"Filtres par défaut rétablis ",
+        "localisationMessage":"Occazstreet a besoin de votre localisation soit activer pour fonctionner correctement"
     });

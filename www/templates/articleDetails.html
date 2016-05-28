@@ -1,4 +1,4 @@
-<ion-view view-title="Occazstreet" >
+<ion-view view-title="Détails" >
 <!--<ion-header-bar class="bar-light">-->
       <ion-nav-buttons side="right">
         <button ui-sref="app.filtres" class="button button-icon button-clear ion-android-search">
@@ -18,7 +18,6 @@
           </md-menu-content>
         </md-menu>
       </ion-nav-buttons>
-
    <!-- </ion-header-bar>-->
     <ion-content class="article-body">
         <div>
@@ -48,7 +47,7 @@
                         <i class="icon ion-chatbox"></i>
                         Comment
                     </a>-->
-                    <a class="tab-item"  href="tel: {{art.utilisateur.telephone}}"><i class="icon ion-android-call" style="font-size: 200%;color: #B71C1C;"></i></a>
+                    <a class="tab-item"  ng-if="art.utilisateur.telephone" href="tel: {{art.utilisateur.telephone}}"><i class="icon ion-android-call" style="font-size: 200%;color: #B71C1C;"></i></a>
                     <a class="tab-item" ng-click="sendSms(art.utilisateur.telephone)"><i class="icon ion-android-mail" style="color: #B71C1C;font-size: 200%;"></i></a>
 
                    <!-- <a class="tab-item">
@@ -63,7 +62,7 @@
                 <span class="badge badge-assertive price-details">{{art.prix}} {{art.devise.symbole}}</span><br/>
                 <p class="titre-article">{{art.titre}}</p>
                 <p class="desc-article">
-                    {{art.details}} '{{art.idArticle}}'
+                    {{art.details}}
                 </p>
             </div>
         </div>
@@ -91,7 +90,13 @@
             </ui-gmap-google-map>
         </div>
         <div class="card card-margin">
+
             <div class="item item-text-wrap" >
+                  <div class="col text-center">
+                    <span style="font-weight: bold;color:#98a2a2">
+                      Partager l'annonce
+                    </span>
+                  </div>
                 <div class="item tabs tabs-secondary tabs-icon-left">
                     <a  class="tab-item" ng-click="shareFacebook()">
                         <i class="icon ion-social-facebook positive"></i>

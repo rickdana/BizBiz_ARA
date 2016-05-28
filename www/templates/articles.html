@@ -10,7 +10,7 @@
           <md-button ng-click="reverse=false;order('prix', false)"> <span md-menu-align-target>Trier par prix croissant</span></md-button>
         </md-menu-item>
         <md-menu-item >
-          <md-button ng-click="reverse=false;order('dateAjout', false)"> <span md-menu-align-target>Trier par date</span></md-button>
+          <md-button ng-click="reverse=true;order('dateAjout', false)"> <span md-menu-align-target>Trier par date</span></md-button>
         </md-menu-item>
       </md-menu-content>
     </md-menu>
@@ -21,7 +21,7 @@
 
 
   <ion-content has-bouncing="true">
-    <div ng-show="articles.length==0">
+    <div ng-show="articles.length==0 && offLine || serverDown">
 
       <div class="row row-center centered" >
         <div class="col text-center">
@@ -30,6 +30,18 @@
                 Impossible de charger les articles.
            </span>
           <button style="margin-top: 20%;" ng-click="raffraichir()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">{{buttonRaffraichirText}}</button>
+        </div>
+      </div>
+    </div>
+    <div ng-show="articles.length==0 && !offLine && !serverDown">
+
+      <div class="row row-center centered" >
+        <div class="col text-center">
+          <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-arrow-up-a"> </i><br/>
+            <span style="font-size:1.250em;font-weight: bold;color:#98a2a2">
+                Soyez le premier à créer une annonce.
+           </span>
+          <button style="margin-top: 20%;" ng-click="ajouterAnnonce()" ng-disabled="isDisabled" class="button button-outline button-full button-assertive btn-ok">Ajouter une annonce</button>
         </div>
       </div>
     </div>
@@ -45,7 +57,7 @@
           <span ng-show="article.images.length <1" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
           <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
           {{article.categorie.libelle}}<br/>
-          {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+          {{article.nomVille}} , ajouté  <span style="font-style : italic;"  am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
           <div class="card-footer text-right" style="margin-top: -1.71em">
             <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
           </div>

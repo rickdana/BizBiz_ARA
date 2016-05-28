@@ -19,7 +19,7 @@ angular.module('Occazstreet.controllers')
         $scope.cheminPhoto=Globals.cheminPhoto;
         $scope.doLogin=function(credential)
         {
-            $scope.$parent.showHeader();
+            //$scope.$parent.showHeader();
 
             var credentials = {
                 email: credential.email,
@@ -36,7 +36,7 @@ angular.module('Occazstreet.controllers')
                   if(!connected)
                   {
                     $mdToast.show({
-                      template: '<md-toast class="md-toast toast-style-text">' + Messages.erreurServeur + '</md-toast>',
+                      template: '<md-toast class="md-toast">' + Messages.erreurServeur + '</md-toast>',
                       hideDelay: 5000,
                       position: 'bottom right left'
                     });
@@ -54,24 +54,19 @@ angular.module('Occazstreet.controllers')
 
                     });
               } else if(response.success){
-                    connected=true;
-                    //To remove back button on header
-                    $scope.logged=$localStorage['logged'];
-                    $scope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
-                    $ionicHistory.nextViewOptions({
-                        disableAnimate:true,
-                        disableBack: true
-                    });
-                    $state.transitionTo('app.articles', $stateParams, {
-                        reload: true,
-                        inherit: true,
-                        notify: true
-                    });
+                connected=true;
+                //To remove back button on header
+                $rootScope.logged=$localStorage['logged'];
+                $rootScope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
+
+                $state.go('app.articles');
+                $ionicHistory.nextViewOptions({
+                  disableAnimate:true,
+                  disableBack: true
+                });
                    // $state.go('app.articles',{inherit:true},{reload:true});
                     //$window.location.reload(true);
-
                   $ionicLoading.hide();
-
                 }
             }, function(error) {
                 $rootScope.logged=false;
@@ -112,23 +107,18 @@ angular.module('Occazstreet.controllers')
                       os: $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion()
 
                     };
-                    alert(JSON.stringify(formData));
                     UtilisateursService.signup(formData).then(function (res) {
                       if (res.success) {
                         $ionicLoading.hide();
-                        $scope.logged = $localStorage['logged'];
-                        $scope.infoUserLogged = $localStorage[Globals.USER_LOGGED];
+                        $rootScope.logged = $localStorage['logged'];
+                        $rootScope.infoUserLogged = $localStorage[Globals.USER_LOGGED];
                         $ionicHistory.nextViewOptions({
                           disableAnimate: true,
                           disableBack: true
                         });
-                        $state.transitionTo('app.articles', $stateParams, {
-                          reload: true,
-                          inherit: true,
-                          notify: true
-                        });
+                        $state.transitionTo('app.articles', $stateParams);
                         $mdToast.show({
-                          template: '<md-toast class="md-toast success">' + Messages.welcome + '</md-toast>',
+                          template: '<md-toast class="md-toast">' + Messages.welcome + '</md-toast>',
                           hideDelay: 10000,
                           position: 'bottom right left'
                         });
@@ -187,18 +177,16 @@ angular.module('Occazstreet.controllers')
                .error(function(error){
                alert(error);
                })*/
-            }, function(err) {
+            }, function(error) {
               hideLoading();
               $mdToast.show({
-                template: '<md-toast class="md-toast error">'+"Veuillez activer votre localisation" + '</md-toast>',
+                template: '<md-toast class="md-toast">'+"Veuillez activer votre localisation" + '</md-toast>',
                 hideDelay: 7000,
                 position: 'bottom right left'
               });
               console.log('code: '    + error.code    + '\n' +
                 'message: ' + error.message + '\n');
             });
-          //navigator.geolocation.getCurrentPosition(onSuccess, onError,options);
-
         };
 
         function formatDate(date) {
@@ -231,27 +219,22 @@ angular.module('Occazstreet.controllers')
                         hideLoading();
                         if(res.success)
                         {
-                            $scope.logged=$localStorage['logged'];
-                            $scope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
+                            $rootScope.logged=$localStorage['logged'];
+                          $rootScope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
                             $ionicHistory.nextViewOptions({
                                 disableAnimate:true,
                                 disableBack: true
                             });
-                            $state.transitionTo('app.articles', $stateParams, {
-                                location: true,
-                                inherit: true,
-                                notify: true,
-                                reload:true
-                            });
+                            $state.go('app.articles');
                             $mdToast.show({
-                                template: '<md-toast class="md-toast success">' + Messages.welcome + '</md-toast>',
+                                template: '<md-toast class="md-toast">' + Messages.welcome + '</md-toast>',
                                 hideDelay: 10000,
                                 position: 'bottom right left'
                             });
                         }else
                         {
                             $mdToast.show({
-                                template: '<md-toast class="md-toast error">' + Messages.erreurOAuthMessage+Messages.parFacebook + '</md-toast>',
+                                template: '<md-toast class="md-toast">' + Messages.erreurOAuthMessage+Messages.parFacebook + '</md-toast>',
                                 hideDelay: 7000,
                                 position: 'bottom right left'
                             });
@@ -320,20 +303,15 @@ angular.module('Occazstreet.controllers')
                       hideLoading();
                       if(res.success)
                       {
-                        $scope.logged=$localStorage['logged'];
-                        $scope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
+                        $rootScope.logged=$localStorage['logged'];
+                        $rootScope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
                         $ionicHistory.nextViewOptions({
                           disableAnimate:true,
                           disableBack: true
                         });
-                        $state.transitionTo('app.articles', $stateParams, {
-                          //reload: true,
-                          inherit: false,
-                          notify: false,
-                          location:true
-                        });
+                        $state.go('app.articles');
                         $mdToast.show({
-                          template: '<md-toast class="md-toast success">' + Messages.welcome + '</md-toast>',
+                          template: '<md-toast class="md-toast">' + Messages.welcome + '</md-toast>',
                           hideDelay: 10000,
                           position: 'bottom right left'
                         });
@@ -343,7 +321,7 @@ angular.module('Occazstreet.controllers')
                         console.log("error"+JSON.stringify(res));
                         hideLoading();
                         $mdToast.show({
-                          template: '<md-toast class="md-toast error">' + Messages.erreurOAuthMessage+Messages.parGoogle + '</md-toast>',
+                          template: '<md-toast class="md-toast">' + Messages.erreurOAuthMessage+Messages.parGoogle + '</md-toast>',
                           hideDelay: 7000,
                           position: 'bottom right left'
                         });
@@ -404,14 +382,10 @@ angular.module('Occazstreet.controllers')
             UtilisateursService.doLogout().then(function(res){
                 if(res)
                 {
-                    $state.transitionTo('app.articles', $stateParams, {
-                        reload: true,
-                        inherit: true,
-                        notify: true
-                    });
+                    $state.go('app.articles');
 
                   $mdToast.show({
-                        template: '<md-toast class="md-toast success">' + Messages.deconnexion + '</md-toast>',
+                        template: '<md-toast class="md-toast">' + Messages.deconnexion + '</md-toast>',
                         hideDelay: 50000,
                         position: 'bottom right left'
                     });

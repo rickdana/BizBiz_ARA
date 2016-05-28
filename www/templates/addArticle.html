@@ -6,7 +6,7 @@
 
     <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" >
         <div class="card card-margin" style="width: 95px"  >
-            <button ng-show="nombreImage < 4 || nombreImage ===undefined" class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
+            <button ng-show="nombreImage < 1 || nombreImage ===undefined" class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
             </button>
         </div>
         <div   ng-show="nombreImage !==undefined && imgURI.length!==0 " class="card">

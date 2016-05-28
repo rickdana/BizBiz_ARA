@@ -1,7 +1,6 @@
 <ion-view view-title="Profil d'utilisateur" cache-view="false" ng-controller="ProfileController">
     <ion-nav-buttons side="right">
 
-      </md-menu>
     </ion-nav-buttons>
     <ion-content ng-class="{expanded:$scope.isExpanded}">
         <div class="hero slide-up" style="background-image: url('{{url}}{{cheminPhoto}}{{utilisateur.photo.cheminPhoto}}');">
@@ -27,14 +26,14 @@
                 <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
                     <md-tab label="En cours">
                         <md-content ng-show="articleExist" class="md-padding">
-                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles"  ng-controller="ArticlesController" class="item card-item" >
+                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles | orderBy: 'dateAjout'"  ng-controller="ArticlesController" class="item card-item" >
                             <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                               <div class="item item-avatar  item-text-wrap">
                                 <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
                                 <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
                                 <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
                                 {{article.categorie.libelle}}<br/>
-                                {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                                {{article.nomVille}} , <span style="font-style : italic;"  am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
                                 <div class="card-footer text-right" style="margin-top: -30px">
                                   <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
                                 </div>

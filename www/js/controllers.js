@@ -100,6 +100,7 @@ angular.module('Occazstreet.controllers', ['ngMaterial','ngCordova','ngStorage',
         };*/
         $scope.cheminPhoto=Globals.cheminPhoto;
         $scope.url=Globals.urlServer+Globals.port+'/';
+
         //Test si l'utilisateur est connecté
         /*UtilisateursService.isTokenExpired(window.localStorage.token).then(function(response) {
             alert("response"+response);
@@ -116,26 +117,23 @@ angular.module('Occazstreet.controllers', ['ngMaterial','ngCordova','ngStorage',
 
         if($localStorage[Globals.USER_LOGGED] !='undefined' && $localStorage[Globals.USER_LOGGED] !=null && $localStorage["logged"]==true)
         {
-            $scope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
-            $scope.logged=$localStorage["logged"];
+            $rootScope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
+          $rootScope.logged=$localStorage["logged"];
         }else
         {
-            $scope.logged=false;
-            $scope.infoUserLogged='undefined';
+          $rootScope.logged=false;
+          $rootScope.infoUserLogged='undefined';
         }
 
         $scope.doLogout = function() {
-            $scope.logged=false;
-            $scope.infoUserLogged=null;
+          $rootScope.logged=false;
+          $rootScope.infoUserLogged=null;
             $localStorage.$reset();
             $ionicHistory.nextViewOptions({
                 disableAnimate:true,
                 disableBack: true
             });
-            $state.go('app.articles', {}, { reload: true });
-           $window.location.reload(true);
-
-
+            $state.go('app.articles');
         };
     })
 /*.controller('ArticleController', function($scope) {
@@ -161,25 +159,33 @@ angular.module('Occazstreet.controllers', ['ngMaterial','ngCordova','ngStorage',
     };
 
 
-    $scope.shareMail=function()
+    $scope.shareMail=function(mess)
     {
+      if(!typeof mess =='undefined')
+        message=mess;
       var subjectMail="Occazstreet";
       SharingService.shareMail(message, subjectMail);
     };
 
-    $scope.shareWhatsapp=function()
+    $scope.shareWhatsapp=function(mess)
     {
+      if(!typeof mess =='undefined')
+        message=mess;
       SharingService.shareWhatsapp(message, null, null);
     };
 
-    $scope.shareFacebook=function()
+    $scope.shareFacebook=function(mess)
     {
+      if(!typeof mess =='undefined')
+        message=mess;
       SharingService.shareFacebook(message, null, null);
 
     };
 
-    $scope.shareSMS=function()
+    $scope.shareSMS=function(mess)
     {
+      if(!typeof mess =='undefined')
+        message=mess;
       SharingService.shareSMS(message, null);
     };
 

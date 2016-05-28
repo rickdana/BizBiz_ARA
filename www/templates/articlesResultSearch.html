@@ -62,7 +62,7 @@
                 <span ng-show="article.images.length <1" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
                 <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
                 {{article.categorie.libelle}}<br/>
-                {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                {{article.nomVille}} , ajouté  <span style="font-style : italic;"  am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
                 <div class="card-footer text-right" style="margin-top: -1.71em">
                   <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
                 </div>

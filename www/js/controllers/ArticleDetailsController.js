@@ -2,7 +2,7 @@
  * Created by fleundeu on 01/05/2015.
  */
 angular.module('Occazstreet.controllers')
-  .controller('ArticleDetailsController', function($scope,$localStorage,$rootScope,$stateParams,$state,$mdDialog,$ionicPlatform,$ionicViewService,$ionicHistory,$http,$timeout,ArticlesService,Globals,$ionicLoading,SharingService) {
+  .controller('ArticleDetailsController', function($scope,$localStorage, $rootScope,$stateParams,$state,$mdDialog,$ionicPlatform,$ionicViewService,$ionicHistory,$http,$timeout,ArticlesService,Globals,$ionicLoading,SharingService) {
 
 
     ionic.material.motion.pushDown({
@@ -23,25 +23,7 @@ angular.module('Occazstreet.controllers')
         startVelocity: 3000
       });
     }, 700);
-    // Delay expansion
-    /* $timeout(function() {
-     $scope.isExpanded = true;
-     }, 300);
 
-     // Set Motion
-     ionic.material.motion.fadeSlideInRight();
-
-     // Set Ink
-     ionic.material.ink.displayEffect();
-     /*On recupère la categorie envoyé en paramètre*/
-    /* var categorie=$stateParams.categorie;
-     $scope.libellecategorie=$stateParams.libelle
-
-     $scope.url=Globals.urlServer+Globals.port+'/';
-     $scope.cheminImage=Globals.cheminImage+'/';
-     ArticlesService.getArticleByCategorie(categorie).then(function(){
-     $scope.articles=ArticlesService.getArticlesByCategorie();
-     })*/
 
     /*get Id article from url*/
     var article=$stateParams.article;
@@ -55,7 +37,6 @@ angular.module('Occazstreet.controllers')
     $ionicLoading.show({
       template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
     });
-    console.log("data"+$localStorage[Globals.USER_LOGGED]);
 
     //Check if article is in user FAVORIS
     function inFavoriteUser(data, id) {
@@ -106,6 +87,8 @@ angular.module('Occazstreet.controllers')
       {
         imageF= response.article.images[0].cheminImage;
       }
+
+
       $scope.map = {
         center: { latitude: response.article.latitude, longitude: response.article.longitude },
         marker: {

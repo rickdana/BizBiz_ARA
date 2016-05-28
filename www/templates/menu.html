@@ -16,20 +16,17 @@
     </ion-side-menu-content>
     <ion-side-menu side="left">
 
-        <div ng-switch="{{logged}}">
-            <ion-header-bar ng-switch-when="false" class="dark-bg expanded" ui-sref="app.login" menu-close  >
-                <span class="avatar" style="background: url('img/default.png'); background-size: cover;"></span>
-                <h2 style="color: black">Se Connecter</h2>
-            </ion-header-bar>
-            <ion-header-bar ng-switch-when="true" class=" profil-centre dark-bg expanded" ui-sref="app.profile({utilisateur:'{{infoUserLogged.id}}'})" menu-close  >
-              <img ng-if="!offLine" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
-              <img ng-if="offLine" ng-src="img/default.png" alt="" class="img-circle">
+          <ion-header-bar ng-if="!logged" class="dark-bg expanded" ui-sref="app.login" menu-close  >
+              <span class="avatar" style="background: url('img/default.png'); background-size: cover;"></span>
+              <h2 style="color: black">Se Connecter</h2>
+          </ion-header-bar>
+          <ion-header-bar ng-if="logged" class=" profil-centre dark-bg expanded" ui-sref="app.profile({utilisateur:'{{infoUserLogged.id}}'})" menu-close  >
+            <img ng-if="!offLine" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
+            <img ng-if="offLine || serverDown" ng-src="img/default.png" alt="" class="img-circle">
 
-              <h2>{{infoUserLogged.prenom}}  {{infoUserLogged.nom[0]}}</h2>
-            </ion-header-bar>
-        </div>
-
-        <ion-content class="dark-bg has-expanded-header has-header" >
+            <h2>{{infoUserLogged.prenom}}  {{infoUserLogged.nom[0]}}</h2>
+          </ion-header-bar>
+        <ion-content class="dark-bg has-expanded-header " >
             <ion-list>
                 <ion-item  ui-sref="app.articles"nav-clear menu-close style="color: #c6c9cf">
                     <i style="color: white" class="ion-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Accueil
@@ -49,13 +46,12 @@
                     <i style="color: white" class="ion-cube"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Collections
                 </ion-item>-->
                 <md-divider></md-divider>
-                <ion-item nav-clear menu-close ui-sref="app.categories" style="color: #c6c9cf">
+                <ion-item  nav-clear menu-close ui-sref="app.categories" style="color: #c6c9cf">
                     <i  style="color: white" class="ion-navicon-round"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Catégories
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.favoris" style="color: #c6c9cf" ng-if="logged">
+                <!--<ion-item nav-clear menu-close ui-sref="app.favoris" style="color: #c6c9cf" ng-if="logged">
                   <i  style="color: white" class="ion-android-bookmark"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mes Favoris
-                </ion-item>
-                <md-divider></md-divider>
+                </ion-item>-->
                 <!--<ion-item nav-clear menu-close ui-sref="app.categories"  style="color: #c6c9cf">
                     <i  style="color: white" class="ion-location"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nouveauté près de
                 </ion-item>-->
@@ -71,8 +67,6 @@
                 <ion-item  ng-show="logged" nav-clear menu-close  ng-click="doLogout()" style="color: #c6c9cf">
                    <i  style="color: white" class="ion-log-out"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se déconnecter
                 </ion-item>
-
-
             </ion-list>
         </ion-content>
     </ion-side-menu>

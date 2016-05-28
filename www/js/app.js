@@ -4,53 +4,55 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('Occazstreet', ['ionic','ngMaterial','jett.ionic.scroll.sista','ngCordova','angularMoment','ionic-datepicker','ionic.service.core','ion-google-place','ionic.ion.imageCacheFactory','uiGmapgoogle-maps','Occazstreet.controllers','Occazstreet.services','Occazstreet.constants'])
-.run(function($ionicPlatform,Messages,$rootScope,$cordovaStatusbar, $state,UtilisateursService,Globals,$localStorage,$mdDialog,$mdToast) {
+angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment','ionic-datepicker','ionic.service.core','google.places','ionic.ion.imageCacheFactory','uiGmapgoogle-maps','Occazstreet.controllers','Occazstreet.services','Occazstreet.constants'])
+.run(function($ionicPlatform,Messages,$rootScope,$cordovaStatusbar, $state,UtilisateursService,Globals,$localStorage,$mdDialog,amMoment,ArticlesService) {
+
+
+    amMoment.changeLocale('fr');
   $ionicPlatform.ready(function() {
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
+    /*Verifie si le device est offline*/
+    document.addEventListener("offline", onOffline, false);
+    document.addEventListener("online",onOnLine,false);
 
-      //StatusBar.styleDefault();
-     /* $cordovaStatusbar.overlaysWebView(true);
-      $cordovaStatusbar.styleHex('#c62828');*/
 
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.requiresLogin && typeof $localStorage["logged"] == "undefined") {
+            // no logged user, we should be going to #login
+            event.preventDefault();
+
+            $state.go('app.login');
+        }
+        if (typeof $localStorage["logged"] != "undefined" && toState.name == 'app.login') {
+            $state.go('app.articles');
+        }
+    });
+
+    function onOnLine()
+    {
+      ArticlesService.getDevise().then(function (response) {
+        if(response==null)
+        {
+          $rootScope.serverDown =true;
+        }
+      });
     }
 
-      /*Verifie si le device est offline*/
-    document.addEventListener("offline", onOffline, false);
-
-     /* function onOnline() {*/
-          $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-              if (toState.requiresLogin && typeof $localStorage["logged"] == "undefined") {
-                  // no logged user, we should be going to #login
-                  event.preventDefault();
-
-                  $state.go('app.login');
-              }
-              if (typeof $localStorage["logged"] != "undefined" && toState.name == 'app.login') {
-                  $state.go('app.articles');
-              }
-          });
-      //}
-      function onOffline() {
-          /*$mdToast.show({
-              template: '<md-toast class="md-toast error">' + "Vous n\'êtes pas connecté à internet. Resssayer"+ '</md-toast>',
-              hideDelay: 100000,
-              position: 'bottom right left'
-          });*/
-          $mdDialog.show(
-              $mdDialog.alert()
-                  .parent(angular.element(document.body))
-                  .title(Messages.internetErrorTitle)
-                  .content(Messages.internetErrorContent)
-                  .ok('Ok')
-          );
-      }
+    function onOffline() {
+        $rootScope.offLine=true;
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .title(Messages.internetErrorTitle)
+                .content(Messages.internetErrorContent)
+                .ok('Ok')
+        );
+    }
 
   });
 })
@@ -64,7 +66,6 @@ angular.module('Occazstreet', ['ionic','ngMaterial','jett.ionic.scroll.sista','n
   $mdGestureProvider.skipClickHijack();
 
   $stateProvider
-
   .state('app', {
     cache: false,
     url: "/app",

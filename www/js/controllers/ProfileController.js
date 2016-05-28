@@ -11,9 +11,11 @@ angular.module('Occazstreet.controllers')
         $scope.isExpanded = false;
         var user={};
         var profil=false;
+        photoURI=[];
 
-        /* $scope.$parent.setExpanded(false);
-         $scope.$parent.setHeaderFab(false);*/
+
+    /* $scope.$parent.setExpanded(false);
+     $scope.$parent.setHeaderFab(false);*/
 
         // Set Motion
         $timeout(function() {
@@ -189,7 +191,7 @@ angular.module('Occazstreet.controllers')
             user.sexe=$scope.infoUserLogged.sexe;
             user.email=$scope.infoUserLogged.email;
             $scope.user=user;
-            if($scope.infoUserLogged.role=='normal')
+            if($scope.infoUserLogged.provider=='normal')
             {
               $scope.showButtonChangePassword=true;
             }
@@ -271,10 +273,10 @@ angular.module('Occazstreet.controllers')
 
                                 $mdDialog.hide();
                                 $scope.$apply(function () {
-                                    $scope.imgURI[key]=data;
+                                    photoURI=data;
 
                                 });
-                                $rootScope.image=$scope.imgURI;
+                                $rootScope.photo=photoURI;
 
                             };
                             var failure = function(message){
@@ -297,11 +299,11 @@ angular.module('Occazstreet.controllers')
                             };
                             var success = function(data){
                                 $scope.$apply(function () {
-                                    $scope.imgURI[key]=data;
+                                    photoURI=data;
 
                                 });
-                                $rootScope.image=$scope.imgURI;
-                                alert($rootScope.image);
+                                $rootScope.photo=photoURI;
+                                alert($rootScope.photo.length);
                             };
                             var failure = function(message){
                                 $mdDialog.hide();
@@ -330,7 +332,7 @@ angular.module('Occazstreet.controllers')
                     $mdDialog.hide(answer);
                 };
 
-            };
+            }
 
             $scope.showChangeEmailForm = function(ev) {
                 $mdDialog.show({
@@ -569,7 +571,7 @@ angular.module('Occazstreet.controllers')
         showError=function(message)
         {
             $mdToast.show({
-                template: '<md-toast class="md-toast error">' +message + '</md-toast>',
+                template: '<md-toast class="md-toast">' +message + '</md-toast>',
                 hideDelay: 4000,
                 position: 'bottom right left'
             });
