@@ -190,7 +190,17 @@ angular.module('Occazstreet.controllers')
             user.datedenaissance=new Date($scope.infoUserLogged.dateDeNaissance);
             user.sexe=$scope.infoUserLogged.sexe;
             user.email=$scope.infoUserLogged.email;
-            $scope.user=user;
+
+            if(($scope.infoUserLogged.nomVille ==null || $scope.infoUserLogged.nomVille=="") || ($scope.infoUserLogged.nomPays==null || $scope.infoUserLogged.nomPays=="" ) )
+            {
+              user.localisation="";
+            }
+            else
+            {
+              user.localisation=$scope.infoUserLogged.nomVille +', '+ $scope.infoUserLogged.nomPays;
+            }
+
+          $scope.user=user;
             if($scope.infoUserLogged.provider=='normal')
             {
               $scope.showButtonChangePassword=true;
@@ -203,49 +213,87 @@ angular.module('Occazstreet.controllers')
 
             $scope.editUser=function(user)
             {
-                $ionicLoading.show({
-                    template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+              $ionicLoading.show({
+                template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+              });
+              if(user.localisation.address_components !=null || typeof user.localisation.address_components !='undefined')
+              {
+                for (var ac = 0; ac < user.localisation.address_components.length; ac++) {
+                  var component = user.localisation.address_components[ac];
+
+                  switch(component.types[0]) {
+                    case 'locality':
+                      user.nomVille = component.long_name;
+                      break;
+                    case 'administrative_area_level_1':
+                      break;
+                    case 'country':
+                      user.nomPays = component.long_name;
+                      break;
+                  }
+                }
+              }
+              if(user.email ==null || user.email=="" || typeof user.email=="undefined")
+              {
+                console.log(JSON.stringify(user));
+                $ionicLoading.hide();
+                $mdToast.show({
+                  template: '<md-toast class="md-toast">' + " Veuillez renseigner une adresse email valide" + '</md-toast>',
+                  hideDelay: 5000,
+                  position: 'bottom right left'
                 });
+              }else
+              {
+                delete user.localisation;
+
                 UtilisateursService.editUtilisateur(user).then(function(response) {
-
-                    $localStorage[Globals.USER_LOGGED].nom=response.utilisateur.nom;
-                    $localStorage[Globals.USER_LOGGED].prenom=response.utilisateur.prenom;
-                    $localStorage[Globals.USER_LOGGED].dateDeNaissance=response.utilisateur.dateDeNaissance;
-                    $localStorage[Globals.USER_LOGGED].sexe=response.utilisateur.sexe;
-                    $localStorage[Globals.USER_LOGGED].photo=response.utilisateur.photo;
-                    $localStorage[Globals.USER_LOGGED].email=response.utilisateur.email;
-                    $localStorage[Globals.USER_LOGGED].emailVerifie=response.utilisateur.emailVerifie;
-                    $localStorage[Globals.USER_LOGGED].telephoneVerifie=response.utilisateur.telephoneVerifie;
-                    $scope.infoUserLogged.nom=response.utilisateur.nom;
-                    $scope.infoUserLogged.prenom=response.utilisateur.prenom;
-                    $scope.infoUserLogged.dateDeNaissance=response.utilisateur.dateDeNaissance;
-                    $scope.infoUserLogged.sexe=response.utilisateur.sexe;
-                    $scope.infoUserLogged.photo=response.utilisateur.photo;
-                    $scope.infoUserLogged.id=response.utilisateur.id;
-                    $scope.infoUserLogged.email=response.utilisateur.email;
+                  user.localisation=response.utilisateur.nomVille +', '+ response.utilisateur.nomPays;
+                  $localStorage[Globals.USER_LOGGED].nom=response.utilisateur.nom;
+                  $localStorage[Globals.USER_LOGGED].prenom=response.utilisateur.prenom;
+                  $localStorage[Globals.USER_LOGGED].dateDeNaissance=response.utilisateur.dateDeNaissance;
+                  $localStorage[Globals.USER_LOGGED].sexe=response.utilisateur.sexe;
+                  $localStorage[Globals.USER_LOGGED].photo=response.utilisateur.photo;
+                  $localStorage[Globals.USER_LOGGED].email=response.utilisateur.email;
+                  $localStorage[Globals.USER_LOGGED].emailVerifie=response.utilisateur.emailVerifie;
+                  $localStorage[Globals.USER_LOGGED].telephoneVerifie=response.utilisateur.telephoneVerifie;
+                  $localStorage[Globals.USER_LOGGED].nomVille=response.utilisateur.nomVille;
+                  $localStorage[Globals.USER_LOGGED].nomPays=response.utilisateur.nomPays;
 
 
-                    $scope.$apply();
-                    $ionicLoading.hide();
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .parent(angular.element(document.body))
-                            .title(Messages.miseAjoutProfilTitre)
-                            .content(Messages.misAJourProfilSuccess)
-                            .ok('Ok')
-                    );
+                  $scope.infoUserLogged.nom=response.utilisateur.nom;
+                  $scope.infoUserLogged.prenom=response.utilisateur.prenom;
+                  $scope.infoUserLogged.dateDeNaissance=response.utilisateur.dateDeNaissance;
+                  $scope.infoUserLogged.sexe=response.utilisateur.sexe;
+                  $scope.infoUserLogged.photo=response.utilisateur.photo;
+                  $scope.infoUserLogged.id=response.utilisateur.id;
+                  $scope.infoUserLogged.email=response.utilisateur.email;
+                  $scope.infoUserLogged.nomVille=response.nomVille;
+                  $scope.infoUserLogged.nomPays=response.nomPays;
 
-                    if(response.emailHasChange)
-                    {
-                        $mdToast.show({
-                            template: '<md-toast class="md-toast success">' + Messages.changementEmail + '</md-toast>',
-                            hideDelay: 7000,
-                            position: 'bottom right left'
-                        });
-                    }
+
+
+                  $scope.$apply();
+                  $ionicLoading.hide();
+                  $mdDialog.show(
+                    $mdDialog.alert()
+                      .parent(angular.element(document.body))
+                      .title(Messages.miseAjoutProfilTitre)
+                      .content(Messages.misAJourProfilSuccess)
+                      .ok('Ok')
+                  );
+
+                  if(response.emailHasChange)
+                  {
+                    $mdToast.show({
+                      template: '<md-toast class="md-toast">' + Messages.changementEmail + '</md-toast>',
+                      hideDelay: 7000,
+                      position: 'bottom right left'
+                    });
+                  }
 
                 })
 
+              }
             };
             $scope.editPhoto=function(key,event)
             {
@@ -580,8 +628,8 @@ angular.module('Occazstreet.controllers')
         showMessage=function(message)
         {
             $mdToast.show({
-                template: '<md-toast class="md-toast success">' + message + '</md-toast>',
-                hideDelay: 7000,
+                template: '<md-toast class="md-toast ">' + message + '</md-toast>',
+                hideDelay: 5000,
                 position: 'bottom right left'
             });
         };

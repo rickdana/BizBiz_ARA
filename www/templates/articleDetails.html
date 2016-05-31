@@ -1,37 +1,36 @@
 <ion-view view-title="Détails" >
 <!--<ion-header-bar class="bar-light">-->
-      <ion-nav-buttons side="right">
-        <button ui-sref="app.filtres" class="button button-icon button-clear ion-android-search">
-        </button>
-        <button ng-show="userId!=art.utilisateur.id" ng-click="addFavoris(userId,art.idArticle)"  ng-class="{'hide-button':!userId,'button button-icon button-clear ion-heart ion-ios-heart':favoris==true,'button button-icon button-clear ion-heart ion-ios-heart-outline':favoris==false}">
-        </button>
-        <md-menu  ng-show="userId==art.utilisateur.id" md-offset="0 -1">
-          <md-button style="margin-top: -0.40em" class="button button-icon button-clear ion-android-more-vertical" ng-click="$mdOpenMenu()">
-          </md-button>
-          <md-menu-content  width="2">
-            <md-menu-item ng-show="userId==art.utilisateur.id" >
-              <md-button  ng-click="editArticle(art.idArticle)"> <span md-menu-align-target>Modifier l'annonce</span></md-button>
-            </md-menu-item>
-           <!-- <md-menu-item>
-              <md-button ng-click="Signaler()"> <span md-menu-align-target>Signaler</span></md-button>
-            </md-menu-item>-->
-          </md-menu-content>
-        </md-menu>
-      </ion-nav-buttons>
+
    <!-- </ion-header-bar>-->
-    <ion-content class="article-body">
-        <div>
-            <div class="card-margin">
-                <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
-                    <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
-                        <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
-                    </ion-slide>
-                    <ion-slide ng-show="art.images.length<1">
-                      <img class="image" ng-src="img/no_image.png">
-                    </ion-slide>
-                </ion-slide-box>
-            </div>
-        </div>
+  <ion-nav-buttons side="right">
+    <button ui-sref="app.filtres" class="button button-icon button-clear ion-android-search">
+    </button>
+    <button ng-show="userId!=art.utilisateur.id" ng-click="addFavoris(userId,art.idArticle)"  ng-class="{'hide-button':!userId,'button button-icon button-clear ion-heart ion-ios-heart':favoris==true,'button button-icon button-clear ion-heart ion-ios-heart-outline':favoris==false}">
+    </button>
+    <md-menu  ng-show="userId==art.utilisateur.id" md-offset="0 -1">
+      <md-button style="margin-top: -0.40em" class="button button-icon button-clear ion-android-more-vertical" ng-click="$mdOpenMenu()">
+      </md-button>
+      <md-menu-content  width="2">
+        <md-menu-item ng-show="userId==art.utilisateur.id" >
+          <md-button  ng-click="editArticle(art.idArticle)"> <span md-menu-align-target>Modifier l'annonce</span></md-button>
+        </md-menu-item>
+        <!-- <md-menu-item>
+           <md-button ng-click="Signaler()"> <span md-menu-align-target>Signaler</span></md-button>
+         </md-menu-item>-->
+      </md-menu-content>
+    </md-menu>
+  </ion-nav-buttons>
+
+  <ion-content class="article-body animate-fade-slide-in" has-bouncing="true">
+
+          <div class="card-margin">
+              <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
+                  <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
+                      <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
+                      <img class="image" ng-if="art.images.length<1" ng-src="img/no_image.png">
+                  </ion-slide>
+              </ion-slide-box>
+          </div>
         <div ng-show="!currentUser" class="card card-margin" >
             <div class="item item-text-wrap" >
                 <div class="item tabs tabs-secondary tabs-icon-left">
@@ -113,7 +112,7 @@
                     <a class="tab-item" ng-click="shareSMS()">
                         <i class="icon ion-android-textsms dark"></i>
                     </a>
-                    <a class="tab-item" ng-click="shareWhatsapp()">
+                    <a class="tab-item" ng-click="shareWhatsappDetail()" data-href="">
                         <i class="icon ion-social-whatsapp balanced"></i>
                     </a>
 

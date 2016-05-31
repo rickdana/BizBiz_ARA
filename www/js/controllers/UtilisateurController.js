@@ -86,84 +86,86 @@ angular.module('Occazstreet.controllers')
               console.log('code: '    + error.code    + '\n' +
                   'message: ' + error.message + '\n');
           }
-          var posOptions  = {timeout: 10000, enableHighAccuracy: false};
+
+          var succ = function (data) {
+            var formData = {
+              email: utilisateur.email,
+              password: utilisateur.motdepasse,
+              nom: utilisateur.nom,
+              prenom: utilisateur.prenom,
+              dateDeNaissance: utilisateur.dateDeNaissance,
+              telephone: data.lineNumber,
+              sexe: $scope.sexe,
+              device: $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel(),
+              os: $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion()
+
+            };
+            UtilisateursService.signup(formData).then(function (res) {
+              if (res.success) {
+                $ionicLoading.hide();
+                $rootScope.logged = $localStorage['logged'];
+                $rootScope.infoUserLogged = $localStorage[Globals.USER_LOGGED];
+                $ionicHistory.nextViewOptions({
+                  disableAnimate: true,
+                  disableBack: true
+                });
+                $state.transitionTo('app.articles', $stateParams);
+                $mdToast.show({
+                  template: '<md-toast class="md-toast">' + Messages.welcome + '</md-toast>',
+                  hideDelay: 10000,
+                  position: 'bottom right left'
+                });
+
+              } else if (!response.success) {
+                $ionicLoading.hide();
+
+                $mdToast.show({
+                  template: '<md-toast class="md-toast ">' + Messages.inscriptionFailed + res.message + '</md-toast>',
+                  hideDelay: 20000,
+                  position: 'bottom right left'
+                });
+              } else if (response == null) {
+                $ionicLoading.hide();
+
+                $mdToast.show({
+                  template: '<md-toast class="md-toast ">' + Messages.erreurServeur + res.message + '</md-toast>',
+                  hideDelay: 20000,
+                  position: 'bottom right left'
+                });
+              }
+            }, function (err) {
+              $ionicLoading.hide();
+              $mdToast.show({
+                template: '<md-toast class="md-toast">' + Messages.erreurServeur + '</md-toast>',
+                hideDelay: 20000,
+                position: 'bottom right left'
+              });
+            });
+
+          };
+          var err = function (err) {
+            alert(err);
+            $ionicLoading.hide();
+            $mdToast.show({
+              template: '<md-toast class="md-toast">' + Messages.inscriptionFailed + '</md-toast>',
+              hideDelay: 20000,
+              position: 'bottom right left'
+            });
+            console.error("erreur lors dela recuperation du numéro de téléphone " + err);
+
+          };
+
+          window.plugins.carrier.getCarrierInfo(succ, err);
+         /* var posOptions  = {timeout: 10000, enableHighAccuracy: false};
           $cordovaGeolocation
             .getCurrentPosition(posOptions)
             .then(function (position) {
               $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY",{timeout:10000} )
                 .success(function(response) {
-                  var succ = function (data) {
-                    var formData = {
-                      email: utilisateur.email,
-                      password: utilisateur.motdepasse,
-                      nom: utilisateur.nom,
-                      prenom: utilisateur.prenom,
-                      dateDeNaissance: utilisateur.dateDeNaissance,
-                      telephone: data.lineNumber,
-                      sexe: $scope.sexe,
-                      nomville:response.results[0].address_components[2].short_name,
-                      nompays:response.results[0].address_components[5].long_name,
-                      device: $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel(),
-                      os: $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion()
 
-                    };
-                    UtilisateursService.signup(formData).then(function (res) {
-                      if (res.success) {
-                        $ionicLoading.hide();
-                        $rootScope.logged = $localStorage['logged'];
-                        $rootScope.infoUserLogged = $localStorage[Globals.USER_LOGGED];
-                        $ionicHistory.nextViewOptions({
-                          disableAnimate: true,
-                          disableBack: true
-                        });
-                        $state.transitionTo('app.articles', $stateParams);
-                        $mdToast.show({
-                          template: '<md-toast class="md-toast">' + Messages.welcome + '</md-toast>',
-                          hideDelay: 10000,
-                          position: 'bottom right left'
-                        });
-
-                      } else if (!response.success) {
-                        $ionicLoading.hide();
-
-                        $mdToast.show({
-                          template: '<md-toast class="md-toast ">' + Messages.inscriptionFailed + res.message + '</md-toast>',
-                          hideDelay: 20000,
-                          position: 'bottom right left'
-                        });
-                      } else if (response == null) {
-                        $ionicLoading.hide();
-
-                        $mdToast.show({
-                          template: '<md-toast class="md-toast ">' + Messages.erreurServeur + res.message + '</md-toast>',
-                          hideDelay: 20000,
-                          position: 'bottom right left'
-                        });
-                      }
-                    }, function (err) {
-                      $ionicLoading.hide();
-                      $mdToast.show({
-                        template: '<md-toast class="md-toast">' + Messages.erreurServeur + '</md-toast>',
-                        hideDelay: 20000,
-                        position: 'bottom right left'
-                      });
-                    });
-
-                  };
-                  var err = function (err) {
-                    alert(err);
-                    $ionicLoading.hide();
-                    $mdToast.show({
-                      template: '<md-toast class="md-toast">' + Messages.inscriptionFailed + '</md-toast>',
-                      hideDelay: 20000,
-                      position: 'bottom right left'
-                    });
-                    console.error("erreur lors dela recuperation du numéro de téléphone " + err);
-
-                  };
-
-                  window.plugins.carrier.getCarrierInfo(succ, err);
                 });
+
+
               /* $timeout(function () {
                hideLoading();
                $mdToast.show({
@@ -177,7 +179,7 @@ angular.module('Occazstreet.controllers')
                .error(function(error){
                alert(error);
                })*/
-            }, function(error) {
+          /*  }, function(error) {
               hideLoading();
               $mdToast.show({
                 template: '<md-toast class="md-toast">'+"Veuillez activer votre localisation" + '</md-toast>',
@@ -186,7 +188,7 @@ angular.module('Occazstreet.controllers')
               });
               console.log('code: '    + error.code    + '\n' +
                 'message: ' + error.message + '\n');
-            });
+            });*/
         };
 
         function formatDate(date) {

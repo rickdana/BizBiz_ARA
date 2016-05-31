@@ -20,20 +20,7 @@
         <form  ng-submit="addArticle(article)" >
 
             <div class="card card-margin" layout-gt-sm="row">
-                <!--<div class="list">
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Que vendez-vous ?</span>
-                        <input type="text" placeholder="Que vendez-vous ?">
-                    </label>
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Description de votre produit</span>
-                        <textarea  placeholder="Description de votre produit" class="no-resize" maxlength="150"></textarea>
-                    </label>
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Prix</span>
-                        <input type="number" placeholder="Prix" ng-model="article.prix">
-                    </label>
-                </div>-->
+
                 <md-input-container flex class="md-block">
                     <label>Que vendez-vous ? </label>
                     <input  name="titre" required ng-model="article.titre">
@@ -54,6 +41,13 @@
                             <md-option ng-required ng-repeat="devise in devises" value="{{devise.id}}" required>{{devise.symbole}}</md-option>
                         </md-select>
                     </md-input-container>
+
+                </div>
+                <div layout layout-sm="row"   style="margin-top: -10%" >
+                  <md-input-container flex>
+                    <label>Localisation</label>
+                    <input  required type="text" g-places-autocomplete ng-model="article.localisation">
+                  </md-input-container>
                 </div>
              </div>
 

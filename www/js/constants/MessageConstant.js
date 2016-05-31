@@ -3,6 +3,10 @@
  */
 angular.module('Occazstreet.constants')
     .constant('Messages',{
+        "emptyPassword":"Veuillez renseigner un mot de passe",
+        "emptyEmail":"Veuillez renseigner une adresse email",
+        "emptyName":"Veuillez saisir un Nom",
+        "emptySurName":"Veuillez saisir un prénom",
         "erreurServeurTitle":"Erreur serveur",
         "internetErrorContent":"Vous n'êtes pas connecté à Internet. Connectez-vous  à une source de données et reessayer",
         "serverDown":"Le serveur est inaccéssible",
@@ -19,7 +23,7 @@ angular.module('Occazstreet.constants')
         "deconnexion":"Vous n'êtes plus connecté",
         "erreurAjoutArticle":'Une erreur a été rencontré lors de la création de votre produit. Veuillez reessayer ulterieurement',
         "erreurAjoutArticleTitre":"Ajout d\'un produit",
-        "ajoutDuProduitEnCours":"Ajout de votre produit",
+        "ajoutDuProduitEnCours":"Ajout de votre annonce",
         "misAJourProfilSuccess":"Votre profil a été mis à jour",
         "miseAjoutProfilTitre":"Profil",
         "miseAjoutArticleTitre":"Mise à jour du Produit",

@@ -5,53 +5,66 @@
     <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
         <md-content layout-padding>
             <div class="card card-margin">
-                <div layout layout-sm="row" ng-click="editPhoto(null,$event)">
+                <!--<div layout layout-sm="row" ng-click="editPhoto(null,$event)">-->
+              <div layout layout-sm="row" >
                     <md-input-container  flex flex>
-                        <label>Modifier l'image</label>
+                       <!-- <label>Modifier l'image</label>-->
+                      <label>Image de profil</label>
                     </md-input-container>
                     <md-input-container flex flex >
-                      {{photo}}
                         <img ng-if="!offLine || photo.length<=0" width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
                         <img ng-if="!offLine && photo.length>0" width="65px" height="65px"  class="circle" ng-src="{{photo}}">
                         <img ng-if="offLine" ng-src="img/default.png" alt="" class="img-circle">
                     </md-input-container>
                 </div>
             </div>
-            <form ng-submit="editUser(user)" >
+            <form ng-submit="editUser(user)" name="updateUserForm">
                 <div class="card">
 
-                    <div layout layout-sm="column">
+                    <div layout layout-sm="column" >
                         <md-input-container flex>
                             <label>Prénom</label>
-                            <input type="text" ng-model="user.prenom">
+                            <input required type="text" ng-model="user.prenom">
                         </md-input-container>
                     </div>
-                    <div layout layout-sm="column">
+                    <div layout layout-sm="column" style="margin-top: -10%">
                         <md-input-container flex>
                         <label>Nom</label>
-                        <input type="text" ng-model="user.nom">
+                        <input required type="text" ng-model="user.nom">
                         </md-input-container>
                     </div>
-                      <md-input-container class="md-block">
+                      <md-input-container class="md-block" style="margin-top: -10%">
                         <label style="color: #a0a0a0;" >Date de naissance</label>
                         <input type="date"   ng-model="user.datedenaissance"
                                required>
                        </md-input-container>
-                    <div layout layout-sm="column">
-                        <md-input-container flex>
+                    <div layout layout-sm="column" style="margin-top: -10%">
+                        <md-input-container  flex>
                             <label>Email</label>
-                            <input  ng-model="user.email">
+                            <input  required type="email" name="email"   ng-model="user.email">
+                            <div ng-messages="updateUserForm.email.$error" >
+                              <div ng-message-exp="['required']">
+                                Le format de l'adresse email n'est pas correcte.
+                              </div>
+                            </div>
                         </md-input-container>
                     </div>
-                    <div layout layout-sm="column">
+                    <div layout layout-sm="column" style="margin-top: -10%">
                         <md-input-container flex>
                             <md-radio-group ng-model="user.sexe" layout="row">
                                 <md-radio-button  value="1" class="md-warn md-raised md-hue-2" ng-checked="user.sexe">Homme</md-radio-button>
                                 <md-radio-button value="2" class="md-warn md-raised md-hue-2"ng-checked="user.sexe">Femme</md-radio-button>
-
                             </md-radio-group>
                         </md-input-container>
                     </div>
+                  <div layout layout-sm="column" >
+                    <md-input-container flex>
+                      <label>Localisation</label>
+                      <input  type="text" g-places-autocomplete ng-model="user.localisation">
+                    </md-input-container>
+                  </div>
+
+
                 </div>
 
               <div class="card" ng-show="showButtonChangePassword">

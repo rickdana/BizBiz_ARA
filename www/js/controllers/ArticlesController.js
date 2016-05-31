@@ -200,22 +200,33 @@ angular.module('Occazstreet.controllers')
 
 
         addArticle = function (article) {
-          alert("Add Article");
-          var posOptions = {timeout: 10000, enableHighAccuracy: false};
+          /*var posOptions = {timeout: 10000, enableHighAccuracy: false};
           $cordovaGeolocation
             .getCurrentPosition(posOptions)
             .then(function (position) {
               $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY", {timeout: 10000})
-                .success(function (response) {
-                  article.latitude = position.coords.latitude;
-                  article.longitude = position.coords.longitude;
-                  article.nomVille = response.results[0].address_components[2].short_name;
-                  article.nompays = response.results[0].address_components[5].long_name;
+                .success(function (response) {*/
+                for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
+                    var component = article.localisation.address_components[ac];
+
+                    switch(component.types[0]) {
+                      case 'locality':
+                        article.nomVille = component.long_name;
+                        break;
+                      case 'administrative_area_level_1':
+                        break;
+                      case 'country':
+                        article.nompays = component.long_name;
+                        break;
+                    }
+                  }
+                  /*article.latitude = position.coords.latitude;
+                  article.longitude = position.coords.longitude;*/
+
                   ArticlesService.addArticle(article).then(function (response) {
                     if (response.success == true) {
                       var count = 0;
                       $scope.idArticle = response.article.idArticle;
-                      alert("success true");
                       var keepGoing = true;
                       if ($rootScope.image.length > 0) {
                         for (var i = 0; i < $rootScope.image.length; i++) {
@@ -281,17 +292,105 @@ angular.module('Occazstreet.controllers')
                   })
 
 
-                });
+               /* });
             }, function (error) {
 
-            })
+            })*/
         };
         $scope.addArticle = function (article) {
           article.utilisateur = $localStorage[Globals.USER_LOGGED].id;
           $ionicLoading.show({
             template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
           });
-          var i = 0;
+          for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
+            var component = article.localisation.address_components[ac];
+
+            switch(component.types[0]) {
+              case 'locality':
+                article.nomVille = component.long_name;
+                break;
+              case 'administrative_area_level_1':
+                break;
+              case 'country':
+                article.nompays = component.long_name;
+                break;
+            }
+          }
+          article.latitude=article.localisation.geometry.location.lat();
+          article.longitude=article.localisation.geometry.location.lng();
+          delete article.localisation;
+          alert(JSON.stringify(article));
+
+          ArticlesService.addArticle(article).then(function (response) {
+            if (response.success == true) {
+              var count = 0;
+              $scope.idArticle = response.article.idArticle;
+              var keepGoing = true;
+              if ($rootScope.image.length > 0) {
+                for (var i = 0; i < $rootScope.image.length; i++) {
+                  if (keepGoing) {
+                    var options = new FileUploadOptions();
+                    var params = {};
+                    params.idArticle = response.article.idArticle;
+                    var url = $rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
+                    options = {
+                      fileKey: "file",
+                      fileName: i + (url.split('?')[0]),
+                      mimeType: "image/png",
+                      idArticle: response.article.idArticle
+                    };
+                    options.params = params;
+                    var failed = function (err) {
+                      ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
+                        if (success) {
+                          $ionicLoading.hide();
+                          $mdToast.show({
+                            template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+                            hideDelay: 10000,
+                            position: 'bottom right left'
+                          });
+                          keepGoing = false;
+                        }
+                      })
+                    };
+                    var success = function (result) {
+                      count++;
+                      if (count == $rootScope.image.length) {
+                        $ionicLoading.hide();
+                        $state.go('app.articles');
+                        $mdToast.show({
+                          template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
+                          hideDelay: 10000,
+                          position: 'bottom right left'
+                        });
+                      }
+                    };
+                    var ft = new FileTransfer();
+                    ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
+                  }
+                }
+              } else {
+                $ionicLoading.hide();
+                $state.go('app.articles');
+                $mdToast.show({
+                  template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
+                  hideDelay: 10000,
+                  position: 'bottom right left'
+                });
+
+              }
+
+            }
+            else {
+              // $mdDialog.hide();
+              $ionicLoading.hide();
+              erreurAjoutArticle();
+
+            }
+          })
+
+
+          /*var i = 0;
 
           function checkLocationState() {
             cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
@@ -331,10 +430,10 @@ angular.module('Occazstreet.controllers')
                 $ionicLoading.hide()
               });
             });
-          }
+          }*/
 
-          document.addEventListener('resume', checkLocationState, false);
-          document.addEventListener('deviceready', checkLocationState, false);
+         /* document.addEventListener('resume', checkLocationState, false);
+          document.addEventListener('deviceready', checkLocationState, false);*/
         };
 
         $scope.addImage = function (key, event) {
@@ -526,6 +625,7 @@ angular.module('Occazstreet.controllers')
                 response.article.etat=false;
             }
             $scope.article=response.article;
+            $scope.article.localisation=response.article.nomVille+', '+response.article.nompays;
             $scope.path=$scope.url+$scope.cheminImage;
             $scope.imgURI=response.article.images;
 
@@ -543,7 +643,23 @@ angular.module('Occazstreet.controllers')
             articleUpdate.prix=article.prix;
             //Lors de l'édition d'un article on met à jour la date d'ajout
             articleUpdate.dateAjout=new Date();
-            console.log(article.etat);
+            for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
+              var component = article.localisation.address_components[ac];
+
+              switch(component.types[0]) {
+                case 'locality':
+                  articleUpdate.nomVille = component.long_name;
+                  break;
+                case 'administrative_area_level_1':
+                  break;
+                case 'country':
+                  articleUpdate.nompays = component.long_name;
+                  break;
+              }
+            }
+            articleUpdate.latitude=article.localisation.geometry.location.lat();
+            articleUpdate.longitude=article.localisation.geometry.location.lng();
+
             if(article.etat)
             {
                 articleUpdate.etat='Vendu';
@@ -574,6 +690,7 @@ angular.module('Occazstreet.controllers')
                       $localStorage['articles'][i]=response.article;
                       console.log(response.article);
                       $scope.article=$localStorage['articles'][i];
+                      $scope.article.localisation=response.article.nomVille+', '+response.article.nompays;
                       $scope.path=$scope.url+$scope.cheminImage;
                       $scope.imgURI=$localStorage['articles'][i].images;
                       $ionicLoading.hide();
@@ -593,6 +710,7 @@ angular.module('Occazstreet.controllers')
                     response.article.etat=etatArticle;
                     $localStorage['articles'].push(response.article);
                     $scope.article=response.article;
+                    $scope.article.localisation=response.article.nomVille+', '+response.article.nompays;
 
                     $scope.path=$scope.url+$scope.cheminImage;
                     $scope.imgURIresponse=article.images;

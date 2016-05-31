@@ -20,6 +20,7 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
     document.addEventListener("offline", onOffline, false);
     document.addEventListener("online",onOnLine,false);
 
+    $rootScope.isAndroid = ionic.Platform.isAndroid();
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toState.requiresLogin && typeof $localStorage["logged"] == "undefined") {

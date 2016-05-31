@@ -50,8 +50,13 @@
                     <md-input-container flex style="width:50%">
                         <label>Devise</label>
                         <input type="text" required id="devise" value="{{article.devise.id}}" name="prix" ng-model="article.devise.symbole" disabled>
-
                     </md-input-container>
+                </div>
+                <div layout layout-sm="row"   style="margin-top: -10%" >
+                  <md-input-container flex>
+                    <label>Localisation</label>
+                    <input  type="text" g-places-autocomplete ng-model="article.localisation">
+                  </md-input-container>
                 </div>
              </div>
 

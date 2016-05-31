@@ -12,17 +12,9 @@ angular.module('Occazstreet.controllers')
       selector: '.animate-fade-slide-in .item'
     });
     // Set Motion
-    $timeout(function() {
       ionic.material.motion.slideUp({
         selector: '.slide-up'
       });
-    }, 300);
-
-    $timeout(function() {
-      ionic.material.motion.fadeSlideInRight({
-        startVelocity: 3000
-      });
-    }, 700);
 
 
     /*get Id article from url*/
@@ -113,25 +105,25 @@ angular.module('Occazstreet.controllers')
       }
 
       /*Social Sharing*/
-      var message=articleTitre +" sur Occazstreet <br/><i>Regardez ce que je viens de trouver sur Occazstreet</i>";
-      var messageT=articleTitre +" sur Occazstreet  Regardez ce que je viens de trouver sur Occazstreet";
+      var message=articleTitre +" Regardez ce que je viens de trouver sur "+Globals.APPPLAYSTORE;
+      var messageT=articleTitre +" Regardez ce que je viens de trouver sur" +Globals.APPPLAYSTORE;
       var image= "<img src='"+$scope.cheminImage +imageF+"'/>" ;
       var link="";
       var number="";
 
       $scope.shareTwitter=function()
       {
-        SharingService.shareTwitter(messageT,$scope.url+$scope.cheminImage +imageF,'http://www.occazstreet.com');
+        SharingService.shareTwitter(messageT,$scope.url+$scope.cheminImage +imageF,'');
       };
 
       $scope.shareMail=function()
       {
-        var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"<br/><br/>"+articleDetails;
+        var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"\n"+articleDetails;
         var subjectMail=articleTitre +" sur Occazstreet";
         SharingService.shareMail(messageMail,subjectMail);
       };
 
-      $scope.shareWhatsapp=function()
+      $scope.shareWhatsappDetail=function()
       {
         SharingService.shareWhatsapp(message,image,link);
       };
