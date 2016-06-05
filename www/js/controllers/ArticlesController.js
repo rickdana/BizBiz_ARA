@@ -47,6 +47,7 @@ angular.module('Occazstreet.controllers')
                 {
                   $scope.isDisabled = false;
                   $rootScope.serverDown=true;
+                  $scope.articles=[];
                   $scope.buttonRaffraichirText="Raffraichir";
                   $mdDialog.show(
                     $mdDialog.alert()
@@ -154,7 +155,6 @@ angular.module('Occazstreet.controllers')
 
     $scope.search=function(param)
     {
-        alert(JSON.stringify(param));
     };
 
 
@@ -170,13 +170,13 @@ angular.module('Occazstreet.controllers')
 
       if ($rootScope.serverDown) {
         $state.go("app.articles");
-        $mdDialog.show(
+       /* $mdDialog.show(
           $mdDialog.alert()
             .parent(angular.element(document.body))
             .title(Messages.internetErrorTitle)
             .content(Messages.internetErrorContent)
             .ok('Ok')
-        );
+        );*/
       }else
       {
         ArticlesService.getDevise().then(function (response) {
@@ -206,6 +206,7 @@ angular.module('Occazstreet.controllers')
             .then(function (position) {
               $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY", {timeout: 10000})
                 .success(function (response) {*/
+
                 for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
                     var component = article.localisation.address_components[ac];
 
@@ -302,92 +303,120 @@ angular.module('Occazstreet.controllers')
           $ionicLoading.show({
             template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
           });
-          for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
-            var component = article.localisation.address_components[ac];
+          if(article.devise == null || typeof article.devise=='undefined')
+          {
+            $ionicLoading.hide();
+            $mdToast.show({
+              template: '<md-toast class="md-toast ">' +'Veuillez choisir une devise' + '</md-toast>',
+              hideDelay: 3000,
+              position: 'bottom right left'
+            });
 
-            switch(component.types[0]) {
-              case 'locality':
-                article.nomVille = component.long_name;
-                break;
-              case 'administrative_area_level_1':
-                break;
-              case 'country':
-                article.nompays = component.long_name;
-                break;
+          }else if(article.localisation.address_components ==null || typeof  article.localisation.address_components =='undefined')
+          {
+            $ionicLoading.hide();
+            $mdToast.show({
+              template: '<md-toast class="md-toast ">' +'Veuillez renseigner une localisation correcte' + '</md-toast>',
+              hideDelay: 3000,
+              position: 'bottom right left'
+            });
+          }else if(article.categorie == null || typeof article.categorie=='undefined')
+          {
+            $ionicLoading.hide();
+            $mdToast.show({
+              template: '<md-toast class="md-toast ">' +'Veuillez sélectionner une catégorie' + '</md-toast>',
+              hideDelay: 3000,
+              position: 'bottom right left'
+            });
+          }else
+          {
+            for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
+              var component = article.localisation.address_components[ac];
+
+              switch(component.types[0]) {
+                case 'locality':
+                  article.nomVille = component.long_name;
+                  break;
+                case 'administrative_area_level_1':
+                  break;
+                case 'country':
+                  article.nompays = component.long_name;
+                  break;
+              }
             }
-          }
-          article.latitude=article.localisation.geometry.location.lat();
-          article.longitude=article.localisation.geometry.location.lng();
-          delete article.localisation;
-          alert(JSON.stringify(article));
-
-          ArticlesService.addArticle(article).then(function (response) {
-            if (response.success == true) {
-              var count = 0;
-              $scope.idArticle = response.article.idArticle;
-              var keepGoing = true;
-              if ($rootScope.image.length > 0) {
-                for (var i = 0; i < $rootScope.image.length; i++) {
-                  if (keepGoing) {
-                    var options = new FileUploadOptions();
-                    var params = {};
-                    params.idArticle = response.article.idArticle;
-                    var url = $rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
-                    options = {
-                      fileKey: "file",
-                      fileName: i + (url.split('?')[0]),
-                      mimeType: "image/png",
-                      idArticle: response.article.idArticle
-                    };
-                    options.params = params;
-                    var failed = function (err) {
-                      ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
-                        if (success) {
+            article.latitude=article.localisation.geometry.location.lat();
+            article.longitude=article.localisation.geometry.location.lng();
+            delete article.localisation;
+            ArticlesService.addArticle(article).then(function (response) {
+              if (response.success == true) {
+                var count = 0;
+                $scope.idArticle = response.article.idArticle;
+                var keepGoing = true;
+                alert($rootScope.image.length);
+                if ($rootScope.image.length > 0) {
+                  for (var i = 0; i < $rootScope.image.length; i++) {
+                    if (keepGoing) {
+                      var options = new FileUploadOptions();
+                      var params = {};
+                      params.idArticle = response.article.idArticle;
+                      var url = $rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
+                      options = {
+                        fileKey: "file",
+                        fileName: i + (url.split('?')[0]),
+                        mimeType: "image/png",
+                        idArticle: response.article.idArticle
+                      };
+                      options.params = params;
+                      var failed = function (err) {
+                        ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
+                          if (success) {
+                            $ionicLoading.hide();
+                            $mdToast.show({
+                              template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+                              hideDelay: 10000,
+                              position: 'bottom right left'
+                            });
+                            keepGoing = false;
+                          }
+                        })
+                      };
+                      var success = function (result) {
+                        count++;
+                        if (count == $rootScope.image.length) {
                           $ionicLoading.hide();
+                          $state.go('app.articles');
                           $mdToast.show({
-                            template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+                            template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
                             hideDelay: 10000,
                             position: 'bottom right left'
                           });
-                          keepGoing = false;
                         }
-                      })
-                    };
-                    var success = function (result) {
-                      count++;
-                      if (count == $rootScope.image.length) {
-                        $ionicLoading.hide();
-                        $state.go('app.articles');
-                        $mdToast.show({
-                          template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
-                          hideDelay: 10000,
-                          position: 'bottom right left'
-                        });
-                      }
-                    };
-                    var ft = new FileTransfer();
-                    ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
+                      };
+                      var ft = new FileTransfer();
+                      ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
+                    }
                   }
+                } else {
+                  $ionicLoading.hide();
+                  $state.go('app.articles');
+                  $mdToast.show({
+                    template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
+                    hideDelay: 10000,
+                    position: 'bottom right left'
+                  });
+
                 }
-              } else {
-                $ionicLoading.hide();
-                $state.go('app.articles');
-                $mdToast.show({
-                  template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
-                  hideDelay: 10000,
-                  position: 'bottom right left'
-                });
 
               }
+              else {
+                // $mdDialog.hide();
+                $ionicLoading.hide();
+                erreurAjoutArticle();
 
-            }
-            else {
-              // $mdDialog.hide();
-              $ionicLoading.hide();
-              erreurAjoutArticle();
+              }
+            })
 
-            }
-          })
+          }
 
 
           /*var i = 0;
@@ -436,92 +465,98 @@ angular.module('Occazstreet.controllers')
           document.addEventListener('deviceready', checkLocationState, false);*/
         };
 
-        $scope.addImage = function (key, event) {
+        $scope.addImage=function(key,event)
+        {
           $mdDialog.show({
             controller: ImageController,
             templateUrl: 'uploadImageChoice.html',
-            parent: angular.element(document.body),
-            targetEvent: event
+            parent:angular.element(document.body),
+            targetEvent:event
           })
-            .then(function (answer) {
+            .then(function(answer) {
 
-              if (answer == 'photo') {
+              if(answer=='photo')
+              {
                 var cameraOptions = {
-                  quality: 100,
+                  quality: 50,
                   destinationType: Camera.DestinationType.NATIVE_URI,
-                  sourceType: Camera.PictureSourceType.CAMERA,
-                  encodingType: Camera.EncodingType.JPEG,
-                  targetWidth: 500,
-                  targetHeight: 500,
+                  sourceType : Camera.PictureSourceType.CAMERA,
+                  encodingType: Camera.EncodingType.PNG,
+                  targetWidth: 400,
+                  targetHeight: 400,
                   popoverOptions: CameraPopoverOptions,
                   saveToPhotoAlbum: false,
-                  allowEdit: true
+                  allowEdit:true
                 };
-                var success = function (data) {
+                var success = function(data){
                   $mdDialog.hide();
-                  if (key == null) {
-                    compteurImage = compteurImage + 1;
+                  if(key==null)
+                  {
+                    compteurImage =compteurImage+1;
                     $scope.$apply(function () {
                       $scope.imgURI.push(data);
-
+                      $rootScope.nombreImage=compteurImage;
                     });
-                    $scope.nombreImage = compteurImage;
                   }
-                  else {
+                  else
+                  {
                     $scope.$apply(function () {
-                      $scope.imgURI[key] = data;
+                      $scope.imgURI[key]=data;
+                      $rootScope.image=$scope.imgURI;
 
                     });
                   }
-                  $rootScope.image = $scope.imgURI;
 
                 };
-                var failure = function (message) {
+                var failure = function(message){
                 };
                 //call the cordova camera plugin to open the device's camera
-                navigator.camera.getPicture(success, failure, cameraOptions);
+                navigator.camera.getPicture( success , failure , cameraOptions );
 
-              } else {
+              }else
+              {
                 var cameraOptions = {
                   quality: 100,
                   destinationType: Camera.DestinationType.NATIVE_URI,
-                  sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                  encodingType: Camera.EncodingType.JPEG,
-                  targetWidth: 500,
-                  targetHeight: 500,
+                  sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+                  encodingType: Camera.EncodingType.PNG,
+                  targetWidth: 400,
+                  targetHeight: 400,
                   // popoverOptions: CameraPopoverOptions,
                   saveToPhotoAlbum: false
                 };
-                var success = function (data) {
-                  if (key == null) {
-                    compteurImage = compteurImage + 1;
+                var success = function(data){
+                  if(key==null)
+                  {
+                    compteurImage =compteurImage+1;
                     $scope.$apply(function () {
                       $scope.imgURI.push(data);
+                      $rootScope.nombreImage=compteurImage;
 
                     });
-                    $scope.nombreImage = compteurImage;
                   }
-                  else {
+                  else
+                  {
+
                     $scope.$apply(function () {
-                      $scope.imgURI[key] = data;
+                      $scope.imgURI[key]=data;
+                      $rootScope.nombreImage=compteurImage;
 
                     });
                   }
-                  $rootScope.image = $scope.imgURI;
+                  $rootScope.image=$scope.imgURI;
 
 
                 };
-                var failure = function (message) {
+                var failure = function(message){
                   $mdDialog.hide();
                 };
                 //call the cordova camera plugin to open the device's camera
-                navigator.camera.getPicture(success, failure, cameraOptions);
+                navigator.camera.getPicture( success , failure , cameraOptions );
 
               }
             });
         };
-
-
         $scope.closeDialog = function () {
           $mdDialog.cancel();
         };
@@ -536,11 +571,10 @@ angular.module('Occazstreet.controllers')
             if (answer == 'edit') {
               $scope.addImage(key, event);
             } else {
-              $rootScope.image;
-              splice(key, 1);
+              $rootScope.image.splice(key, 1);
               $scope.imgURI.splice(key, 1);
               compteurImage--;
-              $scope.nombreImage = compteurImage;
+              $rootScope.nombreImage = compteurImage;
               $mdDialog.cancel();
 
             }
@@ -643,22 +677,31 @@ angular.module('Occazstreet.controllers')
             articleUpdate.prix=article.prix;
             //Lors de l'édition d'un article on met à jour la date d'ajout
             articleUpdate.dateAjout=new Date();
-            for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
-              var component = article.localisation.address_components[ac];
+            if(article.localisation.address_components)
+            {
+              for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
+                var component = article.localisation.address_components[ac];
 
-              switch(component.types[0]) {
-                case 'locality':
-                  articleUpdate.nomVille = component.long_name;
-                  break;
-                case 'administrative_area_level_1':
-                  break;
-                case 'country':
-                  articleUpdate.nompays = component.long_name;
-                  break;
+                switch(component.types[0]) {
+                  case 'locality':
+                    articleUpdate.nomVille = component.long_name;
+                    break;
+                  case 'administrative_area_level_1':
+                    break;
+                  case 'country':
+                    articleUpdate.nompays = component.long_name;
+                    break;
+                }
               }
+              articleUpdate.latitude=article.localisation.geometry.location.lat();
+              articleUpdate.longitude=article.localisation.geometry.location.lng();
+            }else
+            {
+              articleUpdate.nomVille=article.localisation.split(',')[0];
+              articleUpdate.npmpays=article.localisation.split(',')[1];
             }
-            articleUpdate.latitude=article.localisation.geometry.location.lat();
-            articleUpdate.longitude=article.localisation.geometry.location.lng();
+
+
 
             if(article.etat)
             {
@@ -766,7 +809,7 @@ angular.module('Occazstreet.controllers')
 
     $scope.saveStat=function(article)
     {
-      cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
+      /*cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
         var posOptions  = {timeout: 10000, enableHighAccuracy: false};
         $cordovaGeolocation
           .getCurrentPosition(posOptions)
@@ -786,10 +829,12 @@ angular.module('Occazstreet.controllers')
                   statArticle.codePays=response.results[0].address_components[5].long_name + " - "+response.results[0].address_components[2].short_name;
                   ArticlesService.addStatArticle(statArticle).then(function(response){
                     console.log("StatArticle response"+response);
-                  })
+                  });
+                  alert(JSON.stringify(data));
 
                 };
-                var err = function () {
+                var err = function (err) {
+                  alert(err);
                   console.log("erreur lors dela recuperation du fai");
                 };
                 window.plugins.carrier.getCarrierInfo(succ, err);
@@ -799,9 +844,10 @@ angular.module('Occazstreet.controllers')
             // alert("erreur get IP "+err);
             console.log(err);
           });
-      }, function (error) {
-          var succ = function (dataIP) {
-            var statArticle={};
+      }, function (error) {*/
+      var statArticle={};
+
+      var succ = function (data) {
             statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
             statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
             statArticle.uuid=$cordovaDevice.getUUID();
@@ -809,19 +855,29 @@ angular.module('Occazstreet.controllers')
             statArticle.dateVue = new Date();
             statArticle.article = article;
             statArticle.operateur=data['carrierName'];
-            statArticle.phoneNumber=data['lineNumber'];
-            statArticle.codePays="";
+            statArticle.phoneNumber=data['phoneNumber'];
+            statArticle.codePays=data['countryCode'];
             ArticlesService.addStatArticle(statArticle).then(function(response){
               console.log("StatArticle response"+response);
             })
           };
-          var err = function () {
-            console.log("erreur lors dela recuperation du fai");
+          var err = function (err) {
+            console.log(err);
+            statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
+            statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
+            statArticle.uuid=$cordovaDevice.getUUID();
+            statArticle.adresseIp = "";
+            statArticle.dateVue = new Date();
+            statArticle.article = article;
+            statArticle.operateur=null;
+            statArticle.phoneNumber=null;
+            statArticle.codePays=null;
+            ArticlesService.addStatArticle(statArticle).then(function(response){
+              console.log("StatArticle response"+response);
+            })
           };
-          window.plugins.carrier.getCarrierInfo(succ, err);
-      });
-
-       $state.transitionTo($state.current, $state.$current.params, { reload: true, inherit: true, notify: true });
+          window.plugins.sim.getSimInfo(succ, err);
+      //});
     };
 
     var internetError=function()

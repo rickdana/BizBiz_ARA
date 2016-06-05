@@ -14,7 +14,10 @@ angular.module('Occazstreet.controllers')
 }).controller('PolitiqueConfidentialiteController', function($scope,$stateParams, $timeout) {
 
 
-});
+}).controller('ConseilSecuriteController', function($scope,$stateParams, $timeout) {
+
+
+  });
 
 
 

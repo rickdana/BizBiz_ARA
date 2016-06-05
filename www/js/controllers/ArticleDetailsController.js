@@ -12,9 +12,17 @@ angular.module('Occazstreet.controllers')
       selector: '.animate-fade-slide-in .item'
     });
     // Set Motion
+    $timeout(function() {
       ionic.material.motion.slideUp({
         selector: '.slide-up'
       });
+    }, 300);
+
+    $timeout(function() {
+      ionic.material.motion.fadeSlideInRight({
+        startVelocity: 3000
+      });
+    }, 700);
 
 
     /*get Id article from url*/
@@ -60,6 +68,16 @@ angular.module('Occazstreet.controllers')
     {
     }
 
+    $scope.slideHasChanged=function()
+    {
+      $ionicScrollDelegate.scrollTop();
+      $scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();
+      console.log('the slide changed to : ' + $scope.data.currSlide);
+      $ionicScrollDelegate.resize();
+
+      $timeout( function() {
+      }, 50);
+    };
     ArticlesService.getArticleById(article).then(function (response) {
       //On sauvegarde l'article dans la memoire
       $localStorage['detailsArticle']=response.article;
@@ -105,8 +123,8 @@ angular.module('Occazstreet.controllers')
       }
 
       /*Social Sharing*/
-      var message=articleTitre +" Regardez ce que je viens de trouver sur "+Globals.APPPLAYSTORE;
-      var messageT=articleTitre +" Regardez ce que je viens de trouver sur" +Globals.APPPLAYSTORE;
+      var message=articleTitre +" : \n  sur OccazStreet \n pour voir le détails télécharger l'application en allant sur "+Globals.APPPLAYSTORE;
+      var messageT=articleTitre  +" : \n sur OccazStreet \n pour voir le détails, télécharger l'application en allant sur " +Globals.APPPLAYSTORE;
       var image= "<img src='"+$scope.cheminImage +imageF+"'/>" ;
       var link="";
       var number="";
@@ -120,17 +138,24 @@ angular.module('Occazstreet.controllers')
       {
         var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"\n"+articleDetails;
         var subjectMail=articleTitre +" sur Occazstreet";
-        SharingService.shareMail(messageMail,subjectMail);
+        SharingService.shareMail(messageMail,subjectMail,null,null,null,$scope.url+$scope.cheminImage +imageF);
       };
 
-      $scope.shareWhatsappDetail=function()
+      $scope.shareMailEmpty=function()
       {
-        SharingService.shareWhatsapp(message,image,link);
+        var to=[response.article.utilisateur.email];
+        var subjectMail="Concernant votre annonce : " +articleTitre +" sur Occazstreet";
+        SharingService.shareMail(null,subjectMail,to,response.article.utilisateur.email,null);
+      };
+
+      $scope.shareWhatsapp=function()
+      {
+        SharingService.shareWhatsapp(message,null,null);
       };
 
       $scope.shareFacebook=function()
       {
-        SharingService.shareFacebook(message,image,link);
+        SharingService.shareFacebook(message,null,$scope.url+$scope.cheminImage +imageF);
       };
 
       $scope.shareSMS=function()

@@ -6,17 +6,15 @@
 
     <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" >
         <div class="card card-margin" style="width: 95px"  >
-            <button ng-show="nombreImage < 1 || nombreImage ===undefined" class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
+            <button ng-if="nombreImage < 1 || nombreImage == 'undefined' || nombreImage==null " class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
             </button>
+          <table ng-if="nombreImage ==1 && nombreImage !=='undefined' && imgURI.length!==0 " border="0" cellpadding="" cellspacing="0">
+            <tr>
+              <td ng-repeat='(key, value) in imgURI'> <md-button on-hold="onHold({{key}})"><img  ng-src="{{value}}" height="60px" width="60px"></md-button></td>
+            </tr>
+          </table>
         </div>
-        <div   ng-show="nombreImage !==undefined && imgURI.length!==0 " class="card">
-            <table  border="0" cellpadding="" cellspacing="0">
-                <tr>
-                    <td ng-repeat='(key, value) in imgURI'> <md-button on-hold="onHold({{key}})"><img  ng-src="{{value}}"></md-button></td>
-                </tr>
-            </table>
-            <!-- <img ng-repeat='image in imgURI' ng-src="{{image}}">-->
-        </div>
+
         <form  ng-submit="addArticle(article)" >
 
             <div class="card card-margin" layout-gt-sm="row">
@@ -38,7 +36,7 @@
                     </md-input-container>
                     <md-input-container flex style="width:50%;margin-top: 8.6%">
                         <md-select  placeholder="Devise" ng-model="article.devise" required>
-                            <md-option ng-required ng-repeat="devise in devises" value="{{devise.id}}" required>{{devise.symbole}}</md-option>
+                            <md-option required ng-repeat="devise in devises" value="{{devise.id}}" required>{{devise.symbole}}</md-option>
                         </md-select>
                     </md-input-container>
 

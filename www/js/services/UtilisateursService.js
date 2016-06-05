@@ -7,10 +7,9 @@ angular.module('Occazstreet.services')
         var username = {};
         var isAuthenticated = false;
         var baseUrl=Globals.urlServer+Globals.port;
-
         this.getUtilisateurById=function(utilisateur)
         {
-            var deferred=$q.defer();
+          var deferred=$q.defer();
             $http.get(baseUrl+'/utilisateur/getUtilisateurById?idutilisateur='+utilisateur).success(function(response){
                 if(response)
                 {

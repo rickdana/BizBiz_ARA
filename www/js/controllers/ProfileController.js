@@ -55,7 +55,7 @@ angular.module('Occazstreet.controllers')
             UtilisateursService.getUtilisateurById(utilisateur).then(function(response){
                 profil=true;
                 $scope.utilisateur=response.utilisateur;
-                if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined')
+                if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined' && $scope.infoUserLogged.id==utilisateur)
                 {
                     $localStorage[Globals.USER_LOGGED].nom=response.utilisateur.nom;
                     $localStorage[Globals.USER_LOGGED].prenom=response.utilisateur.prenom;
@@ -274,23 +274,24 @@ angular.module('Occazstreet.controllers')
 
                   $scope.$apply();
                   $ionicLoading.hide();
-                  $mdDialog.show(
-                    $mdDialog.alert()
-                      .parent(angular.element(document.body))
-                      .title(Messages.miseAjoutProfilTitre)
-                      .content(Messages.misAJourProfilSuccess)
-                      .ok('Ok')
-                  );
-
-                  if(response.emailHasChange)
+                  if(response.success)
                   {
-                    $mdToast.show({
-                      template: '<md-toast class="md-toast">' + Messages.changementEmail + '</md-toast>',
-                      hideDelay: 7000,
-                      position: 'bottom right left'
-                    });
+                    $mdDialog.show(
+                      $mdDialog.alert()
+                        .parent(angular.element(document.body))
+                        .title(Messages.miseAjoutProfilTitre)
+                        .content(Messages.misAJourProfilSuccess)
+                        .ok('Ok')
+                    );
+                  }else {
+                    if (response.emailAlreadyExist) {
+                      $mdToast.show({
+                        template: '<md-toast class="md-toast">' + Messages.changementEmailError + '</md-toast>',
+                        hideDelay: 7000,
+                        position: 'bottom right left'
+                      });
+                    }
                   }
-
                 })
 
               }
@@ -521,8 +522,8 @@ angular.module('Occazstreet.controllers')
         }
 
         if($state.current.name=='app.validerEmail'){
-
-            $scope.validEmail=function()
+          $scope.email=$localStorage[Globals.USER_LOGGED].email;
+          $scope.validEmail=function()
             {
                 if(helper.isEmpty($scope.email)) {
                     showError(Messages.erreurChampVide);

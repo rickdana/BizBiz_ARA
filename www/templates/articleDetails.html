@@ -1,7 +1,7 @@
 <ion-view view-title="Détails" >
 <!--<ion-header-bar class="bar-light">-->
 
-   <!-- </ion-header-bar>-->
+   </ion-header-bar>
   <ion-nav-buttons side="right">
     <button ui-sref="app.filtres" class="button button-icon button-clear ion-android-search">
     </button>
@@ -21,18 +21,27 @@
     </md-menu>
   </ion-nav-buttons>
 
-  <ion-content class="article-body animate-fade-slide-in" has-bouncing="true">
+  <ion-content class="article-body animate-fade-slide-in" has-bouncing="true" ng-controller="ArticleDetailsController">
 
           <div class="card-margin">
-              <ion-slide-box  show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
-                  <ion-slide ng-show="art.images.length>0" ng-repeat="image in art.images">
+            <ion-slide-box  style="height: 50%" show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged()">
+                  <ion-slide  ng-show="art.images.length>0" ng-repeat="image in art.images">
+                      <div ng-show="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
                       <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">
                       <img class="image" ng-if="art.images.length<1" ng-src="img/no_image.png">
                   </ion-slide>
               </ion-slide-box>
           </div>
-        <div ng-show="!currentUser" class="card card-margin" >
-            <div class="item item-text-wrap" >
+        <!--
+        <div ng-show="!currentUser" class="card card-margin" >-->
+        <div  class="card card-margin" >
+
+             <div class="item item-text-wrap" >
+                <div class="col text-center">
+                      <span style="font-weight: bold;color:#98a2a2">
+                        Contacter l'annonceur
+                      </span>
+                </div>
                 <div class="item tabs tabs-secondary tabs-icon-left">
 
                     <!--<md-button ui-sref="app.chat" class="md-raised md-primary">  <i class="icon ion-chatbubble"></i>
@@ -46,8 +55,10 @@
                         <i class="icon ion-chatbox"></i>
                         Comment
                     </a>-->
-                    <a class="tab-item"  ng-if="art.utilisateur.telephone" href="tel: {{art.utilisateur.telephone}}"><i class="icon ion-android-call" style="font-size: 200%;color: #B71C1C;"></i></a>
-                    <a class="tab-item" ng-click="sendSms(art.utilisateur.telephone)"><i class="icon ion-android-mail" style="color: #B71C1C;font-size: 200%;"></i></a>
+
+                    <a class="tab-item"  ng-if="art.utilisateur.telephone" href="tel: {{art.utilisateur.telephone}}"><i class="icon ion-android-call balanced" style="font-size: 200%;"></i></a>
+                    <a class="tab-item" ng-if="art.utilisateur.telephone" href="tel: {{art.utilisateur.telephone}}"  ng-click="sendSms(art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
+                    <a class="tab-item" ng-click="shareMailEmpty()"><i class="icon ion-android-mail positive" style="font-size: 200%;"></i></a>
 
                    <!-- <a class="tab-item">
                         <i class="icon ion-share"></i>
@@ -58,11 +69,26 @@
         </div>
         <div class="card card-margin">
             <div class="item item-text-wrap" >
-                <span class="badge badge-assertive price-details">{{art.prix}} {{art.devise.symbole}}</span><br/>
-                <p class="titre-article">{{art.titre}}</p>
+              <div class="row">
+                <div class="col col-80">
+                  <span style="font-size: 150%; margin-left: -5%; color: black">{{art.prix}} {{art.devise.symbole}}</span>
+                </div>
+                <div class="col col-20">
+                  <span style="color: darkgray;"> <i style="font-size: 150%;" class="icon ion-eye   text-right"></i><b class=" ">&nbsp;{{art.nombreDeVue}}</b></span>
+                </div>
+              </div>
+              <div class="row">
+                <h2 style="font-weight: bold;color: #B71C1C;" class="titre-article">{{art.titre}}</h2>
+
+              </div>
+              <div class="row">
                 <p class="desc-article">
-                    {{art.details}}
+                  {{art.details}}
                 </p>
+              </div>
+              <div class="row">
+                <p style="color: darkgray;"> Ajouté <span   am-time-ago="art.dateAjout | amParse:'DD/MM/YYYY'"></span></p>
+              </div>
             </div>
         </div>
 
@@ -112,7 +138,7 @@
                     <a class="tab-item" ng-click="shareSMS()">
                         <i class="icon ion-android-textsms dark"></i>
                     </a>
-                    <a class="tab-item" ng-click="shareWhatsappDetail()" data-href="">
+                    <a class="tab-item" ng-click="shareWhatsapp()" data-href="">
                         <i class="icon ion-social-whatsapp balanced"></i>
                     </a>
 

@@ -103,6 +103,15 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
           }
       },
      requiresLogin:false
+  }).state('app.conseilsecurite', {
+    url: "/conseilsecurite",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/conseilsecurite.html",
+        controller:'ConseilSecuriteController'
+      }
+    },
+    requiresLogin:false
   })
   .state('app.login', {
     url: "/login",

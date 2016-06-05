@@ -17,10 +17,10 @@ angular.module('Occazstreet.services')
 
     };
 
-    this.shareMail=function(messageMail,subjectMail)
+    this.shareMail=function(messageMail,subjectMail,to,bcc,info,image)
     {
       $cordovaSocialSharing
-        .shareViaEmail(messageMail, subjectMail)
+        .shareViaEmail(messageMail, subjectMail,to,null,null,image)
         .then(function(result) {
           // Success!
         }, function(err) {
@@ -31,7 +31,7 @@ angular.module('Occazstreet.services')
     this.shareWhatsapp=function(message,image,link)
     {
       $cordovaSocialSharing
-        .shareViaWhatsApp(message, image, link)
+        .shareViaWhatsApp(message, image, link,null)
         .then(function(result) {
           // Success!
         }, function(err) {
@@ -43,7 +43,7 @@ angular.module('Occazstreet.services')
     this.shareFacebook=function(message,image,link)
     {
       $cordovaSocialSharing
-        .shareViaFacebook(message +" "+image, image, link)
+        .shareViaFacebook(message , image, link)
         .then(function(result) {
           // Success!
         }, function(err) {
