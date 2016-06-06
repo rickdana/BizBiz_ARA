@@ -482,11 +482,11 @@ angular.module('Occazstreet.controllers')
                   destinationType: Camera.DestinationType.NATIVE_URI,
                   sourceType : Camera.PictureSourceType.CAMERA,
                   encodingType: Camera.EncodingType.PNG,
-                  targetWidth: 200,
-                  targetHeight: 200,
-                  popoverOptions: CameraPopoverOptions,
-                  saveToPhotoAlbum: true,
-                  allowEdit:true
+                  targetWidth: 400,
+                  targetHeight: 400,
+                //  popoverOptions: CameraPopoverOptions,
+                  saveToPhotoAlbum: false,
+                  allowEdit:false
                 };
                 var success = function(data){
                   $mdDialog.hide();

@@ -3,7 +3,8 @@
  */
 angular.module('Occazstreet.constants', [])
     .constant('Globals',{
-   //   "urlServer":"http://localhost:",
+     //"urlServer":"http://localhost:",
+     "urlServer":"http://37.59.101.217:",
         "port":"1337",
         "cheminImage":"imagesArticle/",
         "cheminPhoto":"photoUtilisateur/",
@@ -13,10 +14,11 @@ angular.module('Occazstreet.constants', [])
         "LOCAL_TOKEN_KEY":"token",
         "URL_JSON_IP":"http://freegeoip.net/json",
         "PAGE":6,
-        "VERSION":"0.4.0",
-        "APPPLAYSTORE":"playstore.app",
+        "VERSION":"0.9.18",
+        "APPPLAYSTORE":"https://play.google.com/store/apps/details?id=com.pisixlabs.occazstreet",
         "APPNAME":"OccazStreet",
         "FACEBOOKPAGE":"",
-        "TWITTERPAGE":""
+        "TWITTERPAGE":"https://twitter.com/occazstreet",
+        "WEBSITE":"http://www.occazstreet.com"
 
     });

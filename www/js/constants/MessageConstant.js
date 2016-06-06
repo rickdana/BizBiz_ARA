@@ -28,6 +28,7 @@ angular.module('Occazstreet.constants')
         "miseAjoutProfilTitre":"Profil",
         "miseAjoutArticleTitre":"Mise à jour du Produit",
         "changementEmail":"Le nouvel email a été enregistré et est en attente de confirmation",
+        "changementEmailError":"L'adresse email renseignée est déjà utilisée",
         "changementEmailDejaVerifie":"L'adresse email a déjà été vérifiée",
         "erreurNumeroTelephone":"Le numéro de téléphone doit être numérique",
         "erreurIndiceTelephone":"L'indice téléphonique ne doit pas contenir de lettre ex:+237",
