@@ -168,17 +168,17 @@ angular.module('Occazstreet.controllers')
     //Traitement ajout article
     if($state.current.name == 'app.addarticle') {
 
-      if ($rootScope.serverDown) {
+      /*if ($rootScope.serverDown) {
         $state.go("app.articles");
-       /* $mdDialog.show(
+        $mdDialog.show(
           $mdDialog.alert()
             .parent(angular.element(document.body))
             .title(Messages.internetErrorTitle)
             .content(Messages.internetErrorContent)
             .ok('Ok')
-        );*/
+        );
       }else
-      {
+      {*/
         ArticlesService.getDevise().then(function (response) {
           $scope.devises = response.devises;
         });
@@ -478,14 +478,14 @@ angular.module('Occazstreet.controllers')
               if(answer=='photo')
               {
                 var cameraOptions = {
-                  quality: 50,
+                  quality: 100,
                   destinationType: Camera.DestinationType.NATIVE_URI,
                   sourceType : Camera.PictureSourceType.CAMERA,
                   encodingType: Camera.EncodingType.PNG,
-                  targetWidth: 400,
-                  targetHeight: 400,
+                  targetWidth: 200,
+                  targetHeight: 200,
                   popoverOptions: CameraPopoverOptions,
-                  saveToPhotoAlbum: false,
+                  saveToPhotoAlbum: true,
                   allowEdit:true
                 };
                 var success = function(data){
@@ -509,6 +509,7 @@ angular.module('Occazstreet.controllers')
 
                 };
                 var failure = function(message){
+                  alert(message);
                 };
                 //call the cordova camera plugin to open the device's camera
                 navigator.camera.getPicture( success , failure , cameraOptions );
@@ -596,8 +597,6 @@ angular.module('Occazstreet.controllers')
           };
 
         }
-
-      }
     }
 
     $scope.editArticle=function(article) {

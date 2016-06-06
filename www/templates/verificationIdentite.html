@@ -8,25 +8,35 @@
                 <md-card-content>
                     <md-list>
                         <md-list-item>
-                            <a ng-if="email" ui-sref="app.validerEmail" class="md-button no-text-transform not-active" style="width: 100%;">
+                           <div class="col col-50">
+                             <a ng-if="email" ui-sref="app.validerEmail" class="md-button no-text-transform not-active" style="width: 100%;">
 
-                                <i ng-class="{ 'royal': email}" style="font-size: 30px" class="icon ion-ios-email-outline"> </i>
-                                Email
-                                <i ng-class="{'icon ion-checkmark':email}" style="font-size: 30px;color: #B71C1C; overflow: auto; float: right;margin-top: -30px"></i>
+                               <i ng-class="{ 'royal': email}" style="font-size: 30px" class="icon ion-ios-email-outline"> </i>
+                               Email
+                             </a>
+                             <a ng-if="!email" ui-sref="app.validerEmail" class="md-button no-text-transform" style="width: 100%">
+                               <i ng-class="{ 'royal': email}" style="font-size: 30px" class="icon ion-ios-email-outline"> </i>Email
+                             </a>
+                           </div>
+                          <div class="col col-50">
+                            <i ng-if="email" ng-class="{'icon ion-checkmark':email}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
+                          </div>
 
-                            </a>
-                            <a ng-if="!email" ui-sref="app.validerEmail" class="md-button no-text-transform" style="width: 100%">
-                                <i ng-class="{ 'royal': email}" style="font-size: 30px" class="icon ion-ios-email-outline"> </i>Email
-                            </a>
                         </md-list-item>
                         <md-list-item>
-                            <a ng-if="telephone" flex layout="row"  ui-sref="app.validerTelephone" class="md-button no-text-transform not-active" style="width: 100%;">
+                            <div class="col col-50">
+                              <a ng-if="telephone" flex layout="row"  ui-sref="app.validerTelephone" class="md-button no-text-transform not-active" style="width: 100%;">
                                 <i  ng-class="{ 'balanced': telephone}" style="font-size: 30px" class="icon  ion-ios-telephone-outline"> </i> Téléphone
-                                <i ng-class="{'icon ion-checkmark':telephone}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
-                            </a>
-                            <a ng-if="!telephone"  ui-sref="app.validerTelephone" class="md-button no-text-transform" style="width: 100%">
+                              </a>
+                              <a ng-if="!telephone"  ui-sref="app.validerTelephone" class="md-button no-text-transform" style="width: 100%">
                                 <i  ng-class="{ 'balanced': telephone}" style="font-size: 30px" class="icon  ion-ios-telephone-outline"> </i> Téléphone
-                            </a>
+                              </a>
+                            </div>
+                            <div class="col col-50">
+                              <i ng-if="telephone" ng-class="{'icon ion-checkmark':telephone}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
+                            </div>
+
+
                         </md-list-item>
                        <!-- <md-list-item>
                             <a ng-if="facebook" ui-sref="app.validerFacebook" class="md-button no-text-transform  not-active" style="width: 100%;display: inline">

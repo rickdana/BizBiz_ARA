@@ -570,20 +570,14 @@ angular.module('Occazstreet.controllers')
 
         if($state.current.name=='app.verifCode')
         {
-            $mdToast.show({
-                template: '<md-toast class="md-toast error">' +$scope.phone + '</md-toast>',
-                hideDelay: 4000,
-                position: 'top'
-            });
+
             $scope.validerCode=function()
             {
                 var user={};
                 user.idutilisateur=$localStorage[Globals.USER_LOGGED].id;
                 user.code=$scope.code;
                 UtilisateursService.validerCode(user).then(function(response) {
-                    alert(response.codeCorrecte);
                     if (response.codeCorrecte==='true') {
-                        //$mdDialog.cancel();
                         $mdDialog.show(
                             $mdDialog.alert()
                                 .parent(angular.element(document.body))
@@ -591,7 +585,7 @@ angular.module('Occazstreet.controllers')
                                 .content(Messages.messageCodeVerificationSuccess)
                                 .ok('Ok')
                         );
-                        $state.go('app.verificationidentite',{inherit:true},{reload:true});
+                        $state.go('app.verificationidentite');
                         /*$state.transitionTo('app.verificationidentite', $stateParams, {
                          reload: true,
                          inherit: false,
