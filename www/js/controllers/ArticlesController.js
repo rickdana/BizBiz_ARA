@@ -496,16 +496,19 @@ angular.module('Occazstreet.controllers')
                     $scope.$apply(function () {
                       $scope.imgURI.push(data);
                       $rootScope.nombreImage=compteurImage;
+
                     });
                   }
                   else
                   {
+
                     $scope.$apply(function () {
                       $scope.imgURI[key]=data;
-                      $rootScope.image=$scope.imgURI;
+                      $rootScope.nombreImage=compteurImage;
 
                     });
                   }
+                  $rootScope.image=$scope.imgURI;
 
                 };
                 var failure = function(message){
@@ -599,48 +602,52 @@ angular.module('Occazstreet.controllers')
         }
     }
 
-    $scope.editArticle=function(article) {
-        $ionicActionSheet.show({
+    $scope.editArticle=function(article,createurArticle) {
+        if(createurArticle== $localStorage[Globals.USER_LOGGED].id)
+        {
+          $ionicActionSheet.show({
             buttons: [{
-                text: '<i class="icon ion-edit color-button-sheet " style="color: darkred"></i><span class="no-text-transform color-button-sheet">Editer l\'annonce</span>'
+              text: '<i class="icon ion-edit color-button-sheet " style="color: darkred"></i><span class="no-text-transform color-button-sheet">Editer l\'annonce</span>'
             }, {
-                text: '<i class="icon ion-trash-b color-button-sheet"></i><span class="no-text-transform color-button-sheet">Supprimer l\'annonce</span>'
+              text: '<i class="icon ion-trash-b color-button-sheet"></i><span class="no-text-transform color-button-sheet">Supprimer l\'annonce</span>'
             }],
             cancelText:'<i class="icon ion-close color-button-sheet"></i><span class="no-text-transform color-button-sheet">Annuler</span>',
             buttonClicked: function(index) {
-                switch (index) {
-                    case 0: // Edition
-                        $state.go('app.editArticle', {article:article});
-                        break;
-                    case 1: // Supprression
-                        $ionicLoading.show({
-                            template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
-                        });
-                        ArticlesService.delete(article).then(function(response){
-                            if(response.success)
-                            {
-                                $ionicLoading.hide();
-                                $mdToast.show({
-                                    template: '<md-toast class="md-toast ">' + Messages.articleSupprimeSuccess + '</md-toast>',
-                                    hideDelay: 5000,
-                                    position: 'bottom right left'
-                                });
-                            }else
-                            {
-                                $ionicLoading.hide();
-                                mdToast.show({
-                                    template: '<md-toast class="md-toast ">' + Messages.articleSupprimerEchec + '</md-toast>',
-                                    hideDelay: 5000,
-                                    position: 'bottom right left'
-                                });
-                            }
-                        });
-                        break;
-                }
+              switch (index) {
+                case 0: // Edition
+                  $state.go('app.editArticle', {article:article});
+                  break;
+                case 1: // Supprression
+                  $ionicLoading.show({
+                    template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+                  });
+                  ArticlesService.delete(article).then(function(response){
+                    if(response.success)
+                    {
+                      $ionicLoading.hide();
+                      $mdToast.show({
+                        template: '<md-toast class="md-toast ">' + Messages.articleSupprimeSuccess + '</md-toast>',
+                        hideDelay: 5000,
+                        position: 'bottom right left'
+                      });
+                    }else
+                    {
+                      $ionicLoading.hide();
+                      mdToast.show({
+                        template: '<md-toast class="md-toast ">' + Messages.articleSupprimerEchec + '</md-toast>',
+                        hideDelay: 5000,
+                        position: 'bottom right left'
+                      });
+                    }
+                  });
+                  break;
+              }
 
-                return true;
+              return true;
             }
-        });
+          });
+        }
+
     };
 
     if($state.current.name=='app.editArticle')

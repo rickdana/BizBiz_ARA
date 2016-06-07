@@ -26,25 +26,25 @@
                 <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
                     <md-tab label="En cours">
                         <md-content ng-show="articleExist" class="md-padding">
-                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articles | orderBy: 'dateAjout'"  ng-controller="ArticlesController" class="item card-item" >
+                          <div   on-hold="editArticle({{article.idArticle}},{{createurAnnonce}})" ng-repeat="article in articles | orderBy: 'dateAjout'"  ng-controller="ArticlesController" class="item card-item" >
                             <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                               <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
-                              <div class="item item-avatar  item-text-wrap">
+                              <div class="item item-avatar  item-text-wrap ">
                                 <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
                                 <span ng-show="article.images.length ==0" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
                                 <div class="row">
                                   <div style="margin-left: -6%;white-space: nowrap;" class="col col-60">
                                     <strong >{{article.titre.substring(0,10)}}...</strong>
                                   </div>
-                                  <div class="col col-50">
+                                  <div class="col col-40">
                                     <span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
                                   </div>
                                 </div>
                                 <div class="row" style="margin-top: -10%">
                                   {{article.categorie.libelle}}
                                 </div>
-                                <div class="row" style="margin-top: -10%; margin-bottom:-10%;color: grey;">
-                                  {{article.nomVille}} , ajouté &nbsp;  <span  am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                                <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
+                                  {{article.nomVille}} , ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time>
                                 </div>
                               </div>
                             </div>
@@ -81,28 +81,26 @@
                     </md-tab>
                     <md-tab label="Vendus">
                         <md-content ng-show="articleVenduExist" class="md-padding">
-                          <div   on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articlesvendu"  ng-controller="ArticlesController" class="item card-item" >
+                          <div  on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articlesvendu"  ng-controller="ArticlesController" class="item card-item" >
                             <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
-                              <div class="ribbon"><span>Vendu</span></div>
                               <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
-                              <div class="item item-avatar  item-text-wrap">
+                              <div class="item item-avatar  item-text-wrap ">
                                 <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
                                 <span ng-show="article.images.length ==0" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
                                 <div class="row">
                                   <div style="margin-left: -6%;white-space: nowrap;" class="col col-60">
                                     <strong >{{article.titre.substring(0,10)}}...</strong>
                                   </div>
-                                  <div class="col col-50">
-                                    <span class="price assertive">{{article.prix}}000 {{article.devise.symbole}}</span><br>
+                                  <div class="col col-40">
+                                    <span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
                                   </div>
                                 </div>
                                 <div class="row" style="margin-top: -10%">
                                   {{article.categorie.libelle}}
                                 </div>
-                                <div class="row" style="margin-top: -10%; margin-bottom:-10%;color: grey;">
-                                  {{article.nomVille}} , ajouté &nbsp;  <span  am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
+                                <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
+                                  {{article.nomVille}} , ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time>
                                 </div>
-
                               </div>
                             </div>
                           </div>
@@ -138,25 +136,24 @@
                           <div   ng-repeat="article in articlesFavoris"  ng-controller="ArticlesController" class="item card-item" >
                           <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                             <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
-                            <div class="item item-avatar  item-text-wrap">
-                                <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
-                                <span ng-show="article.images.length ==0" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
-                                <div class="row">
-                                  <div style="margin-left: -6%;white-space: nowrap;" class="col col-60">
-                                    <strong >{{article.titre.substring(0,10)}}...</strong>
-                                  </div>
-                                  <div class="col col-50">
-                                    <span class="price assertive">{{article.prix}}000 {{article.devise.symbole}}</span><br>
-                                  </div>
+                            <div class="item item-avatar  item-text-wrap ">
+                              <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+                              <span ng-show="article.images.length ==0" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
+                              <div class="row">
+                                <div style="margin-left: -6%;white-space: nowrap;" class="col col-60">
+                                  <strong >{{article.titre.substring(0,10)}}...</strong>
                                 </div>
-                                <div class="row" style="margin-top: -10%">
-                                  {{article.categorie.libelle}}
+                                <div class="col col-40">
+                                  <span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
                                 </div>
-                                <div class="row" style="margin-top: -10%; margin-bottom:-10%;color: grey;">
-                                  {{article.nomVille}} , ajouté &nbsp;  <span  am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
-                                </div>
-
                               </div>
+                              <div class="row" style="margin-top: -10%">
+                                {{article.categorie.libelle}}
+                              </div>
+                              <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
+                                {{article.nomVille}} , ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time>
+                              </div>
+                            </div>
                             </div>
                           </div>
                         </md-content>

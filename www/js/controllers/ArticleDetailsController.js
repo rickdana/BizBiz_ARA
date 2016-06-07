@@ -131,7 +131,7 @@ angular.module('Occazstreet.controllers')
 
       $scope.shareTwitter=function()
       {
-        SharingService.shareTwitter(messageT,$scope.url+$scope.cheminImage +imageF,'');
+        SharingService.shareTwitter(messageT +' '+Globals.PSEUDOTWITTER,$scope.url+$scope.cheminImage +imageF,'');
       };
 
       $scope.shareMail=function()

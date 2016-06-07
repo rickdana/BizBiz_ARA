@@ -34,15 +34,16 @@ angular.module('Occazstreet.controllers')
         ionic.material.ink.displayEffect();
 
         //On recupere l'id du user passez dans l'URL
-        var utilisateur=$stateParams.utilisateur;
-        $localStorage['user']=utilisateur;
+        var createurAnnonce=$stateParams.utilisateur;
+        $scope.createurAnnonce=createurAnnonce;
+        $localStorage['user']=createurAnnonce;
         $scope.url=Globals.urlServer+Globals.port+'/';
         $scope.cheminPhoto=Globals.cheminPhoto;
         if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined')
         {
             $scope.infoUserLogged=$localStorage[Globals.USER_LOGGED];
         }
-        if($scope.infoUserLogged.id==utilisateur)
+        if($scope.infoUserLogged.id==createurAnnonce)
         {
             $scope.showEdit=true;
         }
@@ -52,10 +53,10 @@ angular.module('Occazstreet.controllers')
             $ionicLoading.show({
                 template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
             });
-            UtilisateursService.getUtilisateurById(utilisateur).then(function(response){
+            UtilisateursService.getUtilisateurById(createurAnnonce).then(function(response){
                 profil=true;
                 $scope.utilisateur=response.utilisateur;
-                if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined' && $scope.infoUserLogged.id==utilisateur)
+                if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined' && $scope.infoUserLogged.id==createurAnnonce)
                 {
                     $localStorage[Globals.USER_LOGGED].nom=response.utilisateur.nom;
                     $localStorage[Globals.USER_LOGGED].prenom=response.utilisateur.prenom;
