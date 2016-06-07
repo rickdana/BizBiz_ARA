@@ -19,6 +19,7 @@ angular.module('Occazstreet.controllers')
 
         /*On recupère la categorie envoyé en paramètre*/
         var categorie=$stateParams.categorie;
+
         $scope.libellecategorie=$stateParams.libelle;
 
         $scope.url=Globals.urlServer+Globals.port+'/';

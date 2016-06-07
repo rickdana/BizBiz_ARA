@@ -346,13 +346,13 @@ angular.module('Occazstreet.controllers')
             }
             article.latitude=article.localisation.geometry.location.lat();
             article.longitude=article.localisation.geometry.location.lng();
+            article.dateAjout = new Date();
             delete article.localisation;
             ArticlesService.addArticle(article).then(function (response) {
               if (response.success == true) {
                 var count = 0;
                 $scope.idArticle = response.article.idArticle;
                 var keepGoing = true;
-                alert($rootScope.image.length);
                 if ($rootScope.image.length > 0) {
                   for (var i = 0; i < $rootScope.image.length; i++) {
                     if (keepGoing) {
@@ -509,7 +509,7 @@ angular.module('Occazstreet.controllers')
 
                 };
                 var failure = function(message){
-                  alert(message);
+                  console.log(message);
                 };
                 //call the cordova camera plugin to open the device's camera
                 navigator.camera.getPicture( success , failure , cameraOptions );
