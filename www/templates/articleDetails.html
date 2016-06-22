@@ -24,7 +24,8 @@
   <ion-content class="article-body animate-fade-slide-in" has-bouncing="true" ng-controller="ArticleDetailsController">
 
           <div class="card-margin">
-            <ion-slide-box  style="height: 50%" show-pager="true" auto-play="true" does-continue="true" on-slide-changed="slideHasChanged()">
+            <img class="image" ng-src="{{url}}{{cheminImage}}{{art.images[0].cheminImage}}">
+            <!--<ion-slide-box  style="height: 50%" show-pager="true" auto-play="true" does-continue="true" >
                   <ion-slide  ng-show="art.images.length>0" ng-repeat="image in art.images">
                       <div ng-show="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
                       <img class="image" ng-src="{{url}}{{cheminImage}}{{image.cheminImage}}">

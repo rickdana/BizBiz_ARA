@@ -21,21 +21,19 @@
               <h2 style="color: black">Se Connecter</h2>
           </ion-header-bar>
           <ion-header-bar ng-if="logged" class=" profil-centre dark-bg expanded" ui-sref="app.profile({utilisateur:'{{infoUserLogged.id}}'})" menu-close  >
-            <img ng-if="!offLine" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
-            <img ng-if="offLine || serverDown" ng-src="img/default.png" alt="" class="img-circle">
-
-
+            <img ng-if="!offLine && infoUserLogged.photo.idPhoto !=1" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
+            <img ng-if="offLine  || infoUserLogged.photo.idPhoto==1" ng-src="img/default.png" alt="" class="img-circle">
             <h2>{{infoUserLogged.prenom}}  {{infoUserLogged.nom[0]}}</h2>
           </ion-header-bar>
         <ion-content class="dark-bg has-expanded-header " >
             <ion-list>
-                <ion-item  ui-sref="app.articles"nav-clear menu-close style="color: #c6c9cf">
-                    <i style="color: white" class="ion-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Accueil
+                <ion-item  class="menu-size" ui-sref="app.articles"nav-clear menu-close style="color: #c6c9cf">
+                    <i style="color: white; " class="ion-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Accueil
                 </ion-item>
-                <ion-item  ui-sref="app.exploreArticle"nav-clear menu-close style="color: #c6c9cf">
+                <ion-item  class="menu-size" ui-sref="app.exploreArticle"nav-clear menu-close style="color: #c6c9cf">
                   <i style="color: white" class="ion-ios-eye"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Explorer
                 </ion-item>
-                <ion-item  ui-sref="app.addarticle" nav-clear menu-close style="color: #c6c9cf">
+                <ion-item  class="menu-size" ui-sref="app.addarticle" nav-clear menu-close style="color: #c6c9cf">
                   <i style="color: white" class="ion-camera"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Vendre
                 </ion-item>
                 <!--<md-divider></md-divider>-->
@@ -46,7 +44,7 @@
                 <ion-item ui-sref="app.collections" nav-clear menu-close style="color: #c6c9cf">
                     <i style="color: white" class="ion-cube"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Collections
                 </ion-item>-->
-                <ion-item  nav-clear menu-close ui-sref="app.categories" style="color: #c6c9cf">
+                <ion-item class="menu-size" nav-clear menu-close ui-sref="app.categories" style="color: #c6c9cf">
                     <i  style="color: white" class="ion-navicon-round"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Catégories
                 </ion-item>
                 <!--<ion-item nav-clear menu-close ui-sref="app.favoris" style="color: #c6c9cf" ng-if="logged">
@@ -55,15 +53,15 @@
                 <!--<ion-item nav-clear menu-close ui-sref="app.categories"  style="color: #c6c9cf">
                     <i  style="color: white" class="ion-location"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nouveauté près de
                 </ion-item>-->
-                <ion-item nav-clear menu-close ui-sref="app.friends"  style="color: #c6c9cf">
+                <ion-item class="menu-size" nav-clear menu-close ui-sref="app.friends"  style="color: #c6c9cf">
                     <i  style="color: white" class="ion-android-people"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invitez vos amis
                 </ion-item>
                 <!--<md-divider></md-divider>-->
-                <ion-item nav-clear menu-close ui-sref="app.aide" style="color: #c6c9cf">
+                <ion-item  class="menu-size" nav-clear menu-close ui-sref="app.aide" style="color: #c6c9cf">
                     <i  style="color: white" class="ion-help-circled"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aide
                 </ion-item>
                 <!--<md-divider></md-divider>-->
-                <ion-item  ng-show="logged" nav-clear menu-close  ng-click="doLogout()" style="color: #c6c9cf">
+                <ion-item class="menu-size" ng-show="logged" nav-clear menu-close  ng-click="doLogout()" style="color: #c6c9cf">
                    <i  style="color: white" class="ion-log-out"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se déconnecter
                 </ion-item>
             </ion-list>

@@ -15,7 +15,7 @@
       <div ng-show="categories.length>0" ng-repeat="categorie in categories" ng-controller="ArticlesController" class="list card card-margin" >
           <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item" >
               <h2 style="font-weight: bold">
-                  {{categorie.libelle}}
+                  > {{categorie.libelle}}
               </h2>
           </a>
       </div>

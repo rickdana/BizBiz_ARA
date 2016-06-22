@@ -29,10 +29,59 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
 
             $state.go('app.login');
         }
+      function checkConnection() {
+        var networkState = navigator.connection.type;
+        alert("toto");
+
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.CELL]     = 'Cell generic connection';
+        states[Connection.NONE]     = 'No network connection';
+
+        alert('Connection type: ' + states[networkState]);
+      }
+
+      /*if(toState.requiresServerUp)
+      {
+
+        var networkState = navigator.connection.type;
+
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.CELL]     = 'Cell generic connection';
+        states[Connection.NONE]     = 'No network connection';
+
+         if(networkState ==0)
+        {
+          $state.go('app.articles');
+          $mdToast.show({
+            template: '<md-toast class="md-toast">' + Messages.internetErrorContent + '</md-toast>',
+            hideDelay: 7000,
+            position: 'bottom right left'
+          });
+        }
+      }*/
+       /*if(toState.requiresConnexion && serverDown)
+       {
+         event.preventDefault();
+         $state.go('app.articles');
+       }
         if (typeof $localStorage["logged"] != "undefined" && toState.name == 'app.login') {
             $state.go('app.articles');
-        }
+        }*/
     });
+
+
 
     function onOnLine()
     {
@@ -187,6 +236,15 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
             }
           },
           requiresLogin:true
+        }).state('app.forgotPassword', {
+          cache:false,
+          url: "/forgotPassword",
+          views: {
+            'menuContent': {
+              templateUrl: "templates/forgotPassword.html"
+             // controller: 'UtilisateurController'
+            }
+          },
         }).state('app.chat', {
           url: "/chat",
           views: {
@@ -342,7 +400,7 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
                   controller:'ArticleDetailsController'
               }
           }
-      })
+    })
       .state('app.map',{
           url:"/article/article/:id",
           views:{

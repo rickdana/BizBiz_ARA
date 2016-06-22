@@ -5,16 +5,16 @@
     <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
         <md-content layout-padding>
             <div class="card card-margin">
-                <!--<div layout layout-sm="row" ng-click="editPhoto(null,$event)">-->
-              <div layout layout-sm="row" >
+              <div layout layout-sm="row" ng-click="editPhoto(null,$event)">
+             <!-- <div layout layout-sm="row" >-->
                     <md-input-container  flex flex>
-                       <!-- <label>Modifier l'image</label>-->
-                      <label>Image de profil</label>
+                      <label>Modifier l'image</label>
+                     <!-- <label>Image de profil</label>-->
                     </md-input-container>
                     <md-input-container flex flex >
-                        <img ng-if="!offLine || photo.length<=0" width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
-                        <img ng-if="!offLine && photo.length>0" width="65px" height="65px"  class="circle" ng-src="{{photo}}">
-                        <img ng-if="offLine" ng-src="img/default.png" alt="" class="img-circle">
+                        <img ng-if="!offLine && infoUserLogged.photo && nombrePhoto==0 && photoUri==null " width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
+                        <img ng-if="!offLine && photoUri || photo !=null" width="65px" height="65px"  class="circle" ng-src="{{photo}}">
+                        <img ng-if="offLine && photo ==null" ng-src="img/default.png" alt="" class="img-circle">
                     </md-input-container>
                 </div>
             </div>
@@ -35,8 +35,10 @@
                     </div>
                       <md-input-container class="md-block" style="margin-top: -10%">
                         <label style="color: #a0a0a0;" >Date de naissance</label>
-                        <input type="date"   ng-model="user.datedenaissance"
-                               required>
+                        <input type="date" ng-model="user.datedenaissance"
+                               required
+                          min="{{minDate}}"
+                          max="{{maxDate}}">
                        </md-input-container>
                     <div layout layout-sm="column" style="margin-top: -10%">
                         <md-input-container  flex>
@@ -78,6 +80,7 @@
                     Changer votre email
                 </md-button>
             </div>-->
+              <br/><br/><br/>
             <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   type="submit">
             </md-button>
             </form>
@@ -88,6 +91,13 @@
         </md-button>
     </a>-->
 </ion-view>
+<script type="application/javascript">
+  $('.datepicker').pickadate({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '1930:'+(new Date).getFullYear()-16
+  });
+</script>
 <script type="text/ng-template" id="editPhoto.html">
     <md-dialog >
         <md-dialog-content class="sticky-container" ng-controller="ProfileController">

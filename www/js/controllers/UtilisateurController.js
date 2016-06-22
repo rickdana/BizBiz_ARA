@@ -17,6 +17,16 @@ angular.module('Occazstreet.controllers')
         $scope.sexe=1;
         $scope.url=Globals.urlServer+Globals.port+'/';
         $scope.cheminPhoto=Globals.cheminPhoto;
+        $scope.showPassword=function()
+        {
+          if($scope.showpassword)
+          {
+            $scope.showpassword=false;
+          }else
+          {
+            $scope.showpassword=true;
+          }
+        };
         $scope.doLogin=function(credential)
         {
             //$scope.$parent.showHeader();
@@ -375,6 +385,38 @@ angular.module('Occazstreet.controllers')
 
             };
             window.plugins.carrier.getCarrierInfo(succ, err);
+
+        };
+
+        $scope.reInitPassword=function(email)
+        {
+
+          $ionicLoading.show({
+            template: '<md-progress-circular style="margin-right: auto; margin-left: auto" class="md-raised md-warn" md-mode="indeterminate">Opération en cours...</md-progress-circular>'
+          });
+            UtilisateursService.reInitPassword(email).then(function(response){
+              $ionicLoading.hide();
+
+              if(response.success)
+              {
+                $ionicLoading.hide();
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .parent(angular.element(document.body))
+                    .title(Messages.reinitPasswordTitre)
+                    .content(Messages.reinitPasswordSuccess)
+                    .ok('Ok')
+                );
+                $ionicHistory.goBack()
+              }else
+              {
+                $mdToast.show({
+                  template: '<md-toast class="md-toast">' + Messages.reinitPasswordEmail + '</md-toast>',
+                  hideDelay: 10000,
+                  position: 'bottom right left'
+                });
+              }
+            })
 
         };
 

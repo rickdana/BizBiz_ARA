@@ -21,15 +21,19 @@ angular.module('Occazstreet.constants')
         "welcome":"Bienvenue sur Occazstreet",
         "articleAjouteSucces":"Votre article a été ajouté avec succès",
         "deconnexion":"Vous n'êtes plus connecté",
-        "erreurAjoutArticle":'Une erreur a été rencontré lors de la création de votre produit. Veuillez reessayer ulterieurement',
+        "erreurAjoutArticle":'Une erreur a été rencontrée lors de la création de votre produit. Veuillez reessayer ulterieurement',
+        "erreurUpdatePhoto":"Une erreur  a été rencontrée lors de la mise à jour de votre photo",
         "erreurAjoutArticleTitre":"Ajout d\'un produit",
         "ajoutDuProduitEnCours":"Ajout de votre annonce",
         "misAJourProfilSuccess":"Votre profil a été mis à jour",
         "miseAjoutProfilTitre":"Profil",
+        "reinitPasswordSuccess":"Votre mot de passe a été reinitailisé et un nouveau mot de passe temporaire a été envoyé dans votre boite mail",
+        "reinitPasswordTitre":"Reinitialisatiion mot de passe",
         "miseAjoutArticleTitre":"Mise à jour du Produit",
         "changementEmail":"Le nouvel email a été enregistré et est en attente de confirmation",
         "changementEmailError":"L'adresse email renseignée est déjà utilisée",
         "changementEmailDejaVerifie":"L'adresse email a déjà été vérifiée",
+        "reinitPasswordEmail":"Cette adresse email est inconnue de nos fichiers",
         "erreurNumeroTelephone":"Le numéro de téléphone doit être numérique",
         "erreurIndiceTelephone":"L'indice téléphonique ne doit pas contenir de lettre ex:+237",
         "erreurFormatEmail":"Le format de l'adresse email n'est pas correcte",
@@ -53,5 +57,6 @@ angular.module('Occazstreet.constants')
         "articleSupprimerEchec":"Une erreur a été rencontrée lors de la suppression de votre produit",
         "messageOffre":"Je suis interessé par votre produit je vous propose ",
         "filtreParDefaut":"Filtres par défaut rétablis ",
-        "localisationMessage":"Occazstreet a besoin de votre localisation soit activer pour fonctionner correctement"
+        "localisationMessage":"Occazstreet a besoin de votre localisation soit activer pour fonctionner correctement",
+        "erreurPhoto":"Une erreur a été rencontré lors de la mise à jour de votre photo."
     });

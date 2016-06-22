@@ -14,6 +14,7 @@ angular.module('Occazstreet.controllers')
     var cheminImage=Globals.cheminImage;
     $scope.url=url;
     $scope.cheminImage=cheminImage;
+    $rootScope.nombreImage=0;
     var data=[];
     //$scope.$parent.showHeader();
 
@@ -290,7 +291,7 @@ angular.module('Occazstreet.controllers')
                       erreurAjoutArticle();
 
                     }
-                  })
+                  });
 
 
                /* });
@@ -899,13 +900,12 @@ angular.module('Occazstreet.controllers')
 
     var erreurAjoutArticle=function()
     {
-        $mdDialog.show(
-            $mdDialog.alert()
-                .parent(angular.element(document.body))
-                .title(Messages.erreurAjoutArticleTitre)
-                .content(Messages.erreurAjoutArticle)
-                .ok('OK')
-        );
+      $mdToast.show({
+        template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+        hideDelay: 10000,
+        position: 'bottom right left'
+      });
+
     };
     $scope.isDisabled = false;
     $scope.buttonRaffraichirText="Raffraichir";

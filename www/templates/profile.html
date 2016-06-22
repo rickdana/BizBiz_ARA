@@ -81,7 +81,7 @@
                     </md-tab>
                     <md-tab label="Vendus">
                         <md-content ng-show="articleVenduExist" class="md-padding">
-                          <div  on-hold="editArticle({{article.idArticle}})" ng-repeat="article in articlesvendu"  ng-controller="ArticlesController" class="item card-item" >
+                          <div  on-hold="editArticle({{article.idArticle}},{{createurAnnonce}})" ng-repeat="article in articlesvendu"  ng-controller="ArticlesController" class="item card-item" >
                             <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
                               <div ng-show="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
                               <div class="item item-avatar  item-text-wrap ">

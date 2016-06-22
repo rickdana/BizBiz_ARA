@@ -33,10 +33,11 @@
                                       </div>
                                     </div>
                                 </md-input-container>
-                                <md-input-container class="md-block">
+                                <md-input-container class="md-block" >
                                     <label>Mot de passe</label>
-                                    <input  ng-model="credentials.motdepasse" name="password" required type="password" style="margin-bottom: 0%"/>
-                                    <div ng-messages="loginForm.password.$error" >
+                                    <input  type="{{showpassword ? 'text' : 'password'}}" ng-model="credentials.motdepasse" name="password" required style="margin-bottom: 0%"/>
+                                    <i style="margin-left: 95%" ng-show="credentials.motdepasse !=null" class="ion-eye" on-touch="showPassword()"></i>
+                                  <div ng-messages="loginForm.password.$error" >
                                       <div ng-message="required">
                                         Veuillez saisir le mot de passe
                                       </div>
@@ -47,6 +48,8 @@
                                 </section>
                             </form>
                         </md-content>
+                      <br/>
+                      <a ui-sref="app.forgotPassword" style="margin-left:30%; text-decoration: none; color: black">Mot de passe oublié ?</a>
 
                         <!--<md-content>
                           <div style="margin-top:7%" layout="row" layout-align="center center">
@@ -125,7 +128,7 @@
                               </md-input-container>
                                 <md-input-container class="md-block"  >
                                     <label>Mot de passe</label>
-                                    <input ng-model="utilisateur.motdepasse" type="password" name="motdepasse" minlength="6" required>
+                                    <input ng-model="utilisateur.motdepasse" type="password" name="motdepasse" ui-show-password minlength="6" required>
                                     <div class="hint">Choisissez un mot de passe</div>
                                   <div ng-messages="inscriptionForm.motdepasse.$error" >
                                     <div ng-message="required">

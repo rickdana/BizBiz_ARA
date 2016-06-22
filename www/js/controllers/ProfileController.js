@@ -2,16 +2,23 @@
  * Created by fleundeu on 01/05/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('ProfileController', function($scope,$rootScope,$stateParams,$state,$http,$timeout,UtilisateursService,Globals,$ionicLoading,$ionicPlatform,Messages, $mdToast,$mdDialog,ArticlesService,$localStorage,helper) {
+    .controller('ProfileController', function($scope,$rootScope,$stateParams,$state,$http,$timeout,UtilisateursService,Globals,$ionicHistory,$ionicLoading,$ionicPlatform,Messages, $mdToast,$mdDialog,ArticlesService,$localStorage,helper) {
 
+    $scope.currentTime = new Date();
+    var days=31583;
+    $scope.maxDate = (new Date($scope.currentTime.getTime() - ( 1000 * 60 * 60 *24 * days ))).toISOString();
+    $scope.minDate = (new Date($scope.currentTime.getTime() - ( 1000 * 60 * 60 *24 * 3824  ))).toISOString();
 
-        // Set Header
+    // Set Header
         //$scope.$parent.showHeader();
         // $scope.$parent.clearFabs();
         $scope.isExpanded = false;
         var user={};
         var profil=false;
         photoURI=[];
+        var compteurPhoto=0;
+        $scope.nombrePhoto=0;
+
 
 
     /* $scope.$parent.setExpanded(false);
@@ -148,10 +155,12 @@ angular.module('Occazstreet.controllers')
                   {
                       $ionicLoading.hide();
                       $mdToast.show({
-                        template: '<md-toast class="md-toast success">' + Messages.successChangePassword + '</md-toast>',
-                        hideDelay: 7000,
+                        template: '<md-toast class="md-toast ">' + Messages.successChangePassword + '</md-toast>',
+                        hideDelay: 5000,
                         position: 'bottom right left'
                       });
+
+                    $ionicHistory.goBack()
                   }
                   else if(response.passwordVerif==false)
                   {
@@ -177,8 +186,38 @@ angular.module('Occazstreet.controllers')
                 })
 
               }
-        }
+        };
+    $scope.showPassword=function()
+    {
+      if($scope.showpassword)
+      {
+        $scope.showpassword=false;
+      }else {
+        $scope.showpassword = true;
+      }
+    };
 
+    $scope.showNewPassword=function()
+    {
+      if($scope.shownewpassword)
+      {
+        $scope.shownewpassword=false;
+      }else
+      {
+        $scope.shownewpassword=true;
+      }
+    };
+
+    $scope.showReNewPassword=function()
+    {
+      if($scope.showrenewpassword)
+      {
+        $scope.showrenewpassword=false;
+      }else
+      {
+        $scope.showrenewpassword=true;
+      }
+    };
 
     //Modification du prolfil
         //On test si le $state correspond à celui de l'édition du profil
@@ -202,7 +241,7 @@ angular.module('Occazstreet.controllers')
             }
 
           $scope.user=user;
-            if($scope.infoUserLogged.provider=='normal')
+            if($scope.infoUserLogged.provider=='Normal')
             {
               $scope.showButtonChangePassword=true;
             }
@@ -271,19 +310,102 @@ angular.module('Occazstreet.controllers')
                   $scope.infoUserLogged.nomVille=response.nomVille;
                   $scope.infoUserLogged.nomPays=response.nomPays;
 
-
-
                   $scope.$apply();
-                  $ionicLoading.hide();
                   if(response.success)
                   {
-                    $mdDialog.show(
-                      $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .title(Messages.miseAjoutProfilTitre)
-                        .content(Messages.misAJourProfilSuccess)
-                        .ok('Ok')
-                    );
+                    if (typeof $rootScope.photo !='undefined')
+                    {
+                      if($rootScope.photo.length > 0)
+                      {
+                        var options = new FileUploadOptions();
+                        var url = $rootScope.photo.substr($rootScope.photo.lastIndexOf('/') + 1);
+                        options = {
+                          fileKey: "file",
+                          fileName: url.split('?')[0],
+                          mimeType: "image/png",
+                          chunkedMode :true
+                        };
+                        var params = {};
+                        params.idUtilisateur = response.utilisateur.id;
+
+                        options.params=params;
+
+                        var failed = function (err) {
+                          $ionicLoading.hide();
+                          $mdToast.show({
+                            template: '<md-toast class="md-toast ">' + Messages.erreurUpdatePhoto + '</md-toast>',
+                            hideDelay: 10000,
+                            position: 'bottom right left'
+                          });
+                        };
+                        var success = function (result) {
+                          if(result.success)
+                          {
+                            $localStorage[Globals.USER_LOGGED].photo=result.utilisateur.photo;
+                            $rootScope.infoUserLogged.photo=result.utilisateur.photo;
+
+                            $ionicLoading.hide();
+                            $mdDialog.show(
+                              $mdDialog.alert()
+                                .parent(angular.element(document.body))
+                                .title(Messages.miseAjoutProfilTitre)
+                                .content(Messages.misAJourProfilSuccess)
+                                .ok('Ok')
+                            );
+                          }
+                          else if (typeof result.response !='undefined')
+                          {
+                            var res=JSON.parse(result.response);
+                            if(res.success)
+                            {
+                              $localStorage[Globals.USER_LOGGED].photo=res.utilisateur.photo;
+                              $rootScope.infoUserLogged.photo=res.utilisateur.photo;
+                              $ionicLoading.hide();
+                              $mdDialog.show(
+                                $mdDialog.alert()
+                                  .parent(angular.element(document.body))
+                                  .title(Messages.miseAjoutProfilTitre)
+                                  .content(Messages.misAJourProfilSuccess)
+                                  .ok('Ok')
+                              );
+                            }
+                            else
+                            {
+                              $ionicLoading.hide();
+                              $mdToast.show({
+                                template: '<md-toast class="md-toast">' + Messages.erreurPhoto + '</md-toast>',
+                                hideDelay: 7000,
+                                position: 'bottom right left'
+                              });
+                            }
+                          }
+                          else
+                          {
+                            $ionicLoading.hide();
+                            $mdToast.show({
+                              template: '<md-toast class="md-toast">' + Messages.erreurPhoto + '</md-toast>',
+                              hideDelay: 7000,
+                              position: 'bottom right left'
+                            });
+                          }
+
+                        };
+                        var ft = new FileTransfer();
+                        ft.upload($rootScope.photo, Globals.urlServer + Globals.port + "/utilisateur/uploadPhoto", success, failed, options);
+
+                      }
+                     }else
+                    {
+                      $ionicLoading.hide();
+                      $mdDialog.show(
+                        $mdDialog.alert()
+                          .parent(angular.element(document.body))
+                          .title(Messages.miseAjoutProfilTitre)
+                          .content(Messages.misAJourProfilSuccess)
+                          .ok('Ok')
+                      );
+                    }
+
                   }else {
                     if (response.emailAlreadyExist) {
                       $mdToast.show({
@@ -306,63 +428,93 @@ angular.module('Occazstreet.controllers')
                     targetEvent:event
                 })
                     .then(function(answer) {
-
-                        if(answer=='photo')
+                    if(answer=='photo')
+                    {
+                      var cameraOptions = {
+                        quality: 100,
+                        destinationType: Camera.DestinationType.NATIVE_URI,
+                        sourceType : Camera.PictureSourceType.CAMERA,
+                        encodingType: Camera.EncodingType.PNG,
+                        targetWidth: 400,
+                        targetHeight: 400,
+                        //  popoverOptions: CameraPopoverOptions,
+                        saveToPhotoAlbum: false,
+                        allowEdit:false
+                      };
+                      var success = function(data){
+                        $mdDialog.hide();
+                        if(key==null)
                         {
-                            var cameraOptions = {
-                                quality: 50,
-                                destinationType: Camera.DestinationType.NATIVE_URI,
-                                sourceType : Camera.PictureSourceType.CAMERA,
-                                encodingType: Camera.EncodingType.PNG,
-                                targetWidth: 80,
-                                targetHeight: 80,
-                                popoverOptions: CameraPopoverOptions,
-                                saveToPhotoAlbum: false
-                            };
-                            var success = function(data){
+                          compteurPhoto =compteurPhoto+1;
+                          $scope.$apply(function () {
+                            $scope.photoUri=data;
+                            $rootScope.nombrePhoto=compteurPhoto;
+                            $rootScope.photo=$scope.photoUri;
 
-                                $mdDialog.hide();
-                                $scope.$apply(function () {
-                                    photoURI=data;
-
-                                });
-                                $rootScope.photo=photoURI;
-
-                            };
-                            var failure = function(message){
-                                alert('Failed because: ' + message);
-                            };
-                            //call the cordova camera plugin to open the device's camera
-                            navigator.camera.getPicture( success , failure , cameraOptions );
-
-                        }else
-                        {
-                            var cameraOptions = {
-                                quality: 100,
-                                destinationType: Camera.DestinationType.FILE_URI,
-                                sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
-                                encodingType: Camera.EncodingType.PNG,
-                                targetWidth: 80,
-                                targetHeight: 80,
-                                // popoverOptions: CameraPopoverOptions,
-                                saveToPhotoAlbum: false
-                            };
-                            var success = function(data){
-                                $scope.$apply(function () {
-                                    photoURI=data;
-
-                                });
-                                $rootScope.photo=photoURI;
-                                alert($rootScope.photo.length);
-                            };
-                            var failure = function(message){
-                                $mdDialog.hide();
-                                alert('Failed because: ' + message);
-                            };
-                            //call the cordova camera plugin to open the device's camera
-                            navigator.camera.getPicture( success , failure , cameraOptions );
-
+                          });
                         }
+                        else
+                        {
+                          compteurPhoto =compteurPhoto+1;
+                          $scope.$apply(function () {
+                            $scope.photoUri[key]=data;
+                            $rootScope.nombrePhoto=compteurPhoto;
+                            $rootScope.photo=$scope.photoUri;
+
+
+                          });
+                        }
+                        $rootScope.photo=$scope.photoUri;
+
+                      };
+                      var failure = function(message){
+                        console.log(message);
+                      };
+                      //call the cordova camera plugin to open the device's camera
+                      navigator.camera.getPicture( success , failure , cameraOptions );
+
+                    }else
+                    {
+                      var cameraOptions = {
+                        quality: 100,
+                        destinationType: Camera.DestinationType.NATIVE_URI,
+                        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+                        encodingType: Camera.EncodingType.PNG,
+                        targetWidth: 400,
+                        targetHeight: 400,
+                        // popoverOptions: CameraPopoverOptions,
+                        saveToPhotoAlbum: false
+                      };
+                      var success = function(data){
+                        if(key==null)
+                        {
+                          compteurPhoto =compteurPhoto+1;
+                          $scope.$apply(function () {
+                            $scope.photoUri=data;
+                            $rootScope.nombrePhoto=compteurPhoto;
+                            $rootScope.photo=$scope.photoUri;
+
+                          });
+                        }
+                        else
+                        {
+                          compteurPhoto =compteurPhoto+1;
+                          $scope.$apply(function () {
+                            $scope.photoUri[key]=data;
+                            $rootScope.nombrePhoto=compteurPhoto;
+                            $rootScope.photo=$scope.photoUri;
+                          });
+                        }
+                        $rootScope.photo=$scope.photoUri;
+
+                      };
+                      var failure = function(message){
+                        $mdDialog.hide();
+                      };
+                      //call the cordova camera plugin to open the device's camera
+                      navigator.camera.getPicture( success , failure , cameraOptions );
+
+                    }
                     });
             };
 

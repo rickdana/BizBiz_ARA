@@ -24,9 +24,9 @@ angular.module('Occazstreet.controllers')
       });
     }, 700);
 
-
     /*get Id article from url*/
     var article=$stateParams.article;
+
 
     var logged=true;
     $scope.url=Globals.urlServer+Globals.port+'/';
@@ -78,202 +78,217 @@ angular.module('Occazstreet.controllers')
       $timeout( function() {
       }, 50);
     };
+    $ionicLoading.show({
+      template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+    });
     ArticlesService.getArticleById(article).then(function (response) {
-      //On sauvegarde l'article dans la memoire
-      $localStorage['detailsArticle']=response.article;
-
-      $ionicLoading.hide();
-
-      $scope.art = response.article;
-      var imageF="";
-      var articleTitre="";
-      var articleDetails="";
-      console.log(response.article);
-      articleTitre= response.article.titre;
-      articleDetails= response.article.details;
-      $rootScope.articleDevise= response.article.devise.symbole;
-      $scope.articlePrix= response.article.prix;
-      if( response.article.images.length>0)
+      if(response.success)
       {
-        imageF= response.article.images[0].cheminImage;
-      }
+        //On sauvegarde l'article dans la memoire
+        $localStorage['detailsArticle']=response.article;
 
+        $ionicLoading.hide();
 
-      $scope.map = {
-        center: { latitude: response.article.latitude, longitude: response.article.longitude },
-        marker: {
-          id:0,
-          coords:{latitude: response.article.latitude,longitude: response.article.longitude},
-          option:{draggable: false}
-        },
-        option:{draggable: false,panControl:false,scrollwheel:false,zoomControl:false},
-        zoom: 16
-      };
-      if(typeof $localStorage[Globals.USER_LOGGED]!=='undefined'){
-        if(response.article.utilisateur.id==$localStorage[Globals.USER_LOGGED].id)
+        $scope.art = response.article;
+
+        console.log(JSON.stringify(response.article));
+        var imageF="";
+        var articleTitre="";
+        var articleDetails="";
+        console.log(response.article);
+        articleTitre= response.article.titre;
+        articleDetails= response.article.details;
+        $rootScope.articleDevise= response.article.devise.symbole;
+        $scope.articlePrix= response.article.prix;
+        if( response.article.images.length>0)
         {
-          $scope.currentUser=true;
+          imageF= response.article.images[0].cheminImage;
+        }
+
+
+        $scope.map = {
+          center: { latitude: response.article.latitude, longitude: response.article.longitude },
+          marker: {
+            id:0,
+            coords:{latitude: response.article.latitude,longitude: response.article.longitude},
+            option:{draggable: false}
+          },
+          option:{draggable: false,panControl:false,scrollwheel:false,zoomControl:false},
+          zoom: 16
+        };
+        if(typeof $localStorage[Globals.USER_LOGGED]!=='undefined'){
+          if(response.article.utilisateur.id==$localStorage[Globals.USER_LOGGED].id)
+          {
+            $scope.currentUser=true;
+          }else
+          {
+            $scope.currentUser=false;
+          }
         }else
         {
           $scope.currentUser=false;
         }
-      }else
-      {
-        $scope.currentUser=false;
-      }
 
-      /*Social Sharing*/
-      var message=articleTitre +" : \n  sur OccazStreet \n pour voir le détails télécharger l'application en allant sur "+Globals.APPPLAYSTORE;
-      var messageT=articleTitre  +" : \n sur OccazStreet \n pour voir le détails, télécharger l'application en allant sur " +Globals.APPPLAYSTORE;
-      var image= "<img src='"+$scope.cheminImage +imageF+"'/>" ;
-      var link="";
-      var number="";
+        /*Social Sharing*/
+        var message=articleTitre +" : \n  sur OccazStreet \n pour voir le détails télécharger l'application en allant sur "+Globals.APPPLAYSTORE;
+        var messageT=articleTitre  +" : \n sur OccazStreet \n pour voir le détails, télécharger l'application en allant sur " +Globals.APPPLAYSTORE;
+        var image= "<img src='"+$scope.cheminImage +imageF+"'/>" ;
+        var link="";
+        var number="";
 
-      $scope.shareTwitter=function()
-      {
-        SharingService.shareTwitter(messageT +' '+Globals.PSEUDOTWITTER,$scope.url+$scope.cheminImage +imageF,'');
-      };
-
-      $scope.shareMail=function()
-      {
-        var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"\n"+articleDetails;
-        var subjectMail=articleTitre +" sur Occazstreet";
-        SharingService.shareMail(messageMail,subjectMail,null,null,null,$scope.url+$scope.cheminImage +imageF);
-      };
-
-      $scope.shareMailEmpty=function()
-      {
-        var to=[response.article.utilisateur.email];
-        var subjectMail="Concernant votre annonce : " +articleTitre +" sur Occazstreet";
-        SharingService.shareMail(null,subjectMail,to,response.article.utilisateur.email,null);
-      };
-
-      $scope.shareWhatsapp=function()
-      {
-        SharingService.shareWhatsapp(message,null,null);
-      };
-
-      $scope.shareFacebook=function()
-      {
-        SharingService.shareFacebook(message,null,$scope.url+$scope.cheminImage +imageF);
-      };
-
-      $scope.shareSMS=function()
-      {
-        SharingService.shareSMS(message,number);
-      };
-
-      $rootScope.sendSms=function(number)
-      {
-        SharingService.shareSMS("", number);
-      };
-
-      $scope.makeCall=function(number)
-      {
-        window.plugins.CallNumber.callNumber(onSuccess, onError, number);
-      };
-      var onSuccess = function(){
-        console.log("success");
-      };
-
-      var onError = function(error){
-        console.log("fail  "+error);
-      };
-
-      $scope.contreOffre=function(ev)
-      {
-        if(logged)
+        $scope.shareTwitter=function()
         {
-          $mdDialog.show({
-            controller:ContreOffreController,
-            templateUrl: 'contreOffre.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            scope:$scope.$new(),
-            clickOutsideToClose:true
+          SharingService.shareTwitter(messageT +' '+Globals.PSEUDOTWITTER,$scope.url+$scope.cheminImage +imageF,'');
+        };
 
-          })
-            .then(function() {
-              $ionicPlatform.on('backbutton', function() {
-                $mdDialog.hide();
+        $scope.shareMail=function()
+        {
+          var messageMail="Ce produit pourrait t\'interesser : "+articleTitre+"\n"+articleDetails;
+          var subjectMail=articleTitre +" sur Occazstreet";
+          SharingService.shareMail(messageMail,subjectMail,null,null,null,$scope.url+$scope.cheminImage +imageF);
+        };
+
+        $scope.shareMailEmpty=function()
+        {
+          var to=[response.article.utilisateur.email];
+          var subjectMail="Concernant votre annonce : " +articleTitre +" sur Occazstreet";
+          SharingService.shareMail(null,subjectMail,to,response.article.utilisateur.email,null);
+        };
+
+        $scope.shareWhatsapp=function()
+        {
+          SharingService.shareWhatsapp(message,null,null);
+        };
+
+        $scope.shareFacebook=function()
+        {
+          SharingService.shareFacebook(message,null,$scope.url+$scope.cheminImage +imageF);
+        };
+
+        $scope.shareSMS=function()
+        {
+          SharingService.shareSMS(message,number);
+        };
+
+        $rootScope.sendSms=function(number)
+        {
+          SharingService.shareSMS("", number);
+        };
+
+        $scope.makeCall=function(number)
+        {
+          window.plugins.CallNumber.callNumber(onSuccess, onError, number);
+        };
+        var onSuccess = function(){
+          console.log("success");
+        };
+
+        var onError = function(error){
+          console.log("fail  "+error);
+        };
+
+        $scope.contreOffre=function(ev)
+        {
+          if(logged)
+          {
+            $mdDialog.show({
+              controller:ContreOffreController,
+              templateUrl: 'contreOffre.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              scope:$scope.$new(),
+              clickOutsideToClose:true
+
+            })
+              .then(function() {
+                $ionicPlatform.on('backbutton', function() {
+                  $mdDialog.hide();
+                });
+
               });
+          }
+          else
+          {
+            $state.go("app.login");
+          }
+        };
+        function ContreOffreController($scope,$mdDialog,$rootScope)
+        {
+          $scope.envoyer=function()
+          {
+            $mdDialog.cancel();
+            $rootScope.offre=$scope.contreoffre;
+            $state.go("app.chat");
+          }
+          ;
+          $scope.hide = function() {
+            $mdDialog.hide();
+          };
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+          $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+          };
+        }
 
-            });
-        }
-        else
+        $scope.jachete=function(ev)
         {
-          $state.go("app.login");
-        }
-      };
-      function ContreOffreController($scope,$mdDialog,$rootScope)
-      {
-        $scope.envoyer=function()
-        {
-          $mdDialog.cancel();
-          $rootScope.offre=$scope.contreoffre;
-          $state.go("app.chat");
-        }
-        ;
-        $scope.hide = function() {
-          $mdDialog.hide();
-        };
-        $scope.cancel = function() {
-          $mdDialog.cancel();
-        };
-        $scope.answer = function(answer) {
-          $mdDialog.hide(answer);
-        };
-      }
-
-      $scope.jachete=function(ev)
-      {
-        if(logged)
-        {
-          $mdDialog.show({
-            templateUrl: 'jachete.html',
-            scope: $scope,
-            targetEvent: ev
-          })
-            .then(function() {
-              $ionicPlatform.on('backbutton', function() {
+          if(logged)
+          {
+            $mdDialog.show({
+              templateUrl: 'jachete.html',
+              scope: $scope,
+              targetEvent: ev
+            })
+              .then(function() {
+                $ionicPlatform.on('backbutton', function() {
+                  $mdDialog.cancel();
+                });
                 $mdDialog.cancel();
+
               });
-              $mdDialog.cancel();
+          }
+          else
+          {
+            $state.go("app.login");
+          }
+        };
 
-            });
-        }
-        else
+        $scope.chat=function(ev)
         {
-          $state.go("app.login");
-        }
-      };
+          if(logged)
+          {
 
-      $scope.chat=function(ev)
-      {
-        if(logged)
+          }
+          else
+          {
+            $state.go("app.login");
+          }
+        };
+
+        $scope.close=function()
         {
-
+          $mdDialog.cancel();
         }
-        else
-        {
-          $state.go("app.login");
-        }
-      };
 
-      $scope.close=function()
-      {
-        $mdDialog.cancel();
       }
+      else if(!response.success)
+      {
+        alert("error");
+        $ionicLoading.hide();
+        $state.go("app.articles");
 
+      }
     });
     $scope.myGoBack = function() {
       $ionicHistory.goBack();
     };
 
-    $timeout(function() {
+    /*$timeout(function() {
       $ionicLoading.hide();
       // $state.go('app.erreurchargement');
-    }, 10000);
+    }, 10000);*/
 
 
     //Pour edition d'un article au niveau de l'accueil
