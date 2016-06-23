@@ -128,8 +128,8 @@
                               </md-input-container>
                                 <md-input-container class="md-block"  >
                                     <label>Mot de passe</label>
-                                    <input ng-model="utilisateur.motdepasse" type="password" name="motdepasse" ui-show-password minlength="6" required>
-                                    <div class="hint">Choisissez un mot de passe</div>
+                                    <input ng-model="utilisateur.motdepasse" type="{{showpassword ? 'text' : 'password'}}" name="motdepasse" ui-show-password minlength="6" required>
+                                    <i style="margin-left: 95%" ng-show="utilisateur.motdepasse !=null" class="ion-eye" on-touch="showPassword()"></i>
                                   <div ng-messages="inscriptionForm.motdepasse.$error" >
                                     <div ng-message="required">
                                      Un mot de passe est requis
