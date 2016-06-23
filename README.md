@@ -10,3 +10,5 @@ ajout fonctionnalité de visualisation du mot de passe au niveau des ecrans logi
 correction bug mineur
 --version 0.12.1
 Visualisation du mot de passe au niveau de la vue d'inscription
+-- version 0.12.2
+modification rendu de la liste des catégories

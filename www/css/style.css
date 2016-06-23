@@ -103,11 +103,6 @@ p {
   color: #B71C1C;
 }
 
-/*Details article*/
-.price-details
-{
-    text-align: left;
-}
 .image{
     width: 100%
 }
@@ -123,13 +118,10 @@ p {
 }
 .titre-article{
     font-weight: bold;
-    padding-left: 16px;
-    padding-right: 16px;
+    color: #B71C1C;
 }
 .desc-article{
 
-    padding-left: 16px;
-    padding-right: 16px;
 }
 
 
@@ -567,3 +559,9 @@ a.autolinker {
 {
   display: none;
 }
+
+.menu-size
+{
+  font-size: 120%
+}
+
