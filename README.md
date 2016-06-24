@@ -12,3 +12,5 @@ correction bug mineur
 Visualisation du mot de passe au niveau de la vue d'inscription
 -- version 0.12.2
 modification rendu de la liste des catégories
+-- version 0.12.3
+correction pb maps et autocompletion adresse
