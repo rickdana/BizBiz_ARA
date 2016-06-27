@@ -544,9 +544,7 @@ angular.module('Occazstreet.controllers')
                     targetEvent: ev
                 })
                     .then(function(email) {
-                        alert($scope.email);
                         var email=  document.getElementById(email);
-                        alert(email);
                     }, function() {
 
                     });
@@ -563,7 +561,6 @@ angular.module('Occazstreet.controllers')
                 };
                 $scope.updateEmail=function()
                 {
-                    alert($scope.newEmail);
                     $mdDialog.cancel();
                 };
 
@@ -799,7 +796,6 @@ angular.module('Occazstreet.controllers')
             user.idutilisateur=$localStorage[Globals.USER_LOGGED].id;
             user.code=$scope.code;
             UtilisateursService.validerCode(user).then(function(response) {
-                alert(response.codeCorrecte);
                 if (response.codeCorrecte==='true') {
                     //$mdDialog.cancel();
                     $mdDialog.show(

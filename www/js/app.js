@@ -31,8 +31,6 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
         }
       function checkConnection() {
         var networkState = navigator.connection.type;
-        alert("toto");
-
         var states = {};
         states[Connection.UNKNOWN]  = 'Unknown connection';
         states[Connection.ETHERNET] = 'Ethernet connection';
@@ -43,7 +41,6 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
         states[Connection.CELL]     = 'Cell generic connection';
         states[Connection.NONE]     = 'No network connection';
 
-        alert('Connection type: ' + states[networkState]);
       }
 
       /*if(toState.requiresServerUp)
@@ -133,7 +130,16 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
           }
       },
       requiresLogin:false
-  })
+  }).state('app.signaler', {
+      url: "/signaler/:idarticle",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/signaler.html",
+          controller:'SignalerController'
+        }
+      },
+      requiresLogin:false
+    })
   .state('app.conditionutilisation', {
       url: "/conditionutilisation",
       views: {

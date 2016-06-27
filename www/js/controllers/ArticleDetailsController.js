@@ -275,7 +275,6 @@ angular.module('Occazstreet.controllers')
       }
       else if(!response.success)
       {
-        alert("error");
         $ionicLoading.hide();
         $state.go("app.articles");
 
@@ -317,4 +316,62 @@ angular.module('Occazstreet.controllers')
         $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 2000 });
       });
     }
+  }).controller('SignalerController',function($ionicLoading,$mdToast,$http,$scope,$mdDialog,$stateParams,ArticlesService,$ionicHistory,$cordovaToast){
+
+    $http.get('app-data/motif-signalement.json')
+      .success(function (response) {
+        $scope.motifs=response;
+      });
+    var articleSignaler=$stateParams.idarticle;
+    $scope.showInfos=function(ev)
+    {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .content('Ces informations sont indispensables à Occazstreet.com pour donner suite à votre signalement de contenu abusif. Notre société est seule destinataire de ces informations qui peuvent cependant être accessibles, pour des raisons exclusivement techniques, à notre société et aux prestataires du site assurant leur traitement ainsi que leur hébergement et le support technique.')
+          .ariaLabel('showInfos')
+          .ok('Ok')
+          .targetEvent(ev)
+      );
+    };
+
+    $scope.showVosDroits=function(ev)
+    {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .templateUrl('../')
+          .content('Conformément à la règlementation, vous bénéficiez d’un droit d’opposition, pour des motifs légitimes, au traitement de vos informations ainsi que d’un droit d’accès et de rectification et de suppression des informations vous concernant, que vous pouvez exercer en nous contactant via notre page Contact.')
+          .ariaLabel('showVosDroits')
+          .ok('Ok')
+          .targetEvent(ev)
+      );
+    };
+    $scope.signaler=function(signalement,ev)
+    {
+      $ionicLoading.show({
+        template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+      });
+      signalement.idarticle=articleSignaler;
+      ArticlesService.signaler(signalement).then(function(response){
+        $ionicLoading.hide();
+          if(response.success)
+          {
+            var confirm = $mdDialog.confirm()
+              .title('Signaler')
+              .textContent('Votre message a été envoyé')
+              .ariaLabel('Lucky day')
+              .targetEvent(ev)
+              .ok('Ok');
+            $mdDialog.show(confirm).then(function() {
+              $ionicHistory.goBack();
+            }, function() {
+            });
+          }
+      });
+
+    };
+
   });

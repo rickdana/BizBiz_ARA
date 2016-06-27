@@ -2,7 +2,7 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
-    .controller('ArticlesController', function($scope,$window,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory, $state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages) {
+    .controller('ArticlesController', function($scope,$window,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory,$state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages) {
 
 
     var compteurImage=0;
@@ -34,6 +34,8 @@ angular.module('Occazstreet.controllers')
 
     if($state.current.name == 'app.articles' || $state.current.name=='app.exploreArticle')
     {
+
+
 
         $scope.$parent.showHeader();
         var lastId=Globals.PAGE;
@@ -222,6 +224,7 @@ angular.module('Occazstreet.controllers')
                         break;
                     }
                   }
+
                   /*article.latitude = position.coords.latitude;
                   article.longitude = position.coords.longitude;*/
 
@@ -302,7 +305,7 @@ angular.module('Occazstreet.controllers')
         $scope.addArticle = function (article) {
           article.utilisateur = $localStorage[Globals.USER_LOGGED].id;
           $ionicLoading.show({
-            template: '<md-progress-circular  md-mode="indeterminate"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
+            template: '<md-progress-circular  md-mode="indeterminate" style="margin-left: auto;margin-right: auto"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
           });
           if(article.devise == null || typeof article.devise=='undefined')
           {
@@ -625,6 +628,7 @@ angular.module('Occazstreet.controllers')
                   ArticlesService.delete(article).then(function(response){
                     if(response.success)
                     {
+
                       $ionicLoading.hide();
                       $mdToast.show({
                         template: '<md-toast class="md-toast ">' + Messages.articleSupprimeSuccess + '</md-toast>',
