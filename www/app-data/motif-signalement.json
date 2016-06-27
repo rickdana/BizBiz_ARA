@@ -1,0 +1,23 @@
+[
+  {
+    "libelle":"Fraude"
+  },
+  {
+    "libelle":"Doublon"
+
+  },
+  {
+    "libelle":"Mauvaise catégorie"
+
+  },
+  {
+    "libelle":"Professionnel"
+
+  },
+  {
+    "libelle":"Déja vendu"
+  },
+  {
+    "libelle":"Autre abus"
+  }
+]
