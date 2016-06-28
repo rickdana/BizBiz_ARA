@@ -686,8 +686,9 @@ angular.module('Occazstreet.controllers')
             articleUpdate.titre=article.titre;
             articleUpdate.details=article.details;
             articleUpdate.prix=article.prix;
+            articleUpdate.complementadresse=article.complementadresse;
             //Lors de l'édition d'un article on met à jour la date d'ajout
-            articleUpdate.dateAjout=new Date();
+            articleUpdate.dateModification=new Date();
             if(article.localisation.address_components)
             {
               for (var ac = 0; ac < article.localisation.address_components.length; ac++) {

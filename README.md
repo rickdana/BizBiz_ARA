@@ -18,3 +18,8 @@ correction pb maps et autocompletion adresse
 Mise en place fonctionnalité de signalement d'une annonce
 correction de bug mineur
 suppresion message alert superflue
+--version 1.1.0
+Mise en place fonctionnalité de contact
+Distinction entre date d'ajout et date de mise à jour d'un article
+Rajout d'un champ "Quartier" au niveau du formulaire de creation et d'édition d'un article
+Mise à jour du catalogue de motif de signalement
