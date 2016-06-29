@@ -39,6 +39,18 @@ p {
     background-color: #222;
 }
 
+.bar-header {
+  height: 55px; /*just an example*/
+  padding-top: 5px !important;
+  padding-bottom: 5px;
+
+}
+.bar-header .title, .right-buttons{
+  font-size:17px;
+  padding-top: 5px !important;
+
+}
+
 .menu h2 {
     bottom: 0;
     font-size: 18px;
@@ -288,6 +300,8 @@ p {
   background-size:150px;
   width: 85px;
 height: 80px;
+  margin-left: 7%;
+  margin-top: 3%;
 }
 
 /* allows the bar-footer to be elastic /*
@@ -564,4 +578,11 @@ a.autolinker {
 {
   font-size: 120%
 }
+
+.filtre-radio
+{
+  padding-left: 4%;
+  margin-top: 3%;
+}
+
 
