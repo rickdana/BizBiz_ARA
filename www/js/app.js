@@ -70,13 +70,15 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider,$mdGestureProvider,uiGmapGoogleMapApiProvider) {
+.config(function($stateProvider, $urlRouterProvider,$mdGestureProvider,uiGmapGoogleMapApiProvider,$compileProvider) {
   uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyAkJjVm29bwZEMDQ30VLeqeXNz_4tmfYSY',
         v: '3.17',
         libraries: 'weather,geometry,visualization,places'
     });
   $mdGestureProvider.skipClickHijack();
+  $compileProvider.debugInfoEnabled(false);
+  // $ionicConfigProvider.scrolling.jsScrolling(false);
 
   $stateProvider
   .state('app', {

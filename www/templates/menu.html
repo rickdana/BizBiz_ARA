@@ -20,10 +20,10 @@
               <span class="avatar" style="background: url('img/default.png'); background-size: cover;"></span>
               <h2 style="color: black">Se Connecter</h2>
           </ion-header-bar>
-          <ion-header-bar ng-if="logged" class=" profil-centre dark-bg expanded" ui-sref="app.profile({utilisateur:'{{infoUserLogged.id}}'})" menu-close  >
-            <img ng-if="!offLine && infoUserLogged.photo.idPhoto !=1" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
+          <ion-header-bar ng-if="logged" class=" profil-centre dark-bg expanded" ui-sref="app.profile({utilisateur:'{{::infoUserLogged.id}}'})" menu-close  >
+            <img ng-if="!offLine && infoUserLogged.photo.idPhoto !=1" ng-src="{{::url}}{{::cheminPhoto}}{{::infoUserLogged.photo.cheminPhoto}}" alt="" class="img-circle">
             <img ng-if="offLine  || infoUserLogged.photo.idPhoto==1" ng-src="img/default.png" alt="" class="img-circle">
-            <h2>{{infoUserLogged.prenom}}  {{infoUserLogged.nom[0]}}</h2>
+            <h2>{{::infoUserLogged.prenom}}  {{::infoUserLogged.nom[0]}}</h2>
           </ion-header-bar>
         <ion-content class="dark-bg has-expanded-header " >
             <ion-list>
