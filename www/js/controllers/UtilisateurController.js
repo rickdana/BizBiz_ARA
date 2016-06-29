@@ -154,7 +154,6 @@ angular.module('Occazstreet.controllers')
 
           };
           var err = function (err) {
-            alert(err);
             $ionicLoading.hide();
             $mdToast.show({
               template: '<md-toast class="md-toast">' + Messages.inscriptionFailed + '</md-toast>',

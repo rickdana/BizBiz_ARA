@@ -93,7 +93,6 @@
                                 <md-input-container class="md-block">
                                     <label>Nom</label>
                                     <input ng-model="utilisateur.nom"  name="nom"  required>
-                                    <div class="hint" >Allez  dis-moi comment t'appeles-tu ?</div>
                                   <div ng-messages="inscriptionForm.nom.$error" >
                                     <div ng-message="required">
                                         Tu as forcement un nom :(
@@ -104,22 +103,18 @@
                                 <md-input-container class="md-block" >
                                     <label>Prenom</label>
                                     <input ng-model="utilisateur.prenom"   name="prenom" >
-                                    <div class="hint" >As-tu un prénom ?</div>
-
                                 </md-input-container>
 
                                 <md-input-container class="md-block">
                                     <label style="color: #a0a0a0;">Date de naissance</label>
                                      <input type="date" id="dateNaissance" class="md-block" name="dateDeNaissance"  ng-model="utilisateur.dateDeNaissance"
                                        required>
-                                    <div class="hint">Es-tu autant agé(e) que moi ? </div>
                                 </md-input-container>
 
                                <md-input-container class="md-block">
                                     <label>Email</label>
                                 <input name="email" ng-model="utilisateur.email"
                                        required  ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
-                                <div class="hint">Comment est-ce que je peux te joindre ?</div>
                                 <div ng-messages="inscriptionForm.email.$error" >
                                   <div ng-message-exp="['required', 'pattern']">
                                     Le format de l'adresse email n'est pas correcte.

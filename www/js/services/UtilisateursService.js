@@ -74,7 +74,6 @@ angular.module('Occazstreet.services')
             $http(req).success(function(response){
                 if(response.success)
                 {
-                    alert(response.success);
 
                     /*$localStorage[Globals.LOCAL_TOKEN_KEY]=response.data.token;
                     $localStorage[Globals.USER_LOGGED]=response.data;
@@ -115,7 +114,6 @@ angular.module('Occazstreet.services')
         };
         this.validerCode=function(utilisateur)
         {
-            alert("validerCode "+JSON.stringify(utilisateur));
             var deferred=$q.defer();
             var req={
                 method:'GET',
@@ -180,6 +178,27 @@ angular.module('Occazstreet.services')
             return isAuthenticated;
         };
 
+        this.reInitPassword=function(email)
+        {
+          var deferred=$q.defer();
+          var req={
+            method:'POST',
+            url:baseUrl+'/utilisateur/reInitPassword',
+            data:{email:email}
+          };
+          $http(req).success(function(response){
+            if(response)
+            {
+              deferred.resolve(response);
+            }
+
+          }).error(function(error){
+            messageAuthErreur="Une erreur est survenue durant votre inscription";
+            deferred.reject(error);
+          });
+          return deferred.promise;
+        };
+
         this.editUtilisateur=function(utilisateur)
         {
             var deferred=$q.defer();
@@ -187,7 +206,7 @@ angular.module('Occazstreet.services')
                 method:'POST',
                 url:baseUrl+'/utilisateur/updateUtilisateurP',
                 data:utilisateur
-            }
+            };
             $http(req).success(function(response){
                 if(response)
                 {

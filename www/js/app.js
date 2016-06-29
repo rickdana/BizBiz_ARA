@@ -22,6 +22,19 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
 
     $rootScope.isAndroid = ionic.Platform.isAndroid();
 
+    function checkConnection() {
+      var networkState = navigator.connection.type;
+      var states = {};
+      states[Connection.UNKNOWN]  = 'Unknown connection';
+      states[Connection.ETHERNET] = 'Ethernet connection';
+      states[Connection.WIFI]     = 'WiFi connection';
+      states[Connection.CELL_2G]  = 'Cell 2G connection';
+      states[Connection.CELL_3G]  = 'Cell 3G connection';
+      states[Connection.CELL_4G]  = 'Cell 4G connection';
+      states[Connection.CELL]     = 'Cell generic connection';
+      states[Connection.NONE]     = 'No network connection';
+
+    }
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toState.requiresLogin && typeof $localStorage["logged"] == "undefined") {
             // no logged user, we should be going to #login
@@ -29,56 +42,6 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
 
             $state.go('app.login');
         }
-      function checkConnection() {
-        var networkState = navigator.connection.type;
-        alert("toto");
-
-        var states = {};
-        states[Connection.UNKNOWN]  = 'Unknown connection';
-        states[Connection.ETHERNET] = 'Ethernet connection';
-        states[Connection.WIFI]     = 'WiFi connection';
-        states[Connection.CELL_2G]  = 'Cell 2G connection';
-        states[Connection.CELL_3G]  = 'Cell 3G connection';
-        states[Connection.CELL_4G]  = 'Cell 4G connection';
-        states[Connection.CELL]     = 'Cell generic connection';
-        states[Connection.NONE]     = 'No network connection';
-
-        alert('Connection type: ' + states[networkState]);
-      }
-
-      /*if(toState.requiresServerUp)
-      {
-
-        var networkState = navigator.connection.type;
-
-        var states = {};
-        states[Connection.UNKNOWN]  = 'Unknown connection';
-        states[Connection.ETHERNET] = 'Ethernet connection';
-        states[Connection.WIFI]     = 'WiFi connection';
-        states[Connection.CELL_2G]  = 'Cell 2G connection';
-        states[Connection.CELL_3G]  = 'Cell 3G connection';
-        states[Connection.CELL_4G]  = 'Cell 4G connection';
-        states[Connection.CELL]     = 'Cell generic connection';
-        states[Connection.NONE]     = 'No network connection';
-
-         if(networkState ==0)
-        {
-          $state.go('app.articles');
-          $mdToast.show({
-            template: '<md-toast class="md-toast">' + Messages.internetErrorContent + '</md-toast>',
-            hideDelay: 7000,
-            position: 'bottom right left'
-          });
-        }
-      }*/
-       /*if(toState.requiresConnexion && serverDown)
-       {
-         event.preventDefault();
-         $state.go('app.articles');
-       }
-        if (typeof $localStorage["logged"] != "undefined" && toState.name == 'app.login') {
-            $state.go('app.articles');
-        }*/
     });
 
 
@@ -133,7 +96,16 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
           }
       },
       requiresLogin:false
-  })
+  }).state('app.signaler', {
+      url: "/signaler/:idarticle",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/signaler.html",
+          controller:'SignalerController'
+        }
+      },
+      requiresLogin:false
+    })
   .state('app.conditionutilisation', {
       url: "/conditionutilisation",
       views: {
@@ -143,7 +115,25 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
           }
       },
       requiresLogin:false
-  }).state('app.politiqueconfidentialite', {
+  }).state('app.contact', {
+      url: "/contact",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/contact.html",
+          controller:'ContactController'
+        }
+      },
+      requiresLogin:false
+    }).state('app.contactsujet', {
+      url: "/contactsujet/:sujet",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/contactsujet.html",
+          controller: 'ContactController'
+        }
+      },
+      requiresLogin:false
+    }).state('app.politiqueconfidentialite', {
       url: "/politiqueconfidentialite",
       views: {
           'menuContent': {

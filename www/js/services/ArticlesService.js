@@ -117,7 +117,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
       var deferred=$q.defer();
       if( $localStorage['articles'].length>0)
       {
-        for(var i=0; i<$localStorage['articles'].length;i++)
+        /*for(var i=0; i<$localStorage['articles'].length;i++)
         {
           if($localStorage['articles'][i].idArticle==article)
           {
@@ -127,7 +127,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             deferred.resolve(response);
             return deferred.promise;
           }
-        }
+        }*/
         if(!articleFound)
         {
           $http.get(url + '/article/getArticleById?idarticle=' + article).success(function (rep) {
@@ -136,6 +136,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             }
 
           }).error(function(err){
+            deferred.resole(err);
             console.log("Erreur "+err);
           });
           return deferred.promise;
@@ -147,6 +148,8 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
           if (response) {
              deferred.resolve(response);
           }
+
+        }).error(function(err){
 
         });
         return deferred.promise;
@@ -262,6 +265,22 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
       return deferred.promise;
     };
 
+    this.signaler=function(signalement)
+    {
+      var deferred=$q.defer();
+      var req={
+        method:'POST',
+        url:url+'/article/signalerArticle',
+        data:{signalement:signalement}
+      };
+      $http(req).success(function(response){
+        if(response)
+        {
+          deferred.resolve(response);
+        }
+      });
+      return deferred.promise;
+    };
     this.addStatArticle=function(statArticle)
     {
         var deferred=$q.defer();
