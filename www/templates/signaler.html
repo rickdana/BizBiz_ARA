@@ -38,8 +38,8 @@
         <div class="row" style="margin-top: -15%">
           <md-input-container flex>
             <label>Votre message</label>
-            <textarea ng-model="signal.message" required columns="1" md-maxlength="300"></textarea>
-            <div ng-messages="signalerForm.nom.$error">
+            <textarea name="message" ng-model="signal.message" required columns="1" md-maxlength="300"></textarea>
+            <div ng-messages="signalerForm.message.$error">
               <div ng-message="required">Veuillez saisir un message.</div>
             </div>
           </md-input-container>

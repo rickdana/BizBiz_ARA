@@ -1,0 +1,30 @@
+<ion-view view-title="Contact">
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+  <ion-content >
+    <p style="box-sizing: inherit; margin: 2rem 0px; padding: 0px; border: 0px; font-stretch: inherit; font-size: 1.3rem; line-height: 1.6em; font-family: 'Avenir Next Cyr W00 Regular'; vertical-align: baseline; text-align: justify; color: rgb(119, 119, 119);">
+      Pour nous aider à améliorer l'application Occazstreet, n'hésitez pas à contacter notre service client en remplissant le formulaire ci-dessous. Signalez-nous les problèmes techniques que vous rencontrez ou exprimez-vous en nous laissant vos commentaires ou vos suggestions. Pour recevoir une réponse, veillez à bien nous indiquer votre adresse email dans le champs correspondant.
+    </p>
+    <section>
+      <md-subheader class="md-accent ">SELECTIONNEZ UN SUJET</md-subheader>
+      <md-divider </md-divider>
+      <div class="list">
+        <a class="item" ui-sref="app.contactsujet({sujet:'Annonce refusée'})">
+          Annonce refusée
+        </a>
+        <md-divider </md-divider>
+        <a class="item" ui-sref="app.contactsujet({sujet:'Problème technique'})">
+          Problème technique
+        </a>
+        <md-divider </md-divider>
+        <a class="item" ui-sref="app.contactsujet({sujet:'Retrouver mon annonce'})">
+          Retrouver mon annonce
+        </a>
+        <md-divider </md-divider>
+        <a class="item" ui-sref="app.contactsujet({sujet:'Suggestion'})">
+          Suggestion
+        </a>
+      </div>
+    </section>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,43 @@
+<ion-view view-title="{{sujet}}">
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+  <ion-content scroll=false>
+
+    <div layout="column"  id="popupContainer">
+      <form name="contactForm" ng-submit="contacter(sujet,contact)">
+
+        <div class="row"  >
+          <md-input-container flex>
+            <label>Votre nom</label>
+            <input ng-model="contact.nom" type="text" required>
+            <div ng-messages="contactForm.nom.$error">
+              <div ng-message="required">Veuillez renseigner votre nom.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="row" style="margin-top: -15%">
+          <md-input-container flex>
+            <label>Votre adresse email</label>
+            <input ng-model="contact.email" type="email" required>
+            <div ng-messages="contactForm.nom.$error">
+              <div ng-message="required">Veuillez renseigner votre adresse mail.</div>
+              <div ng-message="email">Veuillez renseigner une adresse mail valide.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="row" style="margin-top: -15%">
+          <md-input-container flex>
+            <label>Votre message</label>
+            <textarea name="message" ng-model="contact.message" required columns="1" md-maxlength="300"></textarea>
+            <div ng-messages="contactForm.message.$error">
+              <div ng-message="required">Veuillez saisir un message.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="column" layout-align="center center" style="height: 100px;">
+          <md-button class="md-warn md-raised md-hue-2" type="submit">Envoyer</md-button>
+        </div>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

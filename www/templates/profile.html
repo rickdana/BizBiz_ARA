@@ -44,7 +44,7 @@
                                   {{article.categorie.libelle}}
                                 </div>
                                 <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
-                                  {{article.nomVille}} , ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time>
+                                  {{article.nomVille}} </span><span ng-if="!article.dateModification">, ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time></span><span ng-if="article.dateModification">, modifié  &nbsp; <time am-time-ago="article.dateModification"></time></span>
                                 </div>
                               </div>
                             </div>
@@ -99,7 +99,7 @@
                                   {{article.categorie.libelle}}
                                 </div>
                                 <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
-                                  {{article.nomVille}} , ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time>
+                                  {{article.nomVille}} </span><span ng-if="!article.dateModification">, ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time></span><span ng-if="article.dateModification">, modifié  &nbsp; <time am-time-ago="article.dateModification"></time></span>
                                 </div>
                               </div>
                             </div>
@@ -151,7 +151,7 @@
                                 {{article.categorie.libelle}}
                               </div>
                               <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
-                                {{article.nomVille}} , ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time>
+                                {{article.nomVille}} </span><span ng-if="!article.dateModification">, ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time></span><span ng-if="article.dateModification">, modifié  &nbsp; <time am-time-ago="article.dateModification"></time></span>
                               </div>
                             </div>
                             </div>

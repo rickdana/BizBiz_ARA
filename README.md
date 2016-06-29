@@ -23,3 +23,5 @@ Mise en place fonctionnalité de contact
 Distinction entre date d'ajout et date de mise à jour d'un article
 Rajout d'un champ "Quartier" au niveau du formulaire de creation et d'édition d'un article
 Mise à jour du catalogue de motif de signalement
+--version 1.1.1
+Correction erreur scroll au niveau de la vue contact
