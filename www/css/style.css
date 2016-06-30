@@ -584,5 +584,7 @@ a.autolinker {
   padding-left: 4%;
   margin-top: 3%;
 }
-
+.first-item{
+  margin-top: 26px !important;
+}
 

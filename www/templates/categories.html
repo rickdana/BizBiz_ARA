@@ -1,6 +1,6 @@
 <ion-view view-title="Catégories">
 
-    <ion-content ng-controller="CategoriesController">
+    <ion-content  class="has-header" ng-controller="CategoriesController">
       <div ng-show="!categories">
         <div class="row row-center centered" >
           <div class="col text-center">
@@ -12,19 +12,12 @@
           </div>
         </div>
       </div>
-      <div ng-show="categories.length>0" ng-repeat="categorie in categories track by $index" ng-controller="ArticlesController" class="list card card-margin" >
-          <a ui-sref="app.articlebycat({ categorie: '{{categorie.idcategorie}}',libelle:'{{categorie.libelle}}' })" class="item" >
-            <div class="row">
-              <div class="col-90">
-                <h2 style="font-weight: bold">
-                  {{categorie.libelle}}
-                </h2>
-              </div>
-              <div class="col-10">
-                <span style="font-size: 150%"><i class="ion-chevron-right"></i></span>
-              </div>
-            </div>
-
+      <div ng-if="categories.length>0" ng-repeat="categorie in categories track by $index" ng-controller="ArticlesController" class="list card card-margin" ng-class="{'first-item':$first}">
+          <a ui-sref="app.articlebycat({ categorie: '{{::categorie.idcategorie}}',libelle:'{{::categorie.libelle}}' })" class="item  item-icon-left" >
+            <i class="icon ion-grid assertive"></i>
+            <h2 style="margin-left: 12%;">
+              {{::categorie.libelle}}
+            </h2>
           </a>
       </div>
     </ion-content>

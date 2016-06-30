@@ -61,7 +61,7 @@
                     <i  style="color: white" class="ion-help-circled"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aide
                 </ion-item>
                 <!--<md-divider></md-divider>-->
-                <ion-item class="menu-size" ng-show="logged" nav-clear menu-close  ng-click="doLogout()" style="color: #c6c9cf">
+                <ion-item class="menu-size" ng-if="logged" nav-clear menu-close  ng-click="doLogout()" style="color: #c6c9cf">
                    <i  style="color: white" class="ion-log-out"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se déconnecter
                 </ion-item>
             </ion-list>

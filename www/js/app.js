@@ -155,13 +155,13 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
     requiresLogin:false
   })
   .state('app.login', {
+    Cache:false,
     url: "/login",
     views: {
       'menuContent': {
         templateUrl: "templates/login.html",
         controller:'UtilisateurController'
-      },
-      Cache:false
+      }
     }
   }).state('app.logout', {
           url: "/logout",
