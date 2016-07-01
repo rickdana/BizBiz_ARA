@@ -3,8 +3,8 @@
  */
 angular.module('Occazstreet.constants', [])
     .constant('Globals',{
-     "urlServer":"http://localhost:",
-     //"urlServer":"http://37.59.101.217:",
+     //"urlServer":"http://localhost:",
+       "urlServer":"http://37.59.101.217:",
         "port":"1337",
         "cheminImage":"imagesArticle/",
         "cheminPhoto":"photoUtilisateur/",
