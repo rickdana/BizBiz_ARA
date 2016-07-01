@@ -16,7 +16,7 @@
           <md-button  ng-click="editArticle(art.idArticle)"> <span md-menu-align-target>Modifier l'annonce</span></md-button>
         </md-menu-item>
          <md-menu-item>
-           <a  class="md-button" ui-sref="app.signaler({idarticle:art.idArticle})"> <span md-menu-align-target>Signaler</span></a>
+           <a  class="md-button" ui-sref="app.signaler({::idarticle:art.idArticle})"> <span md-menu-align-target>Signaler</span></a>
          </md-menu-item>
       </md-menu-content>
     </md-menu>
@@ -26,7 +26,7 @@
 
           <div class="card-margin">
             <div ng-if="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
-            <img class="image" ng-src="{{url}}{{cheminImage}}{{art.images[0].cheminImage}}">
+            <img class="image" ng-src="{{::url}}{{::cheminImage}}{{::art.images[0].cheminImage}}">
             <!--<ion-slide-box  style="height: 50%" show-pager="true" auto-play="true" does-continue="true" >
                   <ion-slide  ng-show="art.images.length>0" ng-repeat="image in art.images">
                       <div ng-show="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
@@ -59,8 +59,8 @@
                         Comment
                     </a>-->
 
-                    <a class="tab-item"  ng-if="art.utilisateur.telephone" href="tel: {{art.utilisateur.telephone}}"><i class="icon ion-android-call balanced" style="font-size: 200%;"></i></a>
-                    <a class="tab-item" ng-if="art.utilisateur.telephone" href="tel: {{art.utilisateur.telephone}}"  ng-click="sendSms(art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
+                    <a class="tab-item"  ng-if="art.utilisateur.telephone" href="tel: {{::art.utilisateur.telephone}}"><i class="icon ion-android-call balanced" style="font-size: 200%;"></i></a>
+                    <a class="tab-item" ng-if="art.utilisateur.telephone" href="tel: {{::art.utilisateur.telephone}}"  ng-click="sendSms(::art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
                     <a class="tab-item" ng-click="shareMailEmpty()"><i class="icon ion-android-mail positive" style="font-size: 200%;"></i></a>
 
                    <!-- <a class="tab-item">
@@ -74,26 +74,26 @@
             <div class="item item-text-wrap" >
               <div class="row">
                 <div class="col col-80">
-                  <span style="font-size: 150%; margin-left: -5%; color: black">{{art.prix}} {{art.devise.symbole}}</span>
+                  <span style="font-size: 150%; margin-left: -5%; color: black">{{::art.prix | currency:art.devise.symbole}} </span>
                 </div>
                 <div class="col col-20">
-                  <span style="color: darkgray;"> <i style="font-size: 150%;" class="icon ion-eye   text-right"></i><b class=" ">&nbsp;{{art.nombreDeVue}}</b></span>
+                  <span class="badge badge-calm" > <i style="font-size: 150%;" class="icon ion-eye   text-right"></i><b >&nbsp;{{art.nombreDeVue}}</b></span>
                 </div>
               </div>
               <div class="row">
-                <h2 style="font-weight: bold;color: #B71C1C;" class="titre-article">{{art.titre}}</h2>
+                <h2 style="font-weight: bold;color: #B71C1C;" class="titre-article">{{::art.titre}}</h2>
 
               </div>
               <div class="row">
                 <p class="desc-article">
-                  {{art.details}}
+                  {{::art.details}}
                 </p>
               </div>
               <div class="row">
                 <p style="color: darkgray;"> <span ng-if="!art.dateModification">Ajouté  &nbsp; <time am-time-ago="art.dateAjout"></time></span><span ng-if="art.dateModification">Modifié  &nbsp; <time am-time-ago="art.dateModification"></time></span></p>
               </div>
               <div class="row" style="margin-top: -5%">
-                <p style="color: darkgray;"> {{art.nomVille}}<span ng-if="art.complementadresse">, {{art.complementadresse}}</span></p>
+                <p style="color: darkgray;"> {{::art.nomVille}}<span ng-if="art.complementadresse">, {{::art.complementadresse}}</span></p>
               </div>
             </div>
         </div>
@@ -102,8 +102,8 @@
             <div class="item item-text-wrap">
                 <div class="item tabs tabs-secondary tabs-icon-left">
                     <a ui-sref="app.profile({utilisateur:art.utilisateur.id})" class="ink item item-avatar-left item-icon-right">
-                        <img   ng-src="{{url}}{{cheminPhoto}}{{art.photo.cheminPhoto}}">
-                        <h2>{{art.utilisateur.prenom}} {{art.utilisateur.nom[0]}}</h2><!--<br/>0 avis</h2>-->
+                        <img   ng-src="{{::url}}{{cheminPhoto}}{{::art.photo.cheminPhoto}}">
+                        <h2>{{::art.utilisateur.prenom}} {{::art.utilisateur.nom[0]}}</h2><!--<br/>0 avis</h2>-->
                     </a>
                 </div>
             </div>
@@ -172,14 +172,14 @@
 
                   <input disabled   value="{{articlePrix}}" style="width:70%"/>
               </md-input-container>
-              <span style="float: left; margin-top: 27px;"> {{articleDevise}}</span>
+              <span style="float: left; margin-top: 27px;"> {{::articleDevise}}</span>
             </div>
             <div layout-sm="row" style="margin-top: -30px">
                 <md-input-container style="float: right">
                     <label>Votre offre</label>
                     <input required type="number" step="any" name="prix" ng-model="contreoffre.prix" style="width:70%">
                 </md-input-container>
-                <span style="float: left; margin-top: 27px;"> {{articleDevise}}</span>
+                <span style="float: left; margin-top: 27px;"> {{::articleDevise}}</span>
             </div>
 
             <md-input-container flex style="margin-top: -30px">
