@@ -182,9 +182,10 @@ angular.module('Occazstreet.controllers')
         );
       }else
       {*/
-        ArticlesService.getDevise().then(function (response) {
-          $scope.devises = response.devises;
-        });
+        $scope.devise='FCFA';
+        /*ArticlesService.getDevise().then(function (response) {
+          $scope.devises = response;
+        });*/
         ArticlesService.getAllCategories().then(function () {
           $scope.categories = ArticlesService.getCategories();
         });
@@ -224,7 +225,6 @@ angular.module('Occazstreet.controllers')
                         break;
                     }
                   }
-
                   /*article.latitude = position.coords.latitude;
                   article.longitude = position.coords.longitude;*/
 
@@ -307,7 +307,7 @@ angular.module('Occazstreet.controllers')
           $ionicLoading.show({
             template: '<md-progress-circular  md-mode="indeterminate" style="margin-left: auto;margin-right: auto"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
           });
-          if(article.devise == null || typeof article.devise=='undefined')
+          /*if(article.devise == null || typeof article.devise=='undefined')
           {
             $ionicLoading.hide();
             $mdToast.show({
@@ -316,7 +316,7 @@ angular.module('Occazstreet.controllers')
               position: 'bottom right left'
             });
 
-          }else if(article.localisation.address_components ==null || typeof  article.localisation.address_components =='undefined')
+          }else */if(article.localisation.address_components ==null || typeof  article.localisation.address_components =='undefined')
           {
             $ionicLoading.hide();
             $mdToast.show({

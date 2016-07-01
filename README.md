@@ -25,3 +25,10 @@ Rajout d'un champ "Quartier" au niveau du formulaire de creation et d'édition d
 Mise à jour du catalogue de motif de signalement
 --version 1.1.1
 Correction erreur scroll au niveau de la vue contact
+--version 1.2.0
+Amélioration des performances 
+Mise en place paramétrage  de l'affichage du numéro de téléphone
+Mise en place du filtre currency au niveau du prix
+Changement du style du header
+Changement du sytle du nombre de vue affiché au niveau de la vue de détail d'un article
+Mise en place devise en dur dans le code

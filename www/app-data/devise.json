@@ -1,0 +1,16 @@
+[
+  {
+    "id":"1",
+    "libelle":"Francs CFA",
+    "symbole":"FCFA",
+    "CODE":"XAF",
+    "STATUT":"A"
+  },
+  {
+    "id":"2",
+    "libelle":"Naira",
+    "symbole":"NAIRA",
+    "CODE":"NGN",
+    "STATUT":"I"
+  }
+]

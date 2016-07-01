@@ -35,9 +35,10 @@
                         <input type="number" required id="prix" name="prix" ng-model="article.prix" >
                     </md-input-container>
                     <md-input-container flex style="width:50%;margin-top: 8.6%">
-                        <md-select  placeholder="Devise" ng-model="article.devise" required>
+                      <input ng-model="devise"  disabled>
+                      <!--<md-select  placeholder="Devise" ng-model="article.devise" required>
                             <md-option required ng-repeat="devise in devises" value="{{devise.id}}" required>{{devise.symbole}}</md-option>
-                        </md-select>
+                        </md-select>-->
                     </md-input-container>
 
                 </div>

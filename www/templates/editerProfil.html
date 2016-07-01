@@ -65,10 +65,13 @@
                       <input  type="text" g-places-autocomplete ng-model="user.localisation">
                     </md-input-container>
                   </div>
-
-
                 </div>
 
+              <div class="card" >
+                <div class="row " style="margin-bottom: -0.5%" >
+                  Afficher votre numéro de téléphone <md-checkbox aria-checked="user.afficherTel" class="md-warn md-raised md-hue-2" ng-model="user.afficherTel"></md-checkbox>
+                </div>
+              </div>
               <div class="card" ng-show="showButtonChangePassword">
                 <a ui-sref="app.changePassword" class="md-button no-text-transform" style="width: 100%">Changement du mot de passe</a>
               </div>

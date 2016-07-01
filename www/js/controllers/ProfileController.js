@@ -58,12 +58,13 @@ angular.module('Occazstreet.controllers')
         if($state.current.name=='app.profile')
         {
             $ionicLoading.show({
-                template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+                template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>',
+              backdrop:true
             });
             UtilisateursService.getUtilisateurById(createurAnnonce).then(function(response){
                 profil=true;
                 $scope.utilisateur=response.utilisateur;
-                if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined' && $scope.infoUserLogged.id==createurAnnonce)
+              if(typeof  $localStorage[Globals.USER_LOGGED]!=='undefined' && $scope.infoUserLogged.id==createurAnnonce)
                 {
                     $localStorage[Globals.USER_LOGGED].nom=response.utilisateur.nom;
                     $localStorage[Globals.USER_LOGGED].prenom=response.utilisateur.prenom;
@@ -72,6 +73,7 @@ angular.module('Occazstreet.controllers')
                     $localStorage[Globals.USER_LOGGED].email=response.utilisateur.email;
                     $localStorage[Globals.USER_LOGGED].emailVerifie=response.utilisateur.emailVerifie;
                     $localStorage[Globals.USER_LOGGED].telephoneVerifie=response.utilisateur.telephoneVerifie;
+                    $localStorage[Globals.USER_LOGGED].afficherTel=response.utilisateur.afficherTel;
                 }
 
                 ArticlesService.getArticlesByUser(response.utilisateur.id).then(function(result){
@@ -231,6 +233,15 @@ angular.module('Occazstreet.controllers')
             user.sexe=$scope.infoUserLogged.sexe;
             user.email=$scope.infoUserLogged.email;
 
+            if(user.showTel)
+            {
+              user.afficherTel='O';
+            }
+            else
+            {
+              user.afficherTel='N';
+            }
+
             if(($scope.infoUserLogged.nomVille ==null || $scope.infoUserLogged.nomVille=="") || ($scope.infoUserLogged.nomPays==null || $scope.infoUserLogged.nomPays=="" ) )
             {
               user.localisation="";
@@ -254,7 +265,8 @@ angular.module('Occazstreet.controllers')
             $scope.editUser=function(user)
             {
               $ionicLoading.show({
-                template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
+                template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>',
+                backdrop:true
               });
               if(user.localisation.address_components !=null || typeof user.localisation.address_components !='undefined')
               {

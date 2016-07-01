@@ -186,92 +186,6 @@ angular.module('Occazstreet.controllers')
         var onError = function(error){
           console.log("fail  "+error);
         };
-
-        $scope.contreOffre=function(ev)
-        {
-          if(logged)
-          {
-            $mdDialog.show({
-              controller:ContreOffreController,
-              templateUrl: 'contreOffre.html',
-              parent: angular.element(document.body),
-              targetEvent: ev,
-              scope:$scope.$new(),
-              clickOutsideToClose:true
-
-            })
-              .then(function() {
-                $ionicPlatform.on('backbutton', function() {
-                  $mdDialog.hide();
-                });
-
-              });
-          }
-          else
-          {
-            $state.go("app.login");
-          }
-        };
-        function ContreOffreController($scope,$mdDialog,$rootScope)
-        {
-          $scope.envoyer=function()
-          {
-            $mdDialog.cancel();
-            $rootScope.offre=$scope.contreoffre;
-            $state.go("app.chat");
-          }
-          ;
-          $scope.hide = function() {
-            $mdDialog.hide();
-          };
-          $scope.cancel = function() {
-            $mdDialog.cancel();
-          };
-          $scope.answer = function(answer) {
-            $mdDialog.hide(answer);
-          };
-        }
-
-        $scope.jachete=function(ev)
-        {
-          if(logged)
-          {
-            $mdDialog.show({
-              templateUrl: 'jachete.html',
-              scope: $scope,
-              targetEvent: ev
-            })
-              .then(function() {
-                $ionicPlatform.on('backbutton', function() {
-                  $mdDialog.cancel();
-                });
-                $mdDialog.cancel();
-
-              });
-          }
-          else
-          {
-            $state.go("app.login");
-          }
-        };
-
-        $scope.chat=function(ev)
-        {
-          if(logged)
-          {
-
-          }
-          else
-          {
-            $state.go("app.login");
-          }
-        };
-
-        $scope.close=function()
-        {
-          $mdDialog.cancel();
-        }
-
       }
       else if(!response.success)
       {
@@ -283,6 +197,91 @@ angular.module('Occazstreet.controllers')
     $scope.myGoBack = function() {
       $ionicHistory.goBack();
     };
+
+    $scope.contreOffre=function(ev)
+    {
+      if(logged)
+      {
+        $mdDialog.show({
+          controller:ContreOffreController,
+          templateUrl: 'contreOffre.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          scope:$scope.$new(),
+          clickOutsideToClose:true
+
+        })
+          .then(function() {
+            $ionicPlatform.on('backbutton', function() {
+              $mdDialog.hide();
+            });
+
+          });
+      }
+      else
+      {
+        $state.go("app.login");
+      }
+    };
+    function ContreOffreController($scope,$mdDialog,$rootScope)
+    {
+      $scope.envoyer=function()
+      {
+        $mdDialog.cancel();
+        $rootScope.offre=$scope.contreoffre;
+        $state.go("app.chat");
+      }
+      ;
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+      $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+      };
+    }
+
+    $scope.jachete=function(ev)
+    {
+      if(logged)
+      {
+        $mdDialog.show({
+          templateUrl: 'jachete.html',
+          scope: $scope,
+          targetEvent: ev
+        })
+          .then(function() {
+            $ionicPlatform.on('backbutton', function() {
+              $mdDialog.cancel();
+            });
+            $mdDialog.cancel();
+
+          });
+      }
+      else
+      {
+        $state.go("app.login");
+      }
+    };
+
+    $scope.chat=function(ev)
+    {
+      if(logged)
+      {
+
+      }
+      else
+      {
+        $state.go("app.login");
+      }
+    };
+
+    $scope.close=function()
+    {
+      $mdDialog.cancel();
+    }
 
     /*$timeout(function() {
       $ionicLoading.hide();

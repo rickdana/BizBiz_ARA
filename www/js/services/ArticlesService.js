@@ -239,13 +239,20 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
     this.getDevise=function()
     {
         var deferred=$q.defer();
-        $http.get(url+'/devise/getActiveDevise').success(function(response){
+        $http.get('app-data/devise.json')
+        .success(function (response) {
+            if(response)
+            {
+              deferred.resolve(response);
+            }
+          });
+         return deferred.promise;
+        /*$http.get(url+'/devise/getActiveDevise').success(function(response){
             if(response)
             {
                 deferred.resolve(response);
             }
-        });
-        return deferred.promise;
+        });*/
     };
 
     this.addFavoris=function(user,article)

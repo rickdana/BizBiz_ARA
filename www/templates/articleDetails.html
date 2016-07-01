@@ -26,7 +26,8 @@
 
           <div class="card-margin">
             <div ng-if="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
-            <img class="image" ng-src="{{::url}}{{::cheminImage}}{{::art.images[0].cheminImage}}">
+            <img ng-if="art.images.length ==0" class="image" ng-src="img/defaultImage.png">
+            <img ng-if="art.images.length >0" class="image" ng-src="{{::url}}{{::cheminImage}}{{::art.images[0].cheminImage}}">
             <!--<ion-slide-box  style="height: 50%" show-pager="true" auto-play="true" does-continue="true" >
                   <ion-slide  ng-show="art.images.length>0" ng-repeat="image in art.images">
                       <div ng-show="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
@@ -59,8 +60,8 @@
                         Comment
                     </a>-->
 
-                    <a class="tab-item"  ng-if="art.utilisateur.telephone" href="tel: {{::art.utilisateur.telephone}}"><i class="icon ion-android-call balanced" style="font-size: 200%;"></i></a>
-                    <a class="tab-item" ng-if="art.utilisateur.telephone" href="tel: {{::art.utilisateur.telephone}}"  ng-click="sendSms(::art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
+                    <a class="tab-item"  ng-if="art.utilisateur.telephone && art.utilisateur.afficherTel" href="tel: {{::art.utilisateur.telephone}}"><i class="icon ion-android-call balanced" style="font-size: 200%;"></i></a>
+                    <a class="tab-item"  ng-if="art.utilisateur.telephone && art.utilisateur.afficherTel" href="tel: {{::art.utilisateur.telephone}}"  ng-click="sendSms(::art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
                     <a class="tab-item" ng-click="shareMailEmpty()"><i class="icon ion-android-mail positive" style="font-size: 200%;"></i></a>
 
                    <!-- <a class="tab-item">
@@ -74,10 +75,10 @@
             <div class="item item-text-wrap" >
               <div class="row">
                 <div class="col col-80">
-                  <span style="font-size: 150%; margin-left: -5%; color: black">{{::art.prix | currency:art.devise.symbole}} </span>
+                  <span style="font-size: 150%; margin-left: -5%; color: black">{{::art.prix | currency:art.devise.symbole :0}} </span>
                 </div>
-                <div class="col col-20">
-                  <span class="badge badge-calm" > <i style="font-size: 150%;" class="icon ion-eye   text-right"></i><b >&nbsp;{{art.nombreDeVue}}</b></span>
+                <div class="col col-20" ng-if="art.nombreDeVue>0">
+                  <span class="badge badge-calm" > <i style="font-size: 150%;" class="icon ion-eye   text-right"></i><b >&nbsp;{{::art.nombreDeVue}}</b></span>
                 </div>
               </div>
               <div class="row">
