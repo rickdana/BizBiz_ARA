@@ -1,7 +1,7 @@
 <ion-view view-title="Catégories">
 
     <ion-content  class="has-header" ng-controller="CategoriesController">
-      <div ng-show="!categories">
+      <div ng-if="categories.length<0">
         <div class="row row-center centered" >
           <div class="col text-center">
             <i  style="font-size: 4.688em;color:#98a2a2" class="icon ion-sad-outline"> </i><br/>
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div ng-if="categories.length>0" ng-repeat="categorie in categories track by $index" ng-controller="ArticlesController" class="list card card-margin" ng-class="{'first-item':$first}">
+      <div ng-if="categories.length>0" ng-repeat="categorie in categories track by $index"  class="list card card-margin" ng-class="{'first-item':$first}">
           <a ui-sref="app.articlebycat({ categorie: '{{::categorie.idcategorie}}',libelle:'{{::categorie.libelle}}' })" class="item  item-icon-left" >
             <i class="icon ion-grid assertive"></i>
             <h2 style="margin-left: 12%;">

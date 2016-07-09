@@ -27,7 +27,7 @@
           <div class="card-margin">
             <div ng-if="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
             <img ng-if="art.images.length ==0" class="image" ng-src="img/defaultImage.png">
-            <img ng-if="art.images.length >0" class="image" ng-src="{{::url}}{{::cheminImage}}{{::art.images[0].cheminImage}}">
+            <img ng-if="art.images.length >0" class="image" ng-src="{{::url}}{{::cheminImage}}{{::art.images[0].cheminImage}}" height="400">
             <!--<ion-slide-box  style="height: 50%" show-pager="true" auto-play="true" does-continue="true" >
                   <ion-slide  ng-show="art.images.length>0" ng-repeat="image in art.images">
                       <div ng-show="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>

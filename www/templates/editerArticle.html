@@ -1,18 +1,25 @@
 <ion-view view-title="Editer un produit">
 
     <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" >
-       <!-- <div class="card" style="width: 95px"  >
-
-            <md-button ng-show="nombreImage < 4 || nombreImage ===undefined" class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
+       <div class="card" style="width: 95px;margin-top: 5%" ng-if="article.images.length==0"   >
+            <md-button  class="button button-icon button-clear icon ion-camera" ng-click="addImageEdit(null,$event)">
             </md-button>
-        </div>-->
-        <div   ng-show="nombreImage !==undefined && imgURI.length!==0 " class="card">
+        </div>
+        <div  ng-if="article.images[0].idImage!=1 && image.length==0" class="card">
             <table  border="0" cellpadding="" cellspacing="0">
                 <tr>
-                    <td ng-repeat='(key, value) in imgURI'> <md-button on-hold="onHold({{key}})"><img  ng-src="{{path}}{{value.cheminImage}}"></md-button></td>
+                    <td ng-repeat='(key, value) in article.images'> <md-button on-hold="onHoldEdit({{key}})"><img height="60" width="60"  ng-src="{{path}}{{value.cheminImage}}"></md-button></td>
                 </tr>
             </table>
             <!-- <img ng-repeat='image in imgURI' ng-src="{{image}}">-->
+        </div>
+        <div  ng-if="image.length>0" class="card">
+          <table  border="0" cellpadding="" cellspacing="0">
+            <tr>
+              <td ng-repeat='(key, value) in image' > <md-button on-hold="onHoldEdit({{key}})"><img height="60" width="60"  ng-src="{{value}}"></md-button></td>
+            </tr>
+          </table>
+          <!-- <img ng-repeat='image in imgURI' ng-src="{{image}}">-->
         </div>
         <form  ng-submit="saveEditArticle(article)" >
 
@@ -83,7 +90,7 @@
                     Article vendu
                 </md-checkbox>
             </div>
-            <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   type="submit">
+            <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   id="form-submit" style="display: none;" type="submit">
             </md-button>
         </form>
 
@@ -93,6 +100,10 @@
                </md-checkbox>
            </md-button>-->
     </ion-content>
+  <label for="form-submit" role="md-button">
+    <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"  >
+    </md-button>
+  </label>
 </ion-view>
 <script type="text/ng-template" id="uploadImageChoice.html">
     <md-dialog >

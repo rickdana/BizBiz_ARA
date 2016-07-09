@@ -2,11 +2,11 @@
   <ion-nav-buttons side="right">
   </ion-nav-buttons>
 
-    <ion-content ng-controller="FavorisController">
-      <div ng-show="!articleFavorisExist">
+    <ion-content >
+      <div ng-if="!articleFavorisExist">
         <div class="row row-center centered" >
           <div class="col text-center">
-            <i  style="font-size: 4.688em;color:#98a2a2" class=" icon ion-android-bookmark"> </i><br/>
+            <i  style="font-size: 4.688em;color:#98a2a2" class=" icon ion-heart"> </i><br/>
             <span style="font-size:1.250em;font-weight: bold;color:#98a2a2">
                 Vous n'avez pas encore de favoris.
            </span>
@@ -17,20 +17,33 @@
             </a>
           </div>
         </div>
-      <div ng-show="articleFavorisExist"  ng-repeat="article in articlesFavoris"  ng-controller="ProfileController" class="item card-item" >
-        <div  ui-sref="app.articledetails({article:'{{article.idArticle}}'})">
-          <div class="item item-avatar  item-text-wrap">
-            <span ng-show="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
-            <span ng-show="article.images.length <1" class="avatar" style="background-image: url('img/no_image.png');"></span>
-            <strong>{{article.titre.substring(0,17)}}...</strong> &nbsp;&nbsp;&nbsp;<span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
-            {{article.categorie.libelle}}<br/>
-            {{article.nomVille}} , <span style="font-style : italic;" locale="fr" am-time-ago="article.dateAjout | amParse:'DD/MM/YYYY'"></span>
-            <div class="card-footer text-right" style="margin-top: -30px">
-              <i class="icon ion-eye  positive-900 text-right"></i>&nbsp;&nbsp;<b class=" positive-900">{{article.nombreDeVue}}</b>
+      </div>
+      <ion-refresher
+        pulling-text="Lacher pour raffraichir..."
+        on-refresh="doRefresh()">
+      </ion-refresher>
+      <div  ng-if="articleFavorisExist" class="item card-item item-art" ng-repeat="article in articlesFavoris track by $index" ng-controller="FavorisController">
+        <div ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="card card-margin">
+          <div ng-if="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
+          <div class="item item-avatar  item-text-wrap ">
+            <span ng-if="article.images.length >0" class="avatar" style="background-image: url('{{url}}{{cheminImage}}{{article.images[0].cheminImage}}');"></span>
+            <span ng-if="article.images.length ==0" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
+            <div class="row">
+              <div style="margin-left: -6%;white-space: nowrap;" class="col col-60">
+                <strong >{{article.titre.substring(0,10)}}...</strong>
+              </div>
+              <div class="col col-40">
+                <span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+              </div>
+            </div>
+            <div class="row" style="margin-top: -10%">
+              {{article.categorie.libelle}}
+            </div>
+            <div class="row" style="margin-top: -10%;color: grey;margin-bottom: 0%">
+              {{article.nomVille}}</span><span ng-if="!article.dateModification">, ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time></span><span ng-if="article.dateModification">, modifié  &nbsp; <time am-time-ago="article.dateModification"></time></span>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </ion-content>
 </ion-view>

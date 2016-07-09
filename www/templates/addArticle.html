@@ -10,7 +10,7 @@
             </button>
           <table ng-if="nombreImage ==1 && nombreImage !=='undefined' && imgURI.length!==0 " border="0" cellpadding="" cellspacing="0">
             <tr>
-              <td ng-repeat='(key, value) in imgURI'> <md-button on-hold="onHold({{key}})"><img  ng-src="{{value}}" height="60px" width="60px"></md-button></td>
+              <td ng-repeat='(key, value) in imgURI'> <md-button on-hold="onHold({{key}})"><img  ng-src="{{value}}" height="60" width="60"></md-button></td>
             </tr>
           </table>
         </div>

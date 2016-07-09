@@ -32,3 +32,8 @@ Mise en place du filtre currency au niveau du prix
 Changement du style du header
 Changement du sytle du nombre de vue affiché au niveau de la vue de détail d'un article
 Mise en place devise en dur dans le code
+--version 1.3.0
+Afficher/masquer numero de téléphone
+modification image d'une annonce
+correction de bug au niveau du menu
+Ajout menu favoris

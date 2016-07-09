@@ -13,7 +13,7 @@
                     </md-input-container>
                     <md-input-container flex flex >
                         <img ng-if="!offLine && infoUserLogged.photo && nombrePhoto==0 && photoUri==null " width="65px" height="65px"  class="circle" ng-src="{{url}}{{cheminPhoto}}{{infoUserLogged.photo.cheminPhoto}}">
-                        <img ng-if="!offLine && photoUri || photo !=null" width="65px" height="65px"  class="circle" ng-src="{{photo}}">
+                        <img ng-if="!offLine && photoUri || photo !=null && infoUserLogged.photo==null" width="65px" height="65px"  class="circle" ng-src="{{photo}}">
                         <img ng-if="offLine && photo ==null" ng-src="img/default.png" alt="" class="img-circle">
                     </md-input-container>
                 </div>

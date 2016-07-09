@@ -109,7 +109,7 @@ angular.module('Occazstreet.controllers')
 
                 });
 
-                ArticlesService.getArticlesFavorisByUser(response.utilisateur.id).then(function(res){
+               /* ArticlesService.getArticlesFavorisByUser(response.utilisateur.id).then(function(res){
                     $ionicLoading.hide();
                     if(res.success)
                     {
@@ -123,7 +123,7 @@ angular.module('Occazstreet.controllers')
                       $scope.articlesFavoris=res.articles;
                     }
 
-                })
+                })*/
 
 
             });
@@ -232,15 +232,7 @@ angular.module('Occazstreet.controllers')
             user.datedenaissance=new Date($scope.infoUserLogged.dateDeNaissance);
             user.sexe=$scope.infoUserLogged.sexe;
             user.email=$scope.infoUserLogged.email;
-
-            if(user.showTel)
-            {
-              user.afficherTel='O';
-            }
-            else
-            {
-              user.afficherTel='N';
-            }
+            user.afficherTel=$scope.infoUserLogged.afficherTel;
 
             if(($scope.infoUserLogged.nomVille ==null || $scope.infoUserLogged.nomVille=="") || ($scope.infoUserLogged.nomPays==null || $scope.infoUserLogged.nomPays=="" ) )
             {
@@ -849,14 +841,36 @@ angular.module('Occazstreet.controllers')
                 $scope.activite=response.activiteUser;
             }
         })
-    }).controller('FavorisController',function($scope,$stateParams,ArticlesService,Globals,$localStorage){
+    }).controller('FavorisController',function($scope,$stateParams,ArticlesService,Globals,$localStorage, $ionicLoading){
+    $ionicLoading.show({
+      template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>',
+      backdrop:true
+    });
       var url=Globals.urlServer+Globals.port+'/';
       var cheminImage=Globals.cheminImage;
       $scope.url=url;
       $scope.cheminImage=cheminImage;
       $scope.isDisabled = false;
       $scope.buttonRaffraichirText="Raffraichir";
+
+    ArticlesService.getArticlesFavorisByUser($localStorage[Globals.USER_LOGGED].id).then(function(res){
+      $ionicLoading.hide();
+      if(res.success)
+      {
+        if(res.articles.length>0)
+        {
+          $scope.articleFavorisExist=true;
+        }else
+        {
+          $scope.articleFavorisExist=false;
+        }
+        $scope.articlesFavoris=res.articles;
+      }
+    });
+
+    $scope.doRefresh = function() {
       ArticlesService.getArticlesFavorisByUser($localStorage[Globals.USER_LOGGED].id).then(function(res){
+        $ionicLoading.hide();
         if(res.success)
         {
           if(res.articles.length>0)
@@ -868,5 +882,9 @@ angular.module('Occazstreet.controllers')
           }
           $scope.articlesFavoris=res.articles;
         }
-      })
-  });
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    }
+
+
+    });

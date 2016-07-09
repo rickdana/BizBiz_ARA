@@ -51,21 +51,21 @@ angular.module('Occazstreet.controllers')
                   $scope.isDisabled = false;
                   $rootScope.serverDown=true;
                   $scope.articles=[];
-                  $scope.buttonRaffraichirText="Raffraichir";
-                  $mdDialog.show(
+                  $scope.buttonRaffraichirText="Réessayer";
+                  /*$mdDialog.show(
                     $mdDialog.alert()
                       .parent(angular.element(document.body))
                       .title(Messages.erreurServeurTitle)
                       .content(Messages.serverDown)
                       .ok('Ok')
-                  );
-                  $localStorage['articles']=[];
+                  );*/
+                  //$localStorage['articles']=[];
                   $scope.$broadcast('scroll.refreshComplete');
                 }else
                 {
                   $scope.articles=response.articles;
-                  $localStorage['articles']=[];
-                  $localStorage['articles']=$scope.articles;
+                 // $localStorage['articles']=[];
+                 // $localStorage['articles']=$scope.articles;
                   nombreArticleMax=response.nombreArticleTotal;
                   // alert(JSON.stringify($scope.articles));
                   $scope.$broadcast('scroll.refreshComplete');
@@ -76,7 +76,7 @@ angular.module('Occazstreet.controllers')
         };
 
       //The first time we load data from server and cache in localstorage
-      var init = $localStorage['init'];
+     /* var init = $localStorage['init'];
       if (typeof init == "undefined" || typeof $localStorage['articles']=="undefined") {
           $localStorage['init']={'setup':'done'};
           /*$ionicLoading.show({
@@ -85,8 +85,6 @@ angular.module('Occazstreet.controllers')
           ArticlesService.getArticlesByLimit(skip, lastId).then(function (response) {
           lastId=response.articles[response.articles.length-1].idArticle;
           skip=response.articles.length;
-          nombreArticleMax=response.nombreArticleTotal;
-          $ionicLoading.hide();
           $scope.articles=response.articles;
           //Build the list of images to preload
           var images=[];
@@ -98,20 +96,23 @@ angular.module('Occazstreet.controllers')
             }
           }
           $ImageCacheFactory.Cache(images);
-          $localStorage['articles']=response.articles;
-            $localStorage['nombreArticleMax']=response.nombreArticleTotal;
-          console.log("skip 2"+skip);
+            $ionicLoading.hide();
+            $scope.articles = response.articles;
+            nombreArticleMax=response.nombreArticleTotal;
+        //  $localStorage['articles']=response.articles;
+          //  $localStorage['nombreArticleMax']=response.nombreArticleTotal;
+        //  console.log("skip 2"+skip);
          /* $scope.articles=response.articles;
            $scope.nombreArticles=response.nombreArticles;*/
         });
 
-      } else {
+     /* } else {
         console.log("skip1 "+skip);
         //The other time we load data from localstorage
         $ionicLoading.hide();
         $scope.articles = $localStorage['articles'];
         nombreArticleMax=$localStorage['nombreArticleMax'];
-      }
+      }*/
 
 
       /*Infinite Scroll*/
@@ -127,7 +128,7 @@ angular.module('Occazstreet.controllers')
           nombreArticleMax=response.nombreArticleTotal;
           skip=skip+response.articles.length;
           $scope.articles = $scope.articles.concat(response.articles);
-          $localStorage['articles']=$scope.articles;
+          //$localStorage['articles']=$scope.articles;
           $scope.$broadcast('scroll.infiniteScrollComplete');
         })
       };
@@ -145,7 +146,7 @@ angular.module('Occazstreet.controllers')
       //filter and order
       $scope.order = function(predicate, reverse) {
         var orderBy = $filter('orderBy');
-        $scope.articles= orderBy($localStorage['articles'] , predicate, reverse);
+        $scope.articles= orderBy($scope.articles , predicate, reverse);
       };
 
         $timeout(function() {
@@ -657,7 +658,140 @@ angular.module('Occazstreet.controllers')
 
     if($state.current.name=='app.editArticle')
     {
-        var article=$stateParams.article;
+
+      var compteurImage=0;
+      $scope.imgURI=[];
+      $rootScope.image=[];
+      $scope.addImageEdit=function(key,event)
+      {
+        $mdDialog.show({
+          controller: ImageController,
+          templateUrl: 'uploadImageChoice.html',
+          parent:angular.element(document.body),
+          targetEvent:event
+        })
+          .then(function(answer) {
+
+            if(answer=='photo')
+            {
+              var cameraOptions = {
+                quality: 100,
+                destinationType: Camera.DestinationType.NATIVE_URI,
+                sourceType : Camera.PictureSourceType.CAMERA,
+                encodingType: Camera.EncodingType.PNG,
+                targetWidth: 400,
+                targetHeight: 400,
+                //  popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false,
+                allowEdit:false
+              };
+              var success = function(data){
+                $mdDialog.hide();
+                if(key==null)
+                {
+                  compteurImage =compteurImage+1;
+                  $scope.$apply(function () {
+                    //$scope.imgURI.push(data);
+                    $scope.imgURI[0]=data;
+                    $rootScope.nombreImage=compteurImage;
+                    $rootScope.image=$scope.imgURI;
+                  });
+                }
+                else
+                {
+
+                  $scope.$apply(function () {
+                    $scope.imgURI[key]=data;
+                    $rootScope.nombreImage=compteurImage;
+                    $rootScope.image=$scope.imgURI;
+                  });
+                }
+              };
+              var failure = function(message){
+                console.log(message);
+              };
+              //call the cordova camera plugin to open the device's camera
+              navigator.camera.getPicture( success , failure , cameraOptions );
+
+            }else
+            {
+              var cameraOptions = {
+                quality: 100,
+                destinationType: Camera.DestinationType.NATIVE_URI,
+                sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+                encodingType: Camera.EncodingType.PNG,
+                targetWidth: 400,
+                targetHeight: 400,
+                // popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+              };
+              var success = function(data){
+                if(key==null)
+                {
+                  compteurImage =compteurImage+1;
+                  $scope.$apply(function () {
+                    $scope.imgURI[0]=data;
+                    $rootScope.nombreImage=compteurImage;
+                    $rootScope.image=$scope.imgURI;
+                  });
+                }
+                else
+                {
+                  $scope.$apply(function () {
+                    $scope.imgURI[key]=data;
+                    $rootScope.nombreImage=compteurImage;
+                    $rootScope.image=$scope.imgURI;
+                  });
+                }
+              };
+              var failure = function(message){
+                $mdDialog.hide();
+              };
+              //call the cordova camera plugin to open the device's camera
+              navigator.camera.getPicture( success , failure , cameraOptions );
+
+            }
+          });
+      };
+      $scope.closeDialog = function () {
+        $mdDialog.cancel();
+      };
+      //Modification ou suppression d'une image
+      $scope.onHoldEdit = function (key) {
+        $mdDialog.show({
+          controller: ImageController,
+          templateUrl: 'editImage.html',
+          parent: angular.element(document.body)
+        }).then(function (answer) {
+          if (answer == 'edit') {
+            $scope.addImageEdit(key, null);
+          } else {
+            $rootScope.image.splice(key, 1);
+            $scope.imgURI.splice(key, 1);
+            compteurImage--;
+            $rootScope.nombreImage = compteurImage;
+            $mdDialog.cancel();
+
+          }
+        })
+      };
+      function ImageController($scope, $mdDialog) {
+        $ionicPlatform.on('backbutton', function () {
+          $mdDialog.hide();
+        });
+
+        $scope.hide = function () {
+          $mdDialog.hide();
+        };
+        $scope.closeDialog = function () {
+          $mdDialog.cancel();
+        };
+        $scope.answer = function (answer) {
+          $mdDialog.hide(answer);
+        };
+
+      }
+      var article=$stateParams.article;
       console.log("article to edit"+article);
         ArticlesService.getArticleById(article).then(function (response) {
           console.log(JSON.stringify(response.article));
@@ -735,8 +869,79 @@ angular.module('Occazstreet.controllers')
                 }
                 if(response.success)
                 {
+                  if (response.success == true) {
+                    var count = 0;
+                    $scope.idArticle = response.article.idArticle;
+                    var keepGoing = true;
+                    if ($rootScope.image.length > 0) {
+                      for (var i = 0; i < $rootScope.image.length; i++) {
+                        if (keepGoing) {
+                          var options = new FileUploadOptions();
+                          var params = {};
+                          params.idArticle = response.article.idArticle;
+                          var url = $rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
+                          options = {
+                            fileKey: "file",
+                            fileName: i + (url.split('?')[0]),
+                            mimeType: "image/png",
+                            idArticle: response.article.idArticle
+                          };
+                          options.params = params;
+                          var failed = function (err) {
+                            /*ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
+                              if (success) {*/
+                                $ionicLoading.hide();
+                                $mdToast.show({
+                                  template: '<md-toast class="md-toast ">' + Messages.erreurUpdateArticle + '</md-toast>',
+                                  hideDelay: 10000,
+                                  position: 'bottom right left'
+                                });
+                                keepGoing = false;
+                            /*  }
+                            })*/
+                          };
+                          var success = function (result) {
+                            count++;
+                            if (count == $rootScope.image.length) {
+                              $ionicLoading.hide();
+                              $mdDialog.show(
+                                $mdDialog.alert()
+                                  .parent(angular.element(document.body))
+                                  .title(Messages.miseAjoutArticleTitre)
+                                  .content(Messages.articleMiseAjour)
+                                  .ok('Ok')
+                              );
+                            }
+                          };
+                          var ft = new FileTransfer();
+                          ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/updateImage", success, failed, options);
+                        }
+                      }
+                    } else {
+                      $ionicLoading.hide();
+
+                      $mdDialog.show(
+                        $mdDialog.alert()
+                          .parent(angular.element(document.body))
+                          .title(Messages.miseAjoutArticleTitre)
+                          .content(Messages.articleMiseAjour)
+                          .ok('Ok')
+                      );
+                    }
+
+                  }
+                  else {
+                    // $mdDialog.hide();
+                    $ionicLoading.hide();
+                    $mdToast.show({
+                      template: '<md-toast class="md-toast ">' + Messages.erreurUpdateArticle + '</md-toast>',
+                      hideDelay: 10000,
+                      position: 'bottom right left'
+                    });
+
+                  }
                   //Si l'article est mise à jour on verifie qu'il est dans le localstorage si oui on le met à jour egalement dans le localstorage
-                  for(var i=0; i<$localStorage['articles'].length;i++)
+                  /*for(var i=0; i<$localStorage['articles'].length;i++)
                   {
                     if($localStorage['articles'][i].idArticle==article.idArticle)
                     {
@@ -778,7 +983,7 @@ angular.module('Occazstreet.controllers')
                         .content(Messages.articleMiseAjour)
                         .ok('Ok')
                     );
-                  }
+                  }*/
 
                 }
 

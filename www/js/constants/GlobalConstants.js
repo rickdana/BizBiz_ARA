@@ -14,7 +14,7 @@ angular.module('Occazstreet.constants', [])
         "LOCAL_TOKEN_KEY":"token",
         "URL_JSON_IP":"http://freegeoip.net/json",
         "PAGE":6,
-        "VERSION":"1.2.0",
+        "VERSION":"1.3.0",
         "APPPLAYSTORE":"https://play.google.com/store/apps/details?id=com.pisixlabs.occazstreet",
         "PSEUDOTWITTER":"@occazstreet",
         "APPNAME":"OccazStreet",

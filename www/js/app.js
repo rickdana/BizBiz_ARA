@@ -5,17 +5,62 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment','ionic-datepicker','ionic.service.core','google.places','ionic.ion.imageCacheFactory','uiGmapgoogle-maps','Occazstreet.controllers','Occazstreet.services','Occazstreet.constants'])
-.run(function($ionicPlatform,Messages,$rootScope,$cordovaStatusbar, $state,UtilisateursService,Globals,$localStorage,$mdDialog,amMoment,ArticlesService) {
+.run(function($ionicPlatform,Messages,$rootScope,$cordovaStatusbar, $state,UtilisateursService,Globals,$localStorage,$mdDialog,amMoment,ArticlesService,$cordovaSQLite,ArticlesService) {
 
 
     amMoment.changeLocale('fr');
+    var db;
   $ionicPlatform.ready(function() {
+
+    /*if (window.cordova) {
+      db=$cordovaSQLite.openDB({name:"occazstreet.db",location:'default'});
+    }else{
+      db = window.openDatabase("occazstreet.db", '1', 'occazstreet', 1024 * 1024 * 100); // browser
+    }
+    $cordovaSQLite.execute(db,'DROP TABLE IF  EXISTS categories');
+    $cordovaSQLite.execute(db,'CREATE TABLE IF NOT EXISTS categories (idcategorie INTEGER primary key , libelle TEXT, statut TEXT)');
+
+    var categories;
+    ArticlesService.getAllCategoriesLoad().then(function () {
+      categories=ArticlesService.getCategories();
+      console.log(JSON.stringify(categories));
+
+      angular.forEach(categories, function(value, index) {
+        var query = "INSERT INTO categories (idcategorie,libelle,statut) VALUES (?,?,?)";
+        $cordovaSQLite.execute(db, query, [value.idcategorie,value.libelle,value.statut]).then(function(res) {
+          var message = "INSERT Line -> " + res.insertId;
+          console.log(message);
+        }, function (err) {
+          console.error(err);
+        });
+      });*/
+
+
+    /*  for(var i = 0; i < categories.length; i++){
+        $cordovaSQLite.execute(db, 'INSERT INTO categories (idcategorie,libelle,statut) VALUES (?,?,?)', [categories[i].idcategorie,categories[i].libelle,categories[i].statut])
+          .then(function(result) {
+            console.log("Categories chargées")
+          }, function(error) {
+            console.log("erreur lors du chargement des catégories "+ JSON.stringify(error))
+          })
+      }*/
+
+
+
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    ionic.Platform.isFullScreen = true;
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
     }
+    if (window.StatusBar) {
+      StatusBar.backgroundColorByHexString("#CC1E1E");
+      StatusBar.styleLightContent();
+    }
+
+
     /*Verifie si le device est offline*/
     document.addEventListener("offline", onOffline, false);
     document.addEventListener("online",onOnLine,false);
@@ -346,7 +391,7 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
           controller: 'FavorisController'
         }
       },
-      requiresLogin:false
+      requiresLogin:true
     }).state('app.exploreArticle', {
         url: "/exploreArticle",
         views: {
