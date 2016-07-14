@@ -2,16 +2,39 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
-    .service('ArticlesService', function(Globals,$http,$q,$timeout,$localStorage) {
+    .service('ArticlesService', function(Globals,$http,$q,$timeout,$localStorage,$cordovaSQLite,$ionicPlatform) {
     var url=Globals.urlServer+Globals.port;
     var categorie=null;
     var articles=[];
     var articlesByCategorie=[];
     var articleDetails=[];
     /*On remonte la liste des categories*/
+
+
     this.getAllCategories=function()
     {
-        var deferred=$q.defer();
+
+       var deferred=$q.defer();
+      /*$ionicPlatform.ready(function () {
+        var db;
+        if (window.cordova) {
+          db=$cordovaSQLite.openDB({name:"occazstreet.db",location:'default'});
+        }else{
+          db = window.openDatabase("occazstreet.db", '1', 'occazstreet', 1024 * 1024 * 100); // browser
+        }
+        $cordovaSQLite.execute(db, "SELECT * FROM categories")
+          .then(function(res,error) {
+            if(error)
+            {
+              alert(error);
+            }
+            categorie=res.rows;
+            console.log("sqlite categorie "+JSON.stringify(categorie));
+            deferred.resolve(res.rows);
+          });
+      });*/
+
+
         $http.get(url+'/categorie/getAllCategorie').success(function(response){
             if(response)
             {
@@ -20,6 +43,20 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             }
         });
         return deferred.promise;
+    };
+
+    /*On remonte la liste des categories*/
+    this.getAllCategoriesLoad=function()
+    {
+      var deferred=$q.defer();
+      $http.get(url+'/categorie/getAllCategorie').success(function(response){
+        if(response)
+        {
+          categorie=response.categories;
+          deferred.resolve();
+        }
+      });
+      return deferred.promise;
     };
 
     this.getArticlesByLimit=function(skip,limit)
@@ -115,7 +152,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
     this.getArticleById=function(article)
     {
       var deferred=$q.defer();
-      if( $localStorage['articles'].length>0)
+     /* if( $localStorage['articles'].length>0)
       {
         /*for(var i=0; i<$localStorage['articles'].length;i++)
         {
@@ -128,7 +165,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
             return deferred.promise;
           }
         }*/
-        if(!articleFound)
+       /* if(!articleFound)
         {
           $http.get(url + '/article/getArticleById?idarticle=' + article).success(function (rep) {
             if (rep.article) {
@@ -143,7 +180,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
         }
       }
       else
-      {
+      {*/
         $http.get(url + '/article/getArticleById?idarticle=' + article).success(function (response) {
           if (response) {
              deferred.resolve(response);
@@ -153,7 +190,7 @@ angular.module('Occazstreet.services',['Occazstreet.constants','ngStorage'])
 
         });
         return deferred.promise;
-      }
+     // }
     };
 
     this.editArticle=function(article)
