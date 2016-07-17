@@ -1,9 +1,9 @@
-<ion-view view-title="Vérification d'identité">
+<ion-view view-title="Téléphone et Email">
     <ion-nav-buttons side="right">
     </ion-nav-buttons>
     <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
         <md-content layout-padding>
-            <p style="text-align: center; color: #959a93">En verifiant votre identité, vous donnez plus de crédibilité à votre profil au sein de la communauté OccazStreet</p>
+            <p style="text-align: center; color: #959a93">En vérifiant votre Téléphone et votre Email, vous donnez plus de crédibilité à votre profil au sein de la communauté OccazStreet</p>
             <md-card>
                 <md-card-content>
                     <md-list>
@@ -19,7 +19,9 @@
                              </a>
                            </div>
                           <div class="col col-50">
-                            <i ng-if="email" ng-class="{'icon ion-checkmark':email}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
+                            <i ng-if="email" ng-class="{'icon ion-checkmark':email}" style="font-size: 30px;color: #13761e;float: right;"></i>
+                            <i ng-if="!email" ng-class="{'icon ion-close':!email}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
+
                           </div>
 
                         </md-list-item>
@@ -33,7 +35,9 @@
                               </a>
                             </div>
                             <div class="col col-50">
-                              <i ng-if="telephone" ng-class="{'icon ion-checkmark':telephone}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
+                              <i ng-if="telephone" ng-class="{'icon ion-checkmark':telephone}" style="font-size: 30px;color: #13761e;float: right;"></i>
+                              <i ng-if="!telephone" ng-class="{'icon ion-close':!telephone}" style="font-size: 30px;color: #B71C1C;float: right;"></i>
+
                             </div>
 
 

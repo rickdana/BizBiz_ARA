@@ -37,3 +37,5 @@ Afficher/masquer numero de téléphone
 modification image d'une annonce
 correction de bug au niveau du menu
 Ajout menu favoris
+--version 1.3.1
+Correction de bug et d'anomalies

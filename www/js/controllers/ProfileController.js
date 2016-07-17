@@ -577,10 +577,10 @@ angular.module('Occazstreet.controllers')
 
         if($state.current.name=='app.verificationidentite'){
 
-            $scope.telephone=$localStorage[Globals.USER_LOGGED].telephoneVerifie;
-            $scope.email=$localStorage[Globals.USER_LOGGED].emailVerifie;
-            $scope.facebook=false;
-            $scope.gmail=false;
+            $rootScope.telephone=$localStorage[Globals.USER_LOGGED].telephoneVerifie;
+            $rootScope.email=$localStorage[Globals.USER_LOGGED].emailVerifie;
+          $rootScope.facebook=false;
+          $rootScope.gmail=false;
         }
         if($state.current.name=='app.validerTelephone'){
 
@@ -615,7 +615,6 @@ angular.module('Occazstreet.controllers')
             {
                 if(helper.isValidIndice($scope.indice))
                 {
-
                     if(helper.isNum($scope.telephone))
                     {
                         $ionicLoading.show({
@@ -630,6 +629,7 @@ angular.module('Occazstreet.controllers')
                             if(response.codeVerificationEnvoye)
                             {
                                 $ionicLoading.hide();
+
                                 $state.go('app.verifCode');
                                 /* $mdDialog.show({
                                  template: '' +
@@ -679,24 +679,47 @@ angular.module('Occazstreet.controllers')
           $scope.email=$localStorage[Globals.USER_LOGGED].email;
           $scope.validEmail=function()
             {
-                if(helper.isEmpty($scope.email)) {
+              $ionicLoading.show({
+                template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>',
+                backdrop:true
+              });
+              if(helper.isEmpty($scope.email)) {
                     showError(Messages.erreurChampVide);
                 }else if(helper.isEmail($scope.email))
                 {
                     hideError();
                     var email=$scope.email;
-
                     user.id=$scope.infoUserLogged.id;
                     user.email=$scope.email;
                      UtilisateursService.editUtilisateur(user).then(function(response) {
                          if(response.emailHasChange)
                          {
-                             showMessage(Messages.changementEmail);
+                             var historyId = $ionicHistory.currentHistoryId();
+                             var history = $ionicHistory.viewHistory().histories[historyId];
+                             for (var i = history.stack.length - 1; i >= 0; i--){
+                               if (history.stack[i].stateName == 'app.profile')
+                               {
+                                $ionicLoading.hide();
+                                 showMessage(Messages.changementEmail);
+                                 $ionicLoading.hide();
+                                 $ionicHistory.backView(history.stack[i]);
+                                 $ionicHistory.goBack();
+                               }
+                             }
                          }
                          else
                          {
-                             $state.go('app.verificationidentite');
-                             showMessage(Messages.changementEmailDejaVerifie);
+
+                           var historyId = $ionicHistory.currentHistoryId();
+                           var history = $ionicHistory.viewHistory().histories[historyId];
+                           for (var i = history.stack.length - 1; i >= 0; i--){
+                             if (history.stack[i].stateName == 'app.profile'){
+                               showMessage(Messages.changementEmailDejaVerifie);
+                               $ionicLoading.hide();
+                               $ionicHistory.backView(history.stack[i]);
+                               $ionicHistory.goBack();
+                             }
+                           }
                          }
                      })
 
@@ -739,7 +762,22 @@ angular.module('Occazstreet.controllers')
                                 .content(Messages.messageCodeVerificationSuccess)
                                 .ok('Ok')
                         );
-                        $state.go('app.verificationidentite');
+                        $localStorage[Globals.USER_LOGGED].emailVerifie=response.user.emailVerifie;
+                        $localStorage[Globals.USER_LOGGED].telephoneVerifie=response.user.telephoneVerifie;
+                        $rootScope.telephone=$localStorage[Globals.USER_LOGGED].telephoneVerifie;
+                        $rootScope.email=$localStorage[Globals.USER_LOGGED].emailVerifie;
+                        var historyId = $ionicHistory.currentHistoryId();
+                        var history = $ionicHistory.viewHistory().histories[historyId];
+                        for (var i = history.stack.length - 1; i >= 0; i--){
+                          if (history.stack[i].stateName == 'app.profile'){
+                            $ionicLoading.hide();
+                            $ionicHistory.backView(history.stack[i]);
+                            $ionicHistory.goBack();
+                          }
+                        }
+                       // $ionicHistory.goBack(-2);
+                        //$state.go('app.verificationidentite');
+
                         /*$state.transitionTo('app.verificationidentite', $stateParams, {
                          reload: true,
                          inherit: false,
