@@ -473,7 +473,7 @@ angular.module('Occazstreet.controllers')
         $scope.addImage=function(key,event)
         {
           $mdDialog.show({
-            controller: ImageController,
+            controller: AddImageController,
             templateUrl: 'uploadImageChoice.html',
             parent:angular.element(document.body),
             targetEvent:event
@@ -589,7 +589,7 @@ angular.module('Occazstreet.controllers')
             }
           })
         };
-        function ImageController($scope, $mdDialog) {
+        function AddImageController($scope, $mdDialog) {
           $ionicPlatform.on('backbutton', function () {
             $mdDialog.hide();
           });
@@ -666,7 +666,7 @@ angular.module('Occazstreet.controllers')
       {
         $mdDialog.show({
           controller: ImageController,
-          templateUrl: 'uploadImageChoice.html',
+          templateUrl: 'uploadEditImageChoice.html',
           parent:angular.element(document.body),
           targetEvent:event
         })
@@ -821,7 +821,10 @@ angular.module('Occazstreet.controllers')
             articleUpdate.details=article.details;
             articleUpdate.prix=article.prix;
             articleUpdate.complementadresse=article.complementadresse;
-            //Lors de l'édition d'un article on met à jour la date d'ajout
+            articleUpdate.echangeable=article.echangeable;
+            articleUpdate.negociable=article.negociable;
+
+          //Lors de l'édition d'un article on met à jour la date d'ajout
             articleUpdate.dateModification=new Date();
             if(article.localisation.address_components)
             {

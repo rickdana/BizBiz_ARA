@@ -1,7 +1,7 @@
 <ion-view view-title="Editer un produit">
 
-    <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" >
-       <div class="card" style="width: 95px;margin-top: 5%" ng-if="article.images.length==0"   >
+    <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" ><br/>
+       <div class="card card-margin" style="width: 95px;margin-top: 5%" ng-if="article.images.length==0"   >
             <md-button  class="button button-icon button-clear icon ion-camera" ng-click="addImageEdit(null,$event)">
             </md-button>
         </div>
@@ -23,7 +23,7 @@
         </div>
         <form  ng-submit="saveEditArticle(article)" >
 
-            <div class="card" layout-gt-sm="row">
+            <div class="card card-margin" layout-gt-sm="row">
                 <!--<div class="list">
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Que vendez-vous ?</span>
@@ -48,7 +48,7 @@
                     <textarea required name="details" value="article.details" ng-model="article.details" columns="1" md-maxlength="300"></textarea>
                 </md-input-container>
             </div>
-            <div class="card">
+            <div class="card card-margin">
                 <div layout="row" >
                     <md-input-container flex style="width:50%">
                         <label>Prix</label>
@@ -74,7 +74,7 @@
 
              </div>
 
-            <div class="card">
+            <div class="card card-margin">
                 <md-input-container flex style="width:100%">
                     <label>Catégorie</label>
                     <input type="text" required id="categorie" value="{{article.categorie.idcategorie}}" name="prix" ng-model="article.categorie.libelle" disabled>
@@ -85,7 +85,15 @@
                     Diffusez votre produit sur Facebook
                 </md-checkbox>
             </div>-->
-            <div class="card ">
+            <!--<div class="card card-margin" style="color: #BDBDBD">
+              <div class="row" ng-class="{colorRed:article.echangeable}">
+                <i style="font-size: 200%" class="mdi-action-swap-horiz"></i> &nbsp;&nbsp; Accèpte les échanges <md-checkbox aria-checked="article.echangeable" class="md-warn md-raised md-hue-2" ng-model="article.echangeable"></md-checkbox>
+              </div>
+              <div class="row" ng-class="{colorRed:article.negociable}">
+                <i style="font-size: 200%" class="mdi-action-track-changes"></i>&nbsp;&nbsp; Prix non-négociable <md-checkbox aria-checked="article.negociable" class="md-warn md-raised md-hue-2" ng-model="article.negociable"></md-checkbox>
+              </div>
+            </div>-->
+            <div class="card card-margin">
                 <md-checkbox class="md-warn md-raised md-hue-2"  ng-model="article.etat" >
                     Article vendu
                 </md-checkbox>
@@ -105,7 +113,7 @@
     </md-button>
   </label>
 </ion-view>
-<script type="text/ng-template" id="uploadImageChoice.html">
+<script type="text/ng-template" id="uploadEditImageChoice.html">
     <md-dialog >
         <md-dialog-content class="sticky-container" ng-controller="ArticlesController">
             <md-subheader class="assertive-900">Choisir une image depuis...</md-subheader>

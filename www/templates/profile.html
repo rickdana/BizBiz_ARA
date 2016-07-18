@@ -37,7 +37,7 @@
                                     <strong >{{article.titre.substring(0,10)}}...</strong>
                                   </div>
                                   <div class="col col-40">
-                                    <span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                                    <span class="price assertive">{{article.prix | currency:article.devise.symbole :0}}</span><br>
                                   </div>
                                 </div>
                                 <div class="row" style="margin-top: -10%">
@@ -92,7 +92,7 @@
                                     <strong >{{article.titre.substring(0,10)}}...</strong>
                                   </div>
                                   <div class="col col-40">
-                                    <span class="price assertive">{{article.prix}} {{article.devise.symbole}}</span><br>
+                                    <span class="price assertive">{{article.prix | currency:article.devise.symbole :0}}</span><br>
                                   </div>
                                 </div>
                                 <div class="row" style="margin-top: -10%">

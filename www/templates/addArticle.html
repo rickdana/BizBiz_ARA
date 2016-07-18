@@ -5,6 +5,9 @@
     </ion-nav-buttons>-->
 
     <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" ng-controller="ArticlesController" >
+      <md-input-container flex class="md-block">
+        <label>Image de votre produit </label>
+      </md-input-container><br/>
         <div class="card card-margin" style="width: 95px"  >
             <button ng-if="nombreImage < 1 || nombreImage == 'undefined' || nombreImage==null " class="button button-icon button-clear icon ion-camera" ng-click="addImage(null,$event)">
             </button>
@@ -34,7 +37,7 @@
                         <label>Prix</label>
                         <input type="number" required id="prix" name="prix" ng-model="article.prix" >
                     </md-input-container>
-                    <md-input-container flex style="width:50%;margin-top: 8.6%">
+                    <md-input-container flex style="width:50%;margin-bottom: 15%">
                       <input ng-model="devise"  disabled>
                       <!--<md-select  placeholder="Devise" ng-model="article.devise" required>
                             <md-option required ng-repeat="devise in devises" value="{{devise.id}}" required>{{devise.symbole}}</md-option>
@@ -63,6 +66,15 @@
                     </md-select>
                 </md-input-container>
             </div>
+          <!--<div class="card card-margin" style="color: #BDBDBD">
+            <div class="row" ng-class="{colorRed:article.echangeable}">
+              <i style="font-size: 200%" class="mdi-action-swap-horiz"></i> &nbsp;&nbsp; Accèpte les échanges <md-checkbox aria-checked="article.echangeable" class="md-warn md-raised md-hue-2" ng-model="article.echangeable"></md-checkbox>
+            </div>
+            <div class="row" ng-class="{colorRed:article.negociable}">
+             <i style="font-size: 200%" class="mdi-action-track-changes"></i>&nbsp;&nbsp; Prix non-négociable <md-checkbox aria-checked="article.negociable" class="md-warn md-raised md-hue-2" ng-model="article.negociable"></md-checkbox>
+            </div>
+          </div>
+          <br/>-->
             <!--<div class="card card-margin">
                 <md-checkbox class="md-warn md-raised md-hue-2" ng-model="article.facebook" >
                     Diffusez votre produit sur Facebook
@@ -71,8 +83,8 @@
                   Diffusez votre produit sur Twitter
                 </md-checkbox>
             </div>-->
-            <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   type="submit">
-            </md-button>
+          <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"   id="form-submit" style="display: none;" type="submit">
+          </md-button>
         </form>
 
            <!--<md-button>
@@ -81,6 +93,11 @@
                </md-checkbox>
            </md-button>-->
     </ion-content>
+  <br/>
+    <label for="form-submit" role="md-button">
+      <md-button class="md-warn md-raised md-hue-2 md-fab md-fab-bottom-right ion-checkmark"  >
+      </md-button>
+    </label>
 </ion-view>
 <script type="text/ng-template" id="uploadImageChoice.html">
     <md-dialog >
