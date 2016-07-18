@@ -39,3 +39,7 @@ correction de bug au niveau du menu
 Ajout menu favoris
 --version 1.3.1
 Correction de bug et d'anomalies
+--version 1.4.0
+Possibilité au vendeur de définir si son prix et négociable ou pas
+Possibilité au vendeur de signaler s'il accepte des échanges ou pas
+Correction de bug et anomalies

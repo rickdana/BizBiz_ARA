@@ -81,6 +81,24 @@ angular.module('Occazstreet.controllers')
     $ionicLoading.show({
       template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
     });
+    $scope.showInfosSupplementaire = function(event,echangeable,negociable) {
+      $mdDialog.show({
+        clickOutsideToClose: true,
+        scope: $scope,
+        preserveScope: true,
+        template: '<md-content style="background-color: #484743; text-align: center"><br/>' +
+        '<span ng-if="echangeable" style="color: white;  margin-left: auto;margin-top: auto">Accepte les échanges<br/><br/></span> ' +
+        '<span ng-if="!echangeable" style="color: white; margin-left: auto;margin-top: auto">N\'accepte pas les échanges<br/><br/></span>' +
+        '<span ng-if="negociable" style="color: white;   margin-left: auto;margin-top: auto">Prix nécogiable<br/><br/></span>' +
+        '<span ng-if="!negociable" style="color: white;  margin-left: auto;margin-top: auto">Prix non-négociable<br/><br/></span>' +
+        '</md-content',
+        controller: function DialogController($scope, $mdDialog) {
+          $scope.closeDialog = function() {
+            $mdDialog.hide();
+          }
+        }
+      });
+    };
     ArticlesService.getArticleById(article).then(function (response) {
       if(response.success)
       {

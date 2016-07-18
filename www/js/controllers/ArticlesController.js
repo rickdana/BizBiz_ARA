@@ -317,7 +317,17 @@ angular.module('Occazstreet.controllers')
               position: 'bottom right left'
             });
 
-          }else */if(article.localisation.address_components ==null || typeof  article.localisation.address_components =='undefined')
+          }else */
+          if ($rootScope.image.length ==0)
+          {
+            $ionicLoading.hide();
+            $mdToast.show({
+              template: '<md-toast class="md-toast ">' +'Veuillez ajouter une image à votre produit' + '</md-toast>',
+              hideDelay: 5000,
+              position: 'bottom right left'
+            });
+          }
+          else if(article.localisation.address_components ==null || typeof  article.localisation.address_components =='undefined')
           {
             $ionicLoading.hide();
             $mdToast.show({
@@ -353,6 +363,7 @@ angular.module('Occazstreet.controllers')
             article.longitude=article.localisation.geometry.location.lng();
             article.dateAjout = new Date();
             delete article.localisation;
+            console.log(JSON.stringify(article));
             ArticlesService.addArticle(article).then(function (response) {
               if (response.success == true) {
                 var count = 0;

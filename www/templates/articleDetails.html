@@ -16,7 +16,7 @@
           <md-button  ng-click="editArticle(art.idArticle)"> <span md-menu-align-target>Modifier l'annonce</span></md-button>
         </md-menu-item>
          <md-menu-item>
-           <a  class="md-button" ui-sref="app.signaler({::idarticle:art.idArticle})"> <span md-menu-align-target>Signaler</span></a>
+           <a  class="md-button" ui-sref="app.signaler({idarticle:art.idArticle})"> <span md-menu-align-target>Signaler</span></a>
          </md-menu-item>
       </md-menu-content>
     </md-menu>
@@ -120,6 +120,24 @@
                     options='map.marker.option'>
                 </ui-gmap-marker>
             </ui-gmap-google-map>
+        </div>
+        <div class="card card-margin">
+
+          <div class="item item-text-wrap" >
+            <div class="col text-center">
+                        <span style="font-weight: bold;color:#98a2a2">
+                          Infos supplémentaires
+                        </span>
+            </div>
+            <div class="item tabs tabs-secondary tabs-icon-left" ng-click="showInfosSupplementaire($event,art.echangeable,art.negociable)">
+              <a class="tab-item"  ng-class="{colorRed:art.echangeable}">
+                <i style="font-size: 300%" class="mdi-action-swap-horiz"></i>
+              </a>
+              <a class="tab-item"  ng-class="{colorRed:art.negociable}">
+                <i style="font-size: 300%" class="mdi-action-track-changes"></i>
+              </a>
+            </div>
+          </div>
         </div>
         <div class="card card-margin">
 
