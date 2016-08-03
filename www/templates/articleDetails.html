@@ -61,7 +61,7 @@
                     </a>-->
 
                     <a class="tab-item"  ng-if="art.utilisateur.telephone && art.utilisateur.afficherTel" href="tel: {{::art.utilisateur.telephone}}"><i class="icon ion-android-call balanced" style="font-size: 200%;"></i></a>
-                    <a class="tab-item"  ng-if="art.utilisateur.telephone && art.utilisateur.afficherTel" href="tel: {{::art.utilisateur.telephone}}"  ng-click="sendSms(::art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
+                    <a class="tab-item"  ng-if="art.utilisateur.telephone && art.utilisateur.afficherTel" href="tel: {{::art.utilisateur.telephone}}"  ng-click="sendSms(art.utilisateur.telephone)"><i class="icon icon ion-android-textsms dark" style="font-size: 200%;"></i></a>
                     <a class="tab-item" ng-click="shareMailEmpty()"><i class="icon ion-android-mail positive" style="font-size: 200%;"></i></a>
 
                    <!-- <a class="tab-item">

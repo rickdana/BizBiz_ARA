@@ -18,9 +18,9 @@ angular.module('Occazstreet.controllers')
     var data=[];
     //$scope.$parent.showHeader();
 
+      // Activate ink for controller
 
-    // Activate ink for controller
-    //ionic.material.ink.displayEffect();
+    ionic.material.ink.displayEffect();
 
     ionic.material.motion.pushDown({
         selector: '.push-down'

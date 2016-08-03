@@ -12,17 +12,17 @@ angular.module('Occazstreet.controllers')
       selector: '.animate-fade-slide-in .item'
     });
     // Set Motion
-    $timeout(function() {
-      ionic.material.motion.slideUp({
-        selector: '.slide-up'
-      });
-    }, 300);
-
-    $timeout(function() {
-      ionic.material.motion.fadeSlideInRight({
-        startVelocity: 3000
-      });
-    }, 700);
+    // $timeout(function() {
+    //   ionic.material.motion.slideUp({
+    //     selector: '.slide-up'
+    //   });
+    // }, 300);
+    //
+    // $timeout(function() {
+    //   ionic.material.motion.fadeSlideInRight({
+    //     startVelocity: 3000
+    //   });
+    // }, 700);
 
     /*get Id article from url*/
     var article=$stateParams.article;
@@ -72,7 +72,6 @@ angular.module('Occazstreet.controllers')
     {
       $ionicScrollDelegate.scrollTop();
       $scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();
-      console.log('the slide changed to : ' + $scope.data.currSlide);
       $ionicScrollDelegate.resize();
 
       $timeout( function() {
@@ -91,7 +90,7 @@ angular.module('Occazstreet.controllers')
         '<span ng-if="!echangeable" style="color: white; margin-left: auto;margin-top: auto">N\'accepte pas les échanges<br/><br/></span>' +
         '<span ng-if="negociable" style="color: white;   margin-left: auto;margin-top: auto">Prix nécogiable<br/><br/></span>' +
         '<span ng-if="!negociable" style="color: white;  margin-left: auto;margin-top: auto">Prix non-négociable<br/><br/></span>' +
-        '</md-content',
+        '</md-content>',
         controller: function DialogController($scope, $mdDialog) {
           $scope.closeDialog = function() {
             $mdDialog.hide();
@@ -109,11 +108,11 @@ angular.module('Occazstreet.controllers')
 
         $scope.art = response.article;
 
-        console.log(JSON.stringify(response.article));
+        // console.log(JSON.stringify(response.article));
         var imageF="";
         var articleTitre="";
         var articleDetails="";
-        console.log(response.article);
+        // console.log(response.article);
         articleTitre= response.article.titre;
         articleDetails= response.article.details;
         $rootScope.articleDevise= response.article.devise.symbole;
@@ -198,11 +197,11 @@ angular.module('Occazstreet.controllers')
           window.plugins.CallNumber.callNumber(onSuccess, onError, number);
         };
         var onSuccess = function(){
-          console.log("success");
+          // console.log("success");
         };
 
         var onError = function(error){
-          console.log("fail  "+error);
+          // console.log("fail  "+error);
         };
       }
       else if(!response.success)
