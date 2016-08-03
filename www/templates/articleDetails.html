@@ -74,10 +74,10 @@
         <div class="card card-margin">
             <div class="item item-text-wrap" >
               <div class="row">
-                <div class="col col-80">
-                  <span style="font-size: 150%; margin-left: -5%; color: black">{{::art.prix | currency:art.devise.symbole :0}} </span>
+                <div class="col ">
+                  <span style="font-size: 150%; color: black">{{::art.prix | currency:art.devise.symbole :0}} </span>
                 </div>
-                <div class="col col-20" ng-if="art.nombreDeVue>0">
+                <div class="col" ng-if="art.nombreDeVue>0">
                   <span class="badge badge-calm" > <i style="font-size: 150%;" class="icon ion-eye   text-right"></i><b >&nbsp;{{::art.nombreDeVue}}</b></span>
                 </div>
               </div>
@@ -85,21 +85,14 @@
                 <h2 style="font-weight: bold;color: #B71C1C;" class="titre-article">{{::art.titre}}</h2>
 
               </div>
-              <div class="row">
-                <p class="desc-article">
-                  {{::art.details}}
-                </p>
-              </div>
-              <div class="row">
-                <p style="color: darkgray;"> <span ng-if="!art.dateModification">Ajouté  &nbsp; <time am-time-ago="art.dateAjout"></time></span><span ng-if="art.dateModification">Modifié  &nbsp; <time am-time-ago="art.dateModification"></time></span></p>
-              </div>
-              <div class="row" style="margin-top: -5%">
-                <p style="color: darkgray;"> {{::art.nomVille}}<span ng-if="art.complementadresse">, {{::art.complementadresse}}</span></p>
-              </div>
+              <p class="desc-article">{{::art.details}} </p>
+              <p style="color: darkgray;"> <span ng-if="!art.dateModification">Ajouté  &nbsp; <time am-time-ago="art.dateAjout"></time></span><span ng-if="art.dateModification">Modifié  &nbsp; <time am-time-ago="art.dateModification"></time></span></p>
+              <p style="color: darkgray;"> <span ng-if="art.complementadresse"> {{::art.nomVille}}, {{::art.complementadresse}}</span></p>
+
             </div>
         </div>
 
-        <div class="card card-margin" >
+        <div class="card card-margin">
             <div class="item item-text-wrap">
                 <div class="item tabs tabs-secondary tabs-icon-left">
                     <a ui-sref="app.profile({utilisateur:art.utilisateur.id})" class="ink item item-avatar-left item-icon-right">

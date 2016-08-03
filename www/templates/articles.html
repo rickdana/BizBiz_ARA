@@ -101,10 +101,12 @@
            <span ng-if="article.images.length ==0" class="avatar " style="background-image: url('img/defaultImage.png');"></span>
          </div>
          <div class="col col-80">
-           <strong >{{article.titre.substring(0,20)}}...</strong>
-           <span class="price  badge assertive">{{article.prix | currency:article.devise.symbole :0}}</span>
+           <p>
+             <strong >{{article.titre.substring(0,20)}}...</strong>
+             <span class="price  badge assertive">{{article.prix | currency:article.devise.symbole :0}}</span>
+           </p>
            <p>{{article.categorie.libelle}}</p>
-           <p>{{article.nomVille}}</span><span ng-if="!article.dateModification">, ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time></span><span ng-if="article.dateModification">, modifié  &nbsp; <time am-time-ago="article.dateModification"></time></span></p>
+           <p style="margin-bottom: 5px;">{{article.nomVille}}</span><span ng-if="!article.dateModification">, ajouté  &nbsp; <time am-time-ago="article.dateAjout"></time></span><span ng-if="article.dateModification">, modifié  &nbsp; <time am-time-ago="article.dateModification"></time></span></p>
          </div>
        </div>
      </div>
