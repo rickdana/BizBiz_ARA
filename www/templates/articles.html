@@ -93,7 +93,7 @@
     <!--</div>-->
 
    <div  ng-if="articles.length > 0 " ng-repeat="article in articles track by $index"  ng-class="{'first-item':$first}"  ng-controller="ArticlesController">
-     <div class="card item-art card-margin animate-fade-slide-in">
+     <div on-tap="saveStat({{article.idArticle}})" ui-sref="app.articledetails({article:'{{article.idArticle}}'})" class="card item-art card-margin animate-fade-slide-in" >
        <div class="row item item-text-wrap">
          <div ng-if="article.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
          <div class="col col">
