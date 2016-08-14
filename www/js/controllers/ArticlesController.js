@@ -2,6 +2,24 @@
  * Created by fleundeu on 26/04/2015.
  */
 angular.module('Occazstreet.controllers')
+  .filter( 'artTitle', function($window) {
+    return function( input ) {
+      console.log($window.screen.width)
+      if($window.screen.width<350){
+        if(input.length>=18){
+          input = input.substring(0,15)+'...';
+        }
+      }
+      else if($window.screen.width>350 && $window.screen.width<400){
+        if(input.length>=20){
+          input = input.substring(0,20)+'...';
+        }
+      }
+      return input.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    }
+  })
     .controller('ArticlesController', function($scope,$window,$rootScope,$cordovaToast,$stateParams,$filter,$cordovaGeolocation,$ImageCacheFactory,$state,$http,$timeout,$mdToast,$ionicPopup,$ionicActionSheet,$cordovaDevice,$cordovaFileTransfer,$localStorage, $ionicLoading,$ionicPlatform,$mdDialog,ArticlesService,Globals,Messages) {
 
 
@@ -303,6 +321,7 @@ angular.module('Occazstreet.controllers')
 
             })*/
         };
+
         $scope.addArticle = function (article) {
           article.utilisateur = $localStorage[Globals.USER_LOGGED].id;
           $ionicLoading.show({

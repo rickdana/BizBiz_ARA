@@ -155,10 +155,12 @@ p {
 
 .ribbon {
   position: absolute;
-  right: -5px; top: -5px;
-  z-index: 100;
+  right: -5px;
+  top: -5px;
+  z-index: 1;
   overflow: visible;
-  width: 75px; height: 75px;
+  width: 75px;
+  height: 75px;
   text-align: right;
 }
 .ribbon span {
@@ -176,7 +178,8 @@ p {
   background: linear-gradient(#F70505 0%, #8F0808 100%);
   box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
   position: absolute;
-  top: 19px; right: -21px;
+  top: 16px;
+  right: -26px;
 }
 .ribbon span::before {
   content: "";
@@ -611,4 +614,8 @@ a.autolinker {
   margin-right: 1%;
   margin-left: 1%;
 
+}
+
+.badge{
+  right: 3px !important;
 }
