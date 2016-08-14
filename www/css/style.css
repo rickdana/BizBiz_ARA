@@ -612,10 +612,14 @@ a.autolinker {
   padding-bottom: -1px;
   margin-bottom: -22px !important;
   margin-right: 1%;
-  margin-left: 1%;
+  margin-left: 0%;
 
 }
 
 .badge{
   right: 3px !important;
+}
+
+.has-header{
+  margin-top: 1px !important;
 }
