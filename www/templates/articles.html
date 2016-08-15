@@ -7,10 +7,10 @@
       </md-button>
       <md-menu-content width="2">
         <md-menu-item >
-          <md-button ng-click="reverse=false;order('prix', false)"> <span md-menu-align-target>Trier par prix croissant</span></md-button>
+          <md-button ng-click="reverse=false;order('prix',null, false)"> <span md-menu-align-target>Trier par prix croissant</span></md-button>
         </md-menu-item>
         <md-menu-item >
-          <md-button ng-click="reverse=true;order('dateAjout', false)"> <span md-menu-align-target>Trier par date</span></md-button>
+          <md-button ng-click="reverse=true;order('dateAjout','dateModification', false)"> <span md-menu-align-target>Trier par date</span></md-button>
         </md-menu-item>
       </md-menu-content>
     </md-menu>
@@ -62,7 +62,7 @@
 
         <img ng-if="article.images.length >0" src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
 
-        <img ng-if="article.images.length ==0" src="../img/defaultImage.png">
+        <img ng-if="article.images.length ==0" src="img/defaultImage.png">
 
         <h2 style="overflow: hidden">{{article.titre | artTitle}}</h2>
         <span class="badge">{{article.prix | currency:article.devise.symbole :0}}</span>

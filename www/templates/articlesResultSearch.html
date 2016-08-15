@@ -62,7 +62,7 @@
 
               <img ng-if="article.images.length >0" src="{{url}}{{cheminImage}}{{article.images[0].cheminImage}}">
 
-              <img ng-if="article.images.length ==0" src="../img/defaultImage.png">
+              <img ng-if="article.images.length ==0" src="img/defaultImage.png">
 
               <h2 style="overflow: hidden">{{article.titre | artTitle}}</h2>
               <span class="badge">{{article.prix | currency:article.devise.symbole :0}}</span>

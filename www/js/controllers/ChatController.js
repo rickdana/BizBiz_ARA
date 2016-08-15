@@ -34,8 +34,7 @@ angular.module('Occazstreet.controllers')
                     $scope.prenom=result.article.utilisateur.prenom;
                     $scope.photo=result.article.photo.cheminPhoto;
                     $scope.articleTitre = result.article.titre;
-                    $scope.articlePrix=result.article.prix;;
-                    console.log("result article "+result.article);
+                    $scope.articlePrix=result.article.prix;
                     $scope.imageArticle = result.article.images[0].cheminImage;
                     $scope.deviseArticle=result.article.devise.symbole;
                     $scope.iduser=result.article.utilisateur.id;
@@ -69,7 +68,6 @@ angular.module('Occazstreet.controllers')
                                     });
                                     $scope.$on('$ionicView.enter', function() {
 
-                                        console.log('UserMessages $ionicView.enter');
 
                                         getMessages();
 
@@ -84,7 +82,6 @@ angular.module('Occazstreet.controllers')
                                     });
 
                                     $scope.$on('$ionicView.leave', function() {
-                                        console.log('leaving UserMessages view, destroying interval');
                                         // Make sure that the interval is destroyed
                                         if (angular.isDefined(messageCheckTimer)) {
                                             $interval.cancel(messageCheckTimer);
@@ -122,7 +119,6 @@ angular.module('Occazstreet.controllers')
         {
             var article=$localStorage['detailsArticle'];
             $scope.article=article;
-            console.log("details article"+JSON.stringify(article));
             $ionicLoading.show({
                 template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
             });
@@ -153,7 +149,7 @@ angular.module('Occazstreet.controllers')
                     $scope.emetteur=response.conversation.utilisateur1;
                     $scope.recepteur=response.conversation.utilisateur2;
                     $scope.conversation=response.idConversation;
-                    //on recupere le nombre de produit de l'utilisateur avec qui le loggué veut chatter
+                    //on recupere le nombre de produit de l'utilisateur avec qui le logguÃ© veut chatter
                     UtilisateursService.getActiviteUser(art.utilisateur.id).then(function(response) {
                         if (response.success) {
                             $scope.nombreDeProduit = response.activiteUser.nombreArticlePublie + response.activiteUser.nombreArticleVendu;
@@ -183,13 +179,11 @@ angular.module('Occazstreet.controllers')
             getMessages();
 
             $scope.$watch('input.message', function(newValue, oldValue) {
-                console.log('input.message $watch, newValue ' + newValue);
                 if (!newValue) newValue = '';
                 localStorage['userMessage-' + $scope.toUser._id] = newValue;
             });
             $scope.$on('$ionicView.enter', function() {
 
-                console.log('UserMessages $ionicView.enter');
 
                 getMessages();
 
@@ -203,7 +197,6 @@ angular.module('Occazstreet.controllers')
             });
 
             $scope.$on('$ionicView.leave', function() {
-                console.log('leaving UserMessages view, destroying interval');
                 // Make sure that the interval is destroyed
                 if (angular.isDefined(messageCheckTimer)) {
                     $interval.cancel(messageCheckTimer);
@@ -293,7 +286,6 @@ angular.module('Occazstreet.controllers')
         //Send message
         $scope.sendMessage=function(mess)
         {
-            console.log(mess);
             sendMessage(mess);
         }
         function sendMessage (mess) {
@@ -319,7 +311,6 @@ angular.module('Occazstreet.controllers')
             }else
             {
                 contenu=mess;
-                console.log(contenu);
             }
             var message = {
                 utilisateur:fromUser,
@@ -330,12 +321,11 @@ angular.module('Occazstreet.controllers')
                 dateMessage : new Date(),
                 lu:false
             };
-            console.log(message);
             message.username = $scope.fromUser.username;
             message.userId = $localStorage[Globals.USER_LOGGED].id;
 
             io.socket.post('http://localhost:1337/message/addMessage',message, function (response) {
-                //console.log("message envoyée à "+toUser);
+                //console.log("message envoyÃ©e Ã  "+toUser);
                 $scope.$apply($scope.messages.push(response.message));
 
             });
@@ -350,16 +340,12 @@ angular.module('Occazstreet.controllers')
 
         // this keeps the keyboard open on a device only after sending a message, it is non obtrusive
         function keepKeyboardOpen() {
-            console.log('keepKeyboardOpen');
             txtInput.one('blur', function() {
-                console.log('textarea blur, focus back on it');
                 txtInput[0].focus();
             });
         }
 
         $scope.onMessageHold = function(e, itemIndex, message) {
-            console.log('onMessageHold');
-            console.log('message: ' + JSON.stringify(message, null, 2));
 
             $ionicActionSheet.show({
                 buttons: [{
@@ -371,9 +357,7 @@ angular.module('Occazstreet.controllers')
                     switch (index) {
                         case 0: // Copy Text
                             $cordovaClipboard.copy(message.text).then(function() {
-                                console.log("Copied text");
                             }, function() {
-                                console.error("There was an error copying");
                             });
                             break;
                         case 1: // Delete
@@ -403,11 +387,9 @@ angular.module('Occazstreet.controllers')
 
         // I emit this event from the monospaced.elastic directive, read line 480
         $scope.$on('taResize', function(e, ta) {
-            console.log('taResize');
             if (!ta) return;
 
             var taHeight = ta[0].offsetHeight;
-            console.log('taHeight: ' + taHeight);
 
             if (!footerBar) return;
 
@@ -485,7 +467,6 @@ angular.module('Occazstreet.controllers')
                         for (var i = 0; i < autolinks.length; i++) {
                             angular.element(autolinks[i]).bind('click', function(e) {
                                 var href = e.target.href;
-                                console.log('autolinkClick, href: ' + href);
 
                                 if (href) {
                                     //window.open(href, '_system');

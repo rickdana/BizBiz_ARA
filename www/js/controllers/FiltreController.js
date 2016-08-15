@@ -62,7 +62,6 @@ angular.module('Occazstreet.controllers')
             ArticlesService.getArticleByParam(param).then(function (result) {
                 $rootScope.articles=result.articles;
                 $rootScope.motclef=param.motclef;
-                console.log( $scope.articles);
                 $ionicViewService.nextViewOptions({
                     enableBack: true
                 });

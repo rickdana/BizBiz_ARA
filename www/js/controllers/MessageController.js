@@ -20,7 +20,6 @@ angular.module('Occazstreet.controllers')
         $scope.cheminPhoto=Globals.cheminPhoto;
         $scope.hasConversation=false;
         ChatsService.getConversationByUser(iduser).then(function(result){
-            console.log(JSON.stringify(result));
             if(result.hasConversation)
             {
 

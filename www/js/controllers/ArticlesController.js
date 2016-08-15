@@ -4,7 +4,6 @@
 angular.module('Occazstreet.controllers')
   .filter( 'artTitle', function($window) {
     return function( input ) {
-      console.log($window.screen.width)
       if($window.screen.width<350){
         if(input.length>=18){
           input = input.substring(0,15)+'...';
@@ -136,13 +135,11 @@ angular.module('Occazstreet.controllers')
       /*Infinite Scroll*/
       $scope.loadMoreArticles=function()
       {
-        console.log("skip "+skip);
         if(skip==0)
         {
           skip=Globals.PAGE;
         }
         ArticlesService.getArticlesByLimit(skip,lastId+lastId).then(function (response) {
-          console.log(skip + "   "+lastId+lastId);
           nombreArticleMax=response.nombreArticleTotal;
           skip=skip+response.articles.length;
           $scope.articles = $scope.articles.concat(response.articles);
@@ -162,9 +159,12 @@ angular.module('Occazstreet.controllers')
       };
 
       //filter and order
-      $scope.order = function(predicate, reverse) {
+      $scope.order = function(predicate, predicate2, reverse) {
+
         var orderBy = $filter('orderBy');
         $scope.articles= orderBy($scope.articles , predicate, reverse);
+        $scope.articles= orderBy($scope.articles , predicate2, reverse);
+
       };
 
         $timeout(function() {
@@ -382,7 +382,6 @@ angular.module('Occazstreet.controllers')
             article.longitude=article.localisation.geometry.location.lng();
             article.dateAjout = new Date();
             delete article.localisation;
-            console.log(JSON.stringify(article));
             ArticlesService.addArticle(article).then(function (response) {
               if (response.success == true) {
                 var count = 0;
@@ -547,7 +546,6 @@ angular.module('Occazstreet.controllers')
 
                 };
                 var failure = function(message){
-                  console.log(message);
                 };
                 //call the cordova camera plugin to open the device's camera
                 navigator.camera.getPicture( success , failure , cameraOptions );
@@ -738,7 +736,6 @@ angular.module('Occazstreet.controllers')
                 }
               };
               var failure = function(message){
-                console.log(message);
               };
               //call the cordova camera plugin to open the device's camera
               navigator.camera.getPicture( success , failure , cameraOptions );
@@ -822,9 +819,7 @@ angular.module('Occazstreet.controllers')
 
       }
       var article=$stateParams.article;
-      console.log("article to edit"+article);
         ArticlesService.getArticleById(article).then(function (response) {
-          console.log(JSON.stringify(response.article));
            // $scope.compteurImage=response.article.images.length;
             if(response.article.etat==='Vendu' || response.article.etat==true)
             {
@@ -890,7 +885,6 @@ angular.module('Occazstreet.controllers')
                 articleUpdate.etat='Normal';
             }
             ArticlesService.editArticle(articleUpdate).then(function(response){
-                console.log("response "+ JSON.stringify(response));
                 var articleFound=false;
                 var etatArticle;
                 if(response.article.etat=='Vendu')
@@ -1036,13 +1030,11 @@ angular.module('Occazstreet.controllers')
       $scope.loadImageArticle=function()
       {
         ArticlesService.getAllArticles().then(function(response){
-          console.log(response.articles.length);
           for(var i in response.articles)
           {
 
             if(response.articles[i].images.length>0)
             {
-              console.log(JSON.stringify(response.articles[i]));
               $scope.images.push({idArticle:response.articles[i].idArticle,srcImage:url+cheminImage+response.articles[i].images[0].cheminImage});
             }else
             {
@@ -1108,11 +1100,9 @@ angular.module('Occazstreet.controllers')
             statArticle.phoneNumber=data['phoneNumber'];
             statArticle.codePays=data['countryCode'];
             ArticlesService.addStatArticle(statArticle).then(function(response){
-              console.log("StatArticle response"+response);
             })
           };
           var err = function (err) {
-            console.log(err);
             statArticle.device = $cordovaDevice.getDevice().manufacturer + " " + $cordovaDevice.getModel();
             statArticle.os = $cordovaDevice.getPlatform() + " " + $cordovaDevice.getVersion();
             statArticle.uuid=$cordovaDevice.getUUID();
@@ -1123,7 +1113,6 @@ angular.module('Occazstreet.controllers')
             statArticle.phoneNumber=null;
             statArticle.codePays=null;
             ArticlesService.addStatArticle(statArticle).then(function(response){
-              console.log("StatArticle response"+response);
             })
           };
           window.plugins.sim.getSimInfo(succ, err);

@@ -93,8 +93,7 @@ angular.module('Occazstreet.controllers')
 
           };
           function onError(error) {
-              console.log('code: '    + error.code    + '\n' +
-                  'message: ' + error.message + '\n');
+
           }
 
           var succ = function (data) {
@@ -262,7 +261,6 @@ angular.module('Occazstreet.controllers')
 
                 }, function(error) {
                     hideLoading();
-                    console.log("une erreur a été rencontré lors de l'authentification Facebook "+error);
                     $mdDialog.show(
                         $mdDialog.alert()
                             .parent(this.angular.element(document.body))
@@ -329,7 +327,6 @@ angular.module('Occazstreet.controllers')
                       }
                       else
                       {
-                        console.log("error"+JSON.stringify(res));
                         hideLoading();
                         $mdToast.show({
                           template: '<md-toast class="md-toast">' + Messages.erreurOAuthMessage+Messages.parGoogle + '</md-toast>',
@@ -350,9 +347,7 @@ angular.module('Occazstreet.controllers')
 
                   },
                   function (error) {
-                    console.log("error  "+error);
                     hideLoading();
-                    console.log("une erreur a été rencontré lors de l'authentification google "+error);
                     $mdDialog.show(
                       $mdDialog.alert()
                         .parent(this.angular.element(document.body))
@@ -373,14 +368,12 @@ angular.module('Occazstreet.controllers')
             {
                 //Est ce que en cas d'impossibilité de recuperer le numéro de téléphone de l"utilisateur on crash une erreur ??? POINT A REVOIR
                 //Pour l'instant on stop le process d'inscription mais est ce pertinent? POINT A REVOIR
-                this.console.log("erreur recuperation carrier info =>"+err);
                 hideLoading();
                 $mdToast.show({
                     template: '<md-toast class="md-toast">' + Messages.inscriptionFailed + '</md-toast>',
                     hideDelay: 20000,
                     position: 'bottom right left'
                 });
-                this.console.error("erreur lors dela recuperation du numéro de téléphone "+err);
 
             };
             window.plugins.carrier.getCarrierInfo(succ, err);

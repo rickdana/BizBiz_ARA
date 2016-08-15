@@ -77,7 +77,6 @@ angular.module('Occazstreet.controllers')
                 }
 
                 ArticlesService.getArticlesByUser(response.utilisateur.id).then(function(result){
-                  console.log(result);
                     if(result.success)
                     {
                       $scope.articles=result.articles;
@@ -279,7 +278,6 @@ angular.module('Occazstreet.controllers')
               }
               if(user.email ==null || user.email=="" || typeof user.email=="undefined")
               {
-                console.log(JSON.stringify(user));
                 $ionicLoading.hide();
                 $mdToast.show({
                   template: '<md-toast class="md-toast">' + " Veuillez renseigner une adresse email valide" + '</md-toast>',
@@ -472,7 +470,6 @@ angular.module('Occazstreet.controllers')
 
                       };
                       var failure = function(message){
-                        console.log(message);
                       };
                       //call the cordova camera plugin to open the device's camera
                       navigator.camera.getPicture( success , failure , cameraOptions );

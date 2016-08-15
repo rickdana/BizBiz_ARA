@@ -178,12 +178,12 @@ p {
   background: linear-gradient(#F70505 0%, #8F0808 100%);
   box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
   position: absolute;
-  top: 16px;
+  top: 39px;
   right: -26px;
 }
 .ribbon span::before {
   content: "";
-  position: absolute; left: 0px; top: 100%;
+  /*position: absolute; left: 0px; top: 100%;*/
   z-index: -1;
   border-left: 3px solid #8F0808;
   border-right: 3px solid transparent;
@@ -618,4 +618,9 @@ a.autolinker {
 
 .badge{
   right: 3px !important;
+}
+
+#wrap img {
+  width: 100%;
+  height: auto;
 }

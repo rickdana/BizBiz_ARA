@@ -24,7 +24,7 @@
 
   <ion-content class="article-body animate-fade-slide-in" has-bouncing="true" ng-controller="ArticleDetailsController">
 
-          <div class="card-margin">
+          <div class="card-margin" id="wrap">
             <div ng-if="art.etat=='Vendu'" class="ribbon"><span>Vendu</span></div>
             <img ng-if="art.images.length ==0" class="image" ng-src="img/defaultImage.png">
             <img ng-if="art.images.length >0" class="image" ng-src="{{::url}}{{::cheminImage}}{{::art.images[0].cheminImage}}" height="400">
