@@ -52,9 +52,7 @@ angular.module('Occazstreet.controllers')
     if($state.current.name == 'app.articles' || $state.current.name=='app.exploreArticle')
     {
 
-
-
-        $scope.$parent.showHeader();
+       $scope.$parent.showHeader();
         var lastId=Globals.PAGE;
         var skip=0;
         var nombreArticleMax=0;
@@ -190,21 +188,23 @@ angular.module('Occazstreet.controllers')
     //Traitement ajout article
     if($state.current.name == 'app.addarticle') {
 
-      /*if ($rootScope.serverDown) {
-        $state.go("app.articles");
-        $mdDialog.show(
-          $mdDialog.alert()
-            .parent(angular.element(document.body))
-            .title(Messages.internetErrorTitle)
-            .content(Messages.internetErrorContent)
-            .ok('Ok')
-        );
-      }else
-      {*/
+      if($localStorage[Globals.USER_LOGGED].telephone)
+      {
+        /*if ($rootScope.serverDown) {
+         $state.go("app.articles");
+         $mdDialog.show(
+         $mdDialog.alert()
+         .parent(angular.element(document.body))
+         .title(Messages.internetErrorTitle)
+         .content(Messages.internetErrorContent)
+         .ok('Ok')
+         );
+         }else
+         {*/
         $scope.devise='FCFA';
         /*ArticlesService.getDevise().then(function (response) {
-          $scope.devises = response;
-        });*/
+         $scope.devises = response;
+         });*/
         ArticlesService.getAllCategories().then(function () {
           $scope.categories = ArticlesService.getCategories();
         });
@@ -224,78 +224,64 @@ angular.module('Occazstreet.controllers')
 
         addArticle = function (article) {
           /*var posOptions = {timeout: 10000, enableHighAccuracy: false};
-          $cordovaGeolocation
-            .getCurrentPosition(posOptions)
-            .then(function (position) {
-              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY", {timeout: 10000})
-                .success(function (response) {*/
+           $cordovaGeolocation
+           .getCurrentPosition(posOptions)
+           .then(function (position) {
+           $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY", {timeout: 10000})
+           .success(function (response) {*/
 
-                for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
-                    var component = article.localisation.address_components[ac];
+          for (var ac = 0; ac < article.localisation.address_components.length; ac++) {
+            var component = article.localisation.address_components[ac];
 
-                    switch(component.types[0]) {
-                      case 'locality':
-                        article.nomVille = component.long_name;
-                        break;
-                      case 'administrative_area_level_1':
-                        break;
-                      case 'country':
-                        article.nompays = component.long_name;
-                        break;
-                    }
-                  }
-                  /*article.latitude = position.coords.latitude;
-                  article.longitude = position.coords.longitude;*/
+            switch(component.types[0]) {
+              case 'locality':
+                article.nomVille = component.long_name;
+                break;
+              case 'administrative_area_level_1':
+                break;
+              case 'country':
+                article.nompays = component.long_name;
+                break;
+            }
+          }
+          /*article.latitude = position.coords.latitude;
+           article.longitude = position.coords.longitude;*/
 
-                  ArticlesService.addArticle(article).then(function (response) {
-                    if (response.success == true) {
-                      var count = 0;
-                      $scope.idArticle = response.article.idArticle;
-                      var keepGoing = true;
-                      if ($rootScope.image.length > 0) {
-                        for (var i = 0; i < $rootScope.image.length; i++) {
-                          if (keepGoing) {
-                            var options = new FileUploadOptions();
-                            var params = {};
-                            params.idArticle = response.article.idArticle;
-                            var url = $rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
-                            options = {
-                              fileKey: "file",
-                              fileName: i + (url.split('?')[0]),
-                              mimeType: "image/png",
-                              idArticle: response.article.idArticle
-                            };
-                            options.params = params;
-                            var failed = function (err) {
-                              ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
-                                if (success) {
-                                  $ionicLoading.hide();
-                                  $mdToast.show({
-                                    template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
-                                    hideDelay: 10000,
-                                    position: 'bottom right left'
-                                  });
-                                  keepGoing = false;
-                                }
-                              })
-                            };
-                            var success = function (result) {
-                              count++;
-                              if (count == $rootScope.image.length) {
-                                $ionicLoading.hide();
-                                $state.go('app.articles');
-                                $mdToast.show({
-                                  template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
-                                  hideDelay: 10000,
-                                  position: 'bottom right left'
-                                });
-                              }
-                            };
-                            var ft = new FileTransfer();
-                            ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
-                          }
+          ArticlesService.addArticle(article).then(function (response) {
+            if (response.success == true) {
+              var count = 0;
+              $scope.idArticle = response.article.idArticle;
+              var keepGoing = true;
+              if ($rootScope.image.length > 0) {
+                for (var i = 0; i < $rootScope.image.length; i++) {
+                  if (keepGoing) {
+                    var options = new FileUploadOptions();
+                    var params = {};
+                    params.idArticle = response.article.idArticle;
+                    var url = $rootScope.image[i].substr($rootScope.image[i].lastIndexOf('/') + 1);
+                    options = {
+                      fileKey: "file",
+                      fileName: i + (url.split('?')[0]),
+                      mimeType: "image/png",
+                      idArticle: response.article.idArticle
+                    };
+                    options.params = params;
+                    var failed = function (err) {
+                      ArticlesService.rollBackArticle(response.article.idArticle).then(function (success) {
+                        if (success) {
+                          $ionicLoading.hide();
+                          $mdToast.show({
+                            template: '<md-toast class="md-toast ">' + Messages.erreurAjoutArticle + '</md-toast>',
+                            hideDelay: 10000,
+                            position: 'bottom right left'
+                          });
+                          keepGoing = false;
                         }
-                      } else {
+                      })
+                    };
+                    var success = function (result) {
+                      count++;
+                      if (count == $rootScope.image.length) {
                         $ionicLoading.hide();
                         $state.go('app.articles');
                         $mdToast.show({
@@ -303,23 +289,37 @@ angular.module('Occazstreet.controllers')
                           hideDelay: 10000,
                           position: 'bottom right left'
                         });
-
                       }
+                    };
+                    var ft = new FileTransfer();
+                    ft.upload($rootScope.image[i], Globals.urlServer + Globals.port + "/article/uploadImage", success, failed, options);
+                  }
+                }
+              } else {
+                $ionicLoading.hide();
+                $state.go('app.articles');
+                $mdToast.show({
+                  template: '<md-toast class="md-toast ">' + Messages.articleAjouteSucces + '</md-toast>',
+                  hideDelay: 10000,
+                  position: 'bottom right left'
+                });
 
-                    }
-                    else {
-                      // $mdDialog.hide();
-                      $ionicLoading.hide();
-                      erreurAjoutArticle();
+              }
 
-                    }
-                  });
+            }
+            else {
+              // $mdDialog.hide();
+              $ionicLoading.hide();
+              erreurAjoutArticle();
+
+            }
+          });
 
 
-               /* });
-            }, function (error) {
+          /* });
+           }, function (error) {
 
-            })*/
+           })*/
         };
 
         $scope.addArticle = function (article) {
@@ -328,15 +328,15 @@ angular.module('Occazstreet.controllers')
             template: '<md-progress-circular  md-mode="indeterminate" style="margin-left: auto;margin-right: auto"></md-progress-circular> ' + Messages.ajoutDuProduitEnCours
           });
           /*if(article.devise == null || typeof article.devise=='undefined')
-          {
-            $ionicLoading.hide();
-            $mdToast.show({
-              template: '<md-toast class="md-toast ">' +'Veuillez choisir une devise' + '</md-toast>',
-              hideDelay: 3000,
-              position: 'bottom right left'
-            });
+           {
+           $ionicLoading.hide();
+           $mdToast.show({
+           template: '<md-toast class="md-toast ">' +'Veuillez choisir une devise' + '</md-toast>',
+           hideDelay: 3000,
+           position: 'bottom right left'
+           });
 
-          }else */
+           }else */
           if ($rootScope.image.length ==0)
           {
             $ionicLoading.hide();
@@ -455,48 +455,48 @@ angular.module('Occazstreet.controllers')
 
           /*var i = 0;
 
-          function checkLocationState() {
-            cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
-              if (enabled) {
-                if (i == 0) {
-                  i = 1;
-                  addArticle(article);
-                }
-              } else {
-                var confirm = $mdDialog.confirm()
-                  .title('Localisation')
-                  .textContent('Activer votre localisation afin d\'ameliorer votre expérience utilisateur')
-                  .ok('Accepter')
-                  .cancel('Refuser');
-                $mdDialog.show(confirm).then(function () {
-                  cordova.plugins.diagnostic.switchToLocationSettings();
-                }, function () {
-                  $ionicLoading.hide();
-                  $mdDialog.show(
-                    $mdDialog.alert()
-                      .clickOutsideToClose(true)
-                      .title('Localisation')
-                      .textContent(':( Desolé vous ne pouvez pas ajouter d\'article. veuillez activer votre localisation et reessayez!')
-                      .ok('Ok')
-                  );
-                });
-              }
-            }, function (error) {
-              var confirm = $mdDialog.confirm()
-                .title('Localisation')
-                .textContent('Activer votre localisation afin d\'ameliorer votre expérience utilisateur')
-                .ok('Accepter')
-                .cancel('Refuser');
-              $mdDialog.show(confirm).then(function () {
-                cordova.plugins.diagnostic.switchToLocationSettings();
-              }, function () {
-                $ionicLoading.hide()
-              });
-            });
-          }*/
+           function checkLocationState() {
+           cordova.plugins.diagnostic.isLocationEnabled(function (enabled) {
+           if (enabled) {
+           if (i == 0) {
+           i = 1;
+           addArticle(article);
+           }
+           } else {
+           var confirm = $mdDialog.confirm()
+           .title('Localisation')
+           .textContent('Activer votre localisation afin d\'ameliorer votre expérience utilisateur')
+           .ok('Accepter')
+           .cancel('Refuser');
+           $mdDialog.show(confirm).then(function () {
+           cordova.plugins.diagnostic.switchToLocationSettings();
+           }, function () {
+           $ionicLoading.hide();
+           $mdDialog.show(
+           $mdDialog.alert()
+           .clickOutsideToClose(true)
+           .title('Localisation')
+           .textContent(':( Desolé vous ne pouvez pas ajouter d\'article. veuillez activer votre localisation et reessayez!')
+           .ok('Ok')
+           );
+           });
+           }
+           }, function (error) {
+           var confirm = $mdDialog.confirm()
+           .title('Localisation')
+           .textContent('Activer votre localisation afin d\'ameliorer votre expérience utilisateur')
+           .ok('Accepter')
+           .cancel('Refuser');
+           $mdDialog.show(confirm).then(function () {
+           cordova.plugins.diagnostic.switchToLocationSettings();
+           }, function () {
+           $ionicLoading.hide()
+           });
+           });
+           }*/
 
-         /* document.addEventListener('resume', checkLocationState, false);
-          document.addEventListener('deviceready', checkLocationState, false);*/
+          /* document.addEventListener('resume', checkLocationState, false);
+           document.addEventListener('deviceready', checkLocationState, false);*/
         };
 
         $scope.addImage=function(key,event)
@@ -518,7 +518,7 @@ angular.module('Occazstreet.controllers')
                   encodingType: Camera.EncodingType.PNG,
                   targetWidth: 400,
                   targetHeight: 400,
-                //  popoverOptions: CameraPopoverOptions,
+                  //  popoverOptions: CameraPopoverOptions,
                   saveToPhotoAlbum: false,
                   allowEdit:false
                 };
@@ -633,6 +633,10 @@ angular.module('Occazstreet.controllers')
           };
 
         }
+      }else
+      {
+        $state.go("app.validerTelephone");
+      }
     }
 
     $scope.editArticle=function(article,createurArticle) {
@@ -1150,6 +1154,12 @@ angular.module('Occazstreet.controllers')
 
     $scope.ajouterAnnonce=function()
     {
-      $state.go("app.addarticle");
+      if($localStorage[Globals.USER_LOGGED] && (!$localStorage[Globals.USER_LOGGED].telephone || $localStorage[Globals.USER_LOGGED].confirmTel==null))
+      {
+        $state.go("app.validerTelephone");
+      }else
+      {
+        $state.go("app.addarticle");
+      }
     }
 });

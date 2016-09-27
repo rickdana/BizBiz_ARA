@@ -1,10 +1,10 @@
-<ion-view view-title="Vérification du numéro">
+<ion-view view-title="Vérification d'identité">
     <ion-nav-buttons side="right">
     </ion-nav-buttons>
     <ion-content  ng-controller="ProfileController"   class=" animate-fade-slide-in">
         <md-content >
             <br/><br/>
-                <div layout layout-sm="row" layout-align="center center" style="height: 50px" >
+                <div class="center-align" layout-align="center center" style="height: 50px" >
 
                     <p>Tapez le code à 4 chiffres reçu par SMS</p>
                 </div>
@@ -12,11 +12,11 @@
                     <form ng-submit="validerCode()">
                         <md-input-container><label>Code</label>
                             <input ng-model="code" required>
-                            </md-input-container>
+                        </md-input-container>
                         <input type="submit" class="md-button md-raised md-warn"  value="Envoyer"/>
                     </form>
                 </div>
-                <div layout layout-sm="column" layout-align="center center" style="height: 50px" >
+                <div class="center-align" layout-sm="column" layout-align="center center" style="height: 50px" >
                    <p>
                      Vous n'avez pas reçu le SMS? Pas de panique! Celà peut prendre jusqu'a 15 minutes selon les opérateurs
                    </p>

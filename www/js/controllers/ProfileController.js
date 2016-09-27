@@ -576,11 +576,19 @@ angular.module('Occazstreet.controllers')
 
             $rootScope.telephone=$localStorage[Globals.USER_LOGGED].telephoneVerifie;
             $rootScope.email=$localStorage[Globals.USER_LOGGED].emailVerifie;
-          $rootScope.facebook=false;
-          $rootScope.gmail=false;
+            $rootScope.facebook=false;
+            $rootScope.gmail=false;
         }
         if($state.current.name=='app.validerTelephone'){
-
+            if($rootScope.previousState=='app.articles')
+            {
+              $mdToast.show({
+                template: '<md-toast class="md-toast ">' + "Merci d'ajouter votre numéro de téléphone pour pouvoir créer une annonce" + '</md-toast>',
+                hideDelay: 7000,
+                position: 'top'
+              });
+            }
+            $scope.indice=Globals.defaultIndice;
             $scope.checkIndice=function()
             {
                 if(helper.isEmpty($scope.indice)){
@@ -596,9 +604,9 @@ angular.module('Occazstreet.controllers')
             };
             $scope.checkTelephone=function()
             {
-                if(helper.isEmpty($scope.telephone)){
+                if(helper.isEmpty($scope.telephoneNumber)){
                     showError(Messages.erreurChampVide)
-                }else if(helper.isNum($scope.telephone))
+                }else if(helper.isNum($scope.telephoneNumber))
                 {
                     hideError();
                 }
@@ -610,15 +618,16 @@ angular.module('Occazstreet.controllers')
 
             $scope.validerTelephone=function()
             {
+
                 if(helper.isValidIndice($scope.indice))
                 {
-                    if(helper.isNum($scope.telephone))
+                    if(helper.isNum($scope.telephoneNumber))
                     {
                         $ionicLoading.show({
                             template: '<md-progress-circular class="md-raised md-warn" md-mode="indeterminate"></md-progress-circular>'
                         })
                         var user={};
-                        var telephone =$scope.indice+parseInt($scope.telephone);
+                        var telephone =$scope.indice+parseInt($scope.telephoneNumber);
                         $scope.phone=telephone;
                         user.telephone=telephone;
                         user.idutilisateur=$localStorage[Globals.USER_LOGGED].id;
@@ -761,12 +770,12 @@ angular.module('Occazstreet.controllers')
                         );
                         $localStorage[Globals.USER_LOGGED].emailVerifie=response.user.emailVerifie;
                         $localStorage[Globals.USER_LOGGED].telephoneVerifie=response.user.telephoneVerifie;
-                        $rootScope.telephone=$localStorage[Globals.USER_LOGGED].telephoneVerifie;
+                        $localStorage[Globals.USER_LOGGED].telephone=response.user.telephone;
                         $rootScope.email=$localStorage[Globals.USER_LOGGED].emailVerifie;
                         var historyId = $ionicHistory.currentHistoryId();
                         var history = $ionicHistory.viewHistory().histories[historyId];
                         for (var i = history.stack.length - 1; i >= 0; i--){
-                          if (history.stack[i].stateName == 'app.profile'){
+                          if (history.stack[i].stateName == 'app.profile' || history.stack[i].stateName=='app.articles'){
                             $ionicLoading.hide();
                             $ionicHistory.backView(history.stack[i]);
                             $ionicHistory.goBack();
@@ -817,6 +826,14 @@ angular.module('Occazstreet.controllers')
                 position: 'bottom right left'
             });
         };
+        showMessageOnTop=function(message)
+        {
+          $mdToast.show({
+            template: '<md-toast class="md-toast ">' + message + '</md-toast>',
+            hideDelay: 10000,
+            position: 'top right left'
+          });
+        };
 
         hideError=function()
         {
@@ -844,7 +861,8 @@ angular.module('Occazstreet.controllers')
                             .content(Messages.messageCodeVerificationSuccess)
                             .ok('Ok')
                     );
-                    $state.go('app.verificationidentite',{inherit:true},{reload:true});
+                   $localStorage[Globals.USER_LOGGED]=response.user;
+                    $state.go('app.app.articles',{reload:true});
                     /*$state.transitionTo('app.verificationidentite', $stateParams, {
                      reload: true,
                      inherit: false,
@@ -920,6 +938,4 @@ angular.module('Occazstreet.controllers')
         $scope.$broadcast('scroll.refreshComplete');
       });
     }
-
-
-    });
+  });

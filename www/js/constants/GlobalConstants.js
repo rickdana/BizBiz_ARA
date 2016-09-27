@@ -20,6 +20,7 @@ angular.module('Occazstreet.constants', [])
         "APPNAME":"OccazStreet",
         "FACEBOOKPAGE":"",
         "TWITTERPAGE":"https://twitter.com/occazstreet",
-        "WEBSITE":"http://www.occazstreet.com"
+        "WEBSITE":"http://www.occazstreet.com",
+        "defaultIndice":"+237"
 
     });

@@ -89,6 +89,11 @@ angular.module('Occazstreet', ['ionic','ngMaterial','ngCordova','angularMoment',
         }
     });
 
+    $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+      $rootScope.previousState = from.name;
+      $rootScope.currentState = to.name;
+    });
+
 
 
     function onOnLine()
