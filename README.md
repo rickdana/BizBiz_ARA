@@ -43,3 +43,6 @@ Correction de bug et d'anomalies
 Possibilité au vendeur de définir si son prix et négociable ou pas
 Possibilité au vendeur de signaler s'il accepte des échanges ou pas
 Correction de bug et anomalies
+--version 1.4.4
+Modification du workflow de création d'un article: Il est desormais demandé un numéro de téléphone pour creer une annonce si l'utilisateur 
+n'en n'a pas renseigné avant
